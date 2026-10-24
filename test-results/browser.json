@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-24T11:12:27.385Z",
+  "type": "Recorded-response UI regression",
+  "checks": [
+    "Tab switch while another feed loads cannot replace real data with virtual data",
+    "Every returned fixture page loads automatically",
+    "Returning to a fresh category restores data without a reload request",
+    "All 48 captured live virtual games render",
+    "Failed refresh retains previous records and reports the error",
+    "45-second timer refreshes without a user click",
+    "A verified empty response removes expired records",
+    "All recorded 1,990 full-event markets render",
+    "Local slip persists after reload and replaces a conflicting pick",
+    "Slip removal and booking eligibility work",
+    "Mobile layout fits a 390px viewport",
+    "No browser JavaScript errors"
+  ],
+  "errors": []
+}

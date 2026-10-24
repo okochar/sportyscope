@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-24T11:13:34.323Z",
+  "checks": [
+    {
+      "family": "vFootball",
+      "mode": "upcoming",
+      "count": "443",
+      "notice": "ⓘ\n443 verified fixtures · 5 page(s). All pages returned by this feed loaded."
+    },
+    {
+      "family": "vFootball",
+      "mode": "live",
+      "count": "48",
+      "markets": 12
+    },
+    {
+      "family": "Instant",
+      "count": "77",
+      "markets": 71
+    },
+    {
+      "instantSlip": "1",
+      "instantBookingDisabled": true
+    },
+    {
+      "family": "Scheduled",
+      "count": "107",
+      "markets": 9
+    },
+    {
+      "error": "page.waitForFunction: Timeout 30000ms exceeded."
+    }
+  ],
+  "errors": []
+}

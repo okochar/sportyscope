@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0b1010">
   <meta name="description" content="Unofficial virtual and real sports market explorer for SportyBet. No made-up odds, no bets.">
   <title>VirtualScope — Virtual market explorer</title>
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/style.css?v=4.0.0">
 </head>
 <body>
 <div class="layout">
@@ -33,7 +33,7 @@
     </header>
     <div class="main-inner">
       <div class="titleline">
-        <div><div class="eyebrow"><span class="square"></span> SPORTYBET MARKETS / NIGERIA</div><h1>Find the odds.<br><em>See the math.</em></h1><p class="intro">An independent market explorer for virtual betting markets. No invented prices, no magic predictions.</p></div>
+        <div><div class="eyebrow"><span class="square"></span> SPORTYBET MARKETS / NIGERIA</div><h1>Find the odds.<br><em>See the math.</em></h1><p class="intro">Real football, vFootball, Scheduled Football and anonymous Instant Football snapshots. Feeds update automatically every 45 seconds.</p></div>
         <a class="sporty-link" href="https://www.sportybet.com/ng/m/virtuals-lobby" target="_blank" rel="noopener noreferrer">Open SportyBet <span aria-hidden="true">↗</span></a>
       </div>
 
@@ -47,21 +47,22 @@
       <section class="workspace" aria-label="Market data">
         <div class="section-top"><div><h2>Explore games</h2><p>Choose real sports or virtual games. Real and virtual data never mix.</p></div><div class="connection" id="connectionBadge"><span class="pulse"></span> Not connected</div></div>
         <div class="family-tabs" role="group" aria-label="Game category">
-          <button type="button" data-family="Real" class="family"><span>🏟</span> REAL SPORTS <span class="family-type">Football · API probe</span></button>
-          <button type="button" data-family="vFootball" class="family active"><span>⚽</span> vFootball <span class="family-type">API probe</span></button>
-          <button type="button" data-family="Scheduled" class="family"><span>◷</span> Scheduled <span class="family-type">Import</span></button>
-          <button type="button" data-family="Instant" class="family"><span>↯</span> Instant <span class="family-type">Import</span></button>
+          <button type="button" data-family="Real" class="family"><span>🏟</span> REAL SPORTS <span class="family-type">Football · Auto sync</span></button>
+          <button type="button" data-family="vFootball" class="family active"><span>⚽</span> vFootball <span class="family-type">Auto sync</span></button>
+          <button type="button" data-family="Scheduled" class="family"><span>◷</span> Scheduled Football <span class="family-type">Auto sync</span></button>
+          <button type="button" data-family="Instant" class="family"><span>↯</span> Instant Football <span class="family-type">Snapshot</span></button>
         </div>
         <p class="notice" id="familyDescription">VIRTUAL GAMES: independent unofficial virtual football feed. Data is never mixed with real sports.</p>
+        <p class="product-links"><a href="https://www.sportybet.com/ng/m/virtual?from=virtuals-lobby" target="_blank" rel="noopener noreferrer">Other Scheduled Virtuals on SportyBet ↗</a> · This separate provider is not connected here.</p>
         <div class="toolrow">
           <div class="mode-tabs" role="group" aria-label="Market period">
             <button type="button" class="mode active" data-mode="upcoming">Upcoming</button>
             <button type="button" class="mode" data-mode="live">Live</button>
-            <button type="button" class="mode" data-mode="results">Results</button>
+            <button type="button" class="mode" data-mode="results" disabled title="Results feed not verified">Results (unavailable)</button>
           </div>
           <div class="actions"><button type="button" class="button subtle" id="manualToggle">+ Add event</button><button type="button" class="button primary" id="fetchBtn">↻ Try SportyBet feed</button></div>
         </div>
-        <div class="notice" id="dataNotice" role="status"><span class="notice-icon">ⓘ</span><span>Direct virtual-market access is <strong>unverified</strong>. Tap “Try SportyBet feed” to test the unofficial read-only endpoint. If it fails, import your own odds.</span></div>
+        <div class="notice" id="dataNotice" role="status"><span class="notice-icon">ⓘ</span><span>Connecting to SportyBet…</span></div>
 
         <form class="manual-form hidden" id="manualForm">
           <div class="form-title"><h3>Add an event</h3><button type="button" id="manualClose" class="icon-btn" aria-label="Close form">×</button></div>
@@ -92,10 +93,12 @@
       </section>
 
       <section class="utility-card" id="slip" aria-label="Local selection slip" style="margin-top:20px">
-        <div class="card-head"><div><div class="card-kicker">LOCAL BUILDER · NOT AN OFFICIAL SPORTYBET BETSLIP</div><h2>Selection slip (<span id="slipCount">0</span>)</h2><p>Tap an outcome in the market inspector to add it. Selections remain on your device.</p></div><span class="card-glyph">▤</span></div>
+        <div class="card-head"><div><div class="card-kicker">LOCAL BUILDER · NOT AN OFFICIAL SPORTYBET BETSLIP</div><h2>Selection slip (<span id="slipCount">0</span>)</h2><p>Tap an outcome in the market inspector to add it. Selections remain on your device. One pick per event; products stay separate.</p></div><span class="card-glyph">▤</span></div>
         <div id="slipItems" aria-live="polite"><p class="placeholder">Choose priced markets to build a local slip.</p></div>
-        <p style="margin-top:14px">Combined decimal odds: <strong id="slipOdds">—</strong></p>
-        <p class="notice">No genuine SportyBet booking code is generated. Such codes must be issued and accepted by SportyBet; no unsupported code is fabricated.</p>
+        <p style="margin-top:14px">Snapshot combined odds: <strong id="slipOdds">—</strong></p>
+        <p class="notice" id="bookingInfo">Genuine booking is available for verified real-football and vFootball selections. Other products remain local.</p>
+        <button type="button" class="button primary" id="bookSlip" disabled>Get SportyBet booking code</button>
+        <div id="bookingResult" role="status"></div>
         <div class="card-actions"><button type="button" class="button primary" id="copySlip">Copy selections</button><button type="button" class="text-button danger" id="clearSlip">Clear selections</button></div>
         <p id="slipFeedback" role="status"></p>
       </section>
@@ -104,10 +107,11 @@
         <div class="utility-card" id="log"><div class="card-head"><div><div class="card-kicker">02 / OBSERVE</div><h2>Outcome journal</h2><p>Record actual results. Logging is not a prediction method.</p></div><span class="card-glyph">◷</span></div><form id="journalForm" class="journal-form"><label>Event / note<input id="journalEvent" placeholder="e.g. Team A vs Team B" maxlength="140" required></label><div class="journal-row"><label>Observed result<select id="journalResult"><option value="Home win">Home win</option><option value="Draw">Draw</option><option value="Away win">Away win</option></select></label><button class="button primary" type="submit">Record</button></div></form><div id="journalList" class="journal-list"><p class="placeholder">No observations recorded.</p></div><div class="card-actions"><button type="button" class="text-button" id="exportJournal">Export journal ↗</button><button type="button" class="text-button danger" id="clearJournal">Clear journal</button></div></div>
       </section>
       <section class="transparency" id="about"><div class="transparency-icon">!</div><div><strong>Important: an honest data boundary.</strong><p>Virtual events are produced by random number generators and algorithms. Historical streaks do not reliably predict future rounds. This project does not access your account, place bets, or claim a winning edge. Any successful fetch must be checked against SportyBet itself before it is trusted.</p></div></section>
-      <footer><span>VIRTUALSCOPE / 3.0</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
+      <footer><span>VIRTUALSCOPE / 4.0.0 · VERIFIED FEED REPAIR</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
     </div>
   </main>
 </div>
-<script src="/assets/app.js" defer></script>
+<script src="/assets/model.js?v=4.0.0" defer></script>
+<script src="/assets/app.js?v=4.0.0" defer></script>
 </body>
 </html>

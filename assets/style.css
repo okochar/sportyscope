@@ -14,3 +14,10 @@
 
 /* Version 2: full-market browser */
 .market-entry {border:1px solid var(--viz-border,#34443b);border-radius:12px;margin:8px 0;overflow:hidden} .market-entry summary{cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;font-size:13px;list-style-position:inside}.market-entry summary span{opacity:.65;font-size:11px;text-align:right}.market-entry .outcome-list{padding:0 12px 12px}.market-entry[hidden]{display:none}.market-entry summary strong{overflow-wrap:anywhere}.detail-panel{min-width:0}#allMarkets{max-width:100%;overflow-wrap:anywhere}#marketSearch{width:100%;min-width:0}#familyDescription{margin:12px 0} @media(max-width:600px){.market-entry summary{align-items:flex-start;flex-direction:column}.market-entry summary span{text-align:left}}
+
+/* V3 selection slip */
+.product-links{margin:10px 23px;color:var(--muted);font-size:11px}.product-links a{color:var(--lime)}#bookingResult{overflow-wrap:anywhere;margin-top:12px}.event-list-note{color:var(--muted)}
+.slip-line{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border,#2c3731)}
+.slip-line button{min-width:42px;min-height:42px;border:1px solid #526456;border-radius:9px;background:transparent;color:inherit;cursor:pointer}
+.slip-pick{font:inherit;cursor:pointer;text-align:center;background:transparent;border:1px solid #566653;border-radius:9px;color:inherit;padding:8px 12px;min-width:65px}
+.slip-pick:hover{border-color:#a9e67a}.slip-pick:disabled{opacity:.45;cursor:not-allowed}
