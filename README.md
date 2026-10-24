@@ -15,7 +15,7 @@ Run basic tests with `npm test`.
 
 ## Deploy to Vercel
 
-Upload this folder to a GitHub repository and import it into Vercel with Framework Preset **Other**; leave build command empty. Root `index.html` is static, and `api/virtual.js` is an on-demand Node.js Serverless Function. No database or secrets necessary.
+Upload this folder to a GitHub repository and import it into Vercel with Framework Preset **Other**; leave build command empty. Root `index.html` is static. `api/virtual.js` and `api/real.js` are separate on-demand Node.js Functions. The local-only server is `dev-server.js` (not `server.js`, which Vercel can auto-detect as an application entry point). No database or secrets necessary.
 
 ## What's included
 
@@ -58,3 +58,8 @@ Virtual games use random number generators and algorithms. Past results do **not
 **Market browser:** click any event to see **all markets and all outcomes included in the fetched response** as individually expandable entries, with a market-name search. Market names, lines, prices and outcome labels are read from the payload, not synthetic. User-imported JSON can also supply all markets. We removed the prior first-100-markets and first-55-outcomes UI caps, increasing safeguards to 2,000 and 200 respectively. The upstream proxy still caps response size to 2 MB, so very large records can fail explicitly instead of silently truncating them.
 
 **Important completeness limitation:** `pcUpcomingEvents` is a **fixture/listing endpoint**, not a verified exhaustive event-detail API. SportyBet may offer hundreds of additional markets on an individual fixture that the list endpoint does **not** include. No claim of *every market SportyBet offers* can be made until the exhaustive event-detail request has been identified and independently verified. Similarly, this version's real sports live/results feed isn't connected; the REAL SPORTS tab currently offers *upcoming football only*. These endpoints are unofficial and unverified in this environment.
+
+
+## Vercel 500 FUNCTION_INVOCATION_FAILED hotfix
+
+Version 2.1 removes the root `server.js` autoconfiguration collision. The new `dev-server.js` is for `npm start` locally; Vercel serves `index.html`/`assets/` statically and `/api/virtual` or `/api/real` as functions. Re-deploy with Framework Preset **Other**, Root Directory set to the folder containing `index.html` and `vercel.json`, and no custom Output Directory. Delete any old Vercel `server.js` from your Git repository (replace files, don't merely upload the new files on top). The API URLs are not guaranteed to work; an upstream failure should return an API 502 response, not take down the homepage. If a 500 persists, Vercel Runtime Logs show the actual exception.

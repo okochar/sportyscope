@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { sanitizeQuery, buildUrl } = require('../api/virtual');
-const { createServer } = require('../server');
+const { createServer } = require('../dev-server');
 
 test('Query is strictly limited to read-only known SportyBet endpoints', () => {
   assert.deepEqual(sanitizeQuery({mode: 'other', page: '-1', category: 'http://evil.com'}), {mode:'upcoming',page:1,category:''});
