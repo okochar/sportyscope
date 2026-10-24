@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b1010">
-  <meta name="description" content="Unofficial read-only virtual sports market explorer for SportyBet. No made-up odds, no bets.">
+  <meta name="description" content="Unofficial virtual and real sports market explorer for SportyBet. No made-up odds, no bets.">
   <title>VirtualScope — Virtual market explorer</title>
   <link rel="stylesheet" href="/assets/style.css">
 </head>
@@ -23,7 +23,7 @@
       <strong>No guesswork.</strong>
       <p>Only display odds from a verified response or data you add yourself.</p>
       <div class="rule"></div>
-      <span>READ ONLY <span class="small-dot"></span> UNOFFICIAL</span>
+      <span>UNOFFICIAL DATA <span class="small-dot"></span> UNOFFICIAL</span>
     </div>
   </aside>
   <main class="main" id="markets">
@@ -33,7 +33,7 @@
     </header>
     <div class="main-inner">
       <div class="titleline">
-        <div><div class="eyebrow"><span class="square"></span> SPORTYBET MARKETS / NIGERIA</div><h1>Find the odds.<br><em>See the math.</em></h1><p class="intro">An independent, read-only explorer for virtual betting markets. No invented prices, no magic predictions.</p></div>
+        <div><div class="eyebrow"><span class="square"></span> SPORTYBET MARKETS / NIGERIA</div><h1>Find the odds.<br><em>See the math.</em></h1><p class="intro">An independent market explorer for virtual betting markets. No invented prices, no magic predictions.</p></div>
         <a class="sporty-link" href="https://www.sportybet.com/ng/m/virtuals-lobby" target="_blank" rel="noopener noreferrer">Open SportyBet <span aria-hidden="true">↗</span></a>
       </div>
 
@@ -81,22 +81,30 @@
           <div class="event-area">
             <div class="filterline"><label class="search-box"><span>⌕</span><input type="search" id="searchInput" placeholder="Search teams or leagues" aria-label="Search teams or leagues"></label><select id="leagueFilter" aria-label="Filter league"><option value="">All leagues</option></select></div>
             <div class="table-head"><span>EVENT / COMPETITION</span><span>1</span><span>X</span><span>2</span></div>
-            <div id="eventList" aria-live="polite"><div class="empty"><div class="empty-icon">⌁</div><h3>Nothing loaded. Yet.</h3><p>Test the SportyBet virtual feed or enter an event to start inspecting actual numbers.</p><a href="#import">Import your own data ↓</a></div></div>
+            <div id="eventList" aria-live="polite"><div class="empty"><div class="empty-icon">⌁</div><h3>Nothing loaded. Yet.</h3><p>Test the SportyBet feed or enter an event to start inspecting actual numbers.</p><a href="#import">Import your own data ↓</a></div></div>
             <div class="event-count" id="visibleCount">0 events shown</div>
           </div>
           <div class="detail-panel" id="detailPanel">
-            <div class="detail-head"><span class="detail-kicker">MARKET INSPECTOR</span><span class="detail-chip">Read-only</span></div>
+            <div class="detail-head"><span class="detail-kicker">MARKET INSPECTOR</span><span class="detail-chip">All fetched markets</span></div>
             <div id="detailContent" class="detail-empty"><div class="big-orbit">◉</div><h3>Look closer.</h3><p>Select a match to inspect its markets, implied probabilities and bookmaker margin.</p></div>
           </div>
         </div>
       </section>
 
+      <section class="utility-card" id="slip" aria-label="Local selection slip" style="margin-top:20px">
+        <div class="card-head"><div><div class="card-kicker">LOCAL BUILDER · NOT AN OFFICIAL SPORTYBET BETSLIP</div><h2>Selection slip (<span id="slipCount">0</span>)</h2><p>Tap an outcome in the market inspector to add it. Selections remain on your device.</p></div><span class="card-glyph">▤</span></div>
+        <div id="slipItems" aria-live="polite"><p class="placeholder">Choose priced markets to build a local slip.</p></div>
+        <p style="margin-top:14px">Combined decimal odds: <strong id="slipOdds">—</strong></p>
+        <p class="notice">No genuine SportyBet booking code is generated. Such codes must be issued and accepted by SportyBet; no unsupported code is fabricated.</p>
+        <div class="card-actions"><button type="button" class="button primary" id="copySlip">Copy selections</button><button type="button" class="text-button danger" id="clearSlip">Clear selections</button></div>
+        <p id="slipFeedback" role="status"></p>
+      </section>
       <section class="lower-grid">
         <div class="utility-card" id="import"><div class="card-head"><div><div class="card-kicker">01 / INPUT</div><h2>Import data</h2><p>Bring in SportyBet results or odds you've collected.</p></div><span class="card-glyph">↧</span></div><div class="upload-area"><label class="upload-label" for="fileInput"><span>＋</span><strong>Select CSV or JSON file</strong><small>Up to 2 MB · kept on your device</small></label><input id="fileInput" type="file" accept=".csv,.json,text/csv,application/json" hidden><p id="importFeedback" role="status">Column names: league, home, away, home_odds, draw_odds, away_odds.</p></div><div class="card-actions"><button type="button" class="text-button" id="exportEvents">Export loaded events ↗</button><button type="button" class="text-button danger" id="clearImported">Clear imported events</button></div></div>
         <div class="utility-card" id="log"><div class="card-head"><div><div class="card-kicker">02 / OBSERVE</div><h2>Outcome journal</h2><p>Record actual results. Logging is not a prediction method.</p></div><span class="card-glyph">◷</span></div><form id="journalForm" class="journal-form"><label>Event / note<input id="journalEvent" placeholder="e.g. Team A vs Team B" maxlength="140" required></label><div class="journal-row"><label>Observed result<select id="journalResult"><option value="Home win">Home win</option><option value="Draw">Draw</option><option value="Away win">Away win</option></select></label><button class="button primary" type="submit">Record</button></div></form><div id="journalList" class="journal-list"><p class="placeholder">No observations recorded.</p></div><div class="card-actions"><button type="button" class="text-button" id="exportJournal">Export journal ↗</button><button type="button" class="text-button danger" id="clearJournal">Clear journal</button></div></div>
       </section>
       <section class="transparency" id="about"><div class="transparency-icon">!</div><div><strong>Important: an honest data boundary.</strong><p>Virtual events are produced by random number generators and algorithms. Historical streaks do not reliably predict future rounds. This project does not access your account, place bets, or claim a winning edge. Any successful fetch must be checked against SportyBet itself before it is trusted.</p></div></section>
-      <footer><span>VIRTUALSCOPE / 2.0</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
+      <footer><span>VIRTUALSCOPE / 3.0</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
     </div>
   </main>
 </div>
