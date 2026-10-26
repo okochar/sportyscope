@@ -2,10 +2,12 @@
 const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
-const handlers = { '/api/virtual': require('./api/virtual'), '/api/real': require('./api/real'), '/api/event': require('./api/event'), '/api/status': require('./api/status'), '/api/book': require('./api/book') };
+const handlers = { '/api/virtual': require('./api/virtual'), '/api/real': require('./api/real'), '/api/event': require('./api/event'), '/api/status': require('./api/status'), '/api/book': require('./api/book'), '/api/auto-book': require('./api/auto-book'), '/api/assistant': require('./api/assistant'), '/api/research': require('./api/research') };
+handlers['/api/load-code']=require('./api/load-code');
+handlers['/api/track']=require('./api/track');
 const ROOT = __dirname;
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.js': 'application/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico':'image/x-icon' };
+  '.js': 'application/javascript; charset=utf-8', '.json':'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico':'image/x-icon' };
 
 function createServer() {
   return http.createServer(async (req, res) => {

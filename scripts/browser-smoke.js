@@ -7,7 +7,7 @@ const model=require('../assets/model');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const fixture=n=>require('../tests/fixtures/'+n+'.json');
-const version='4.0.0';
+const version='5.0.0';
 (async()=>{
  const server=createServer();await new Promise(ok=>server.listen(0,'127.0.0.1',ok));const base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'msedge',headless:true});

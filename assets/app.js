@@ -2,8 +2,8 @@
   'use strict';
   const $ = (id) => document.getElementById(id);
   const state = { family: 'vFootball', mode: 'upcoming', apiEvents: [], importedEvents: [], selectedId: '', marketIndex: 0,
-    selectedOutcome: 0, allMarkets: true, query: '', league: '', origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
-  const VERSION = '4.0.0';
+    selectedOutcome: 0, allMarkets: true, query: '', league: '', eventPage:1, origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
+  const VERSION = '5.0.0';
   const pending = new Map(), detailCache = new Map(), detailPending = new Set();
   const STORE_EVENTS = 'virtualscope.imported.v1';
   const STORE_JOURNAL = 'virtualscope.journal.v1';
@@ -95,13 +95,15 @@
   }
   function updateEventList() {
     const filtered = filteredEvents();
-    $('visibleCount').textContent = `${filtered.length} event${filtered.length===1?'':'s'} shown`;
+    const pages=Math.max(1,Math.ceil(filtered.length/30));state.eventPage=Math.min(pages,Math.max(1,state.eventPage||1));const start=(state.eventPage-1)*30,visible=filtered.slice(start,start+30);
+    $('visibleCount').textContent=filtered.length?`${start+1}–${start+visible.length} of ${filtered.length} events · 30 per page`:'0 events';
+    $('eventPageLabel').textContent=`Page ${state.eventPage} of ${pages}`;$('prevEvents').disabled=state.eventPage<=1;$('nextEvents').disabled=state.eventPage>=pages;
     if (!filtered.length) {
       const hasAny = sourceEvents().length>0;
       $('eventList').innerHTML = `<div class="empty"><div class="empty-icon">⌁</div><h3>${hasAny?'No matching events.':'Nothing loaded. Yet.'}</h3><p>${hasAny?'Try another filter or game family.':'Test the unofficial feed or import your own genuine odds.'}</p><a href="#import">Import your own data ↓</a></div>`;
       return;
     }
-    $('eventList').innerHTML = filtered.map(event => {
+    $('eventList').innerHTML = visible.map(event => {
       const three = oneXTwo(event);
       return `<div class="event ${state.selectedId===event.id?'selected':''}" data-id="${safe(event.id)}"><button type="button" class="event-info" data-select="${safe(event.id)}" aria-label="Inspect ${safe(event.home)} versus ${safe(event.away)}"><span class="event-league">${safe(event.league)} ${event.sourceKind==='user'?'· USER':''}</span><span class="event-name">${safe(event.home)} <span style="color:#617e67">vs</span> ${safe(event.away)}</span><span class="event-time">${safe(formatTime(event.time))}${event.status?' · '+safe(event.status):''}</span></button>${[0,1,2].map(i=>`<button type="button" class="odds ${!three || !three[i] || !numOdds(three[i].odds)?'empty-odds':''}" data-select="${safe(event.id)}" data-outcome="${i}" aria-label="Inspect ${['home','draw','away'][i]} odds ${three&&three[i]?fmtOdds(three[i].odds):'unavailable'}">${three&&three[i]?fmtOdds(three[i].odds):'—'}</button>`).join('')}</div>`;
     }).join('');
@@ -173,7 +175,7 @@
     if(!c.loading && selected?.sourceKind==='api' && ['Real','vFootball','Instant'].includes(selected.gameType) && (!detailCache.get(selected.id)?.fetchedAt || Date.now()-new Date(detailCache.get(selected.id).fetchedAt).getTime()>=state.refreshEvery))loadDetail(selected);
   }
   function rememberView() {
-    Object.assign(cacheFor(feedKey()),{selectedId:state.selectedId,query:state.query,league:state.league});
+    Object.assign(cacheFor(feedKey()),{selectedId:state.selectedId,query:state.query,league:state.league,eventPage:state.eventPage});
   }
   function changeFamily(family) {
     rememberView(); state.family=family;
@@ -184,7 +186,7 @@
     restoreView();
   }
   function restoreView() {
-    const c=cacheFor(feedKey()); state.selectedId=c.selectedId || c.events[0]?.id || '';state.query=c.query||'';state.league=c.league||'';
+    const c=cacheFor(feedKey()); state.eventPage=c.eventPage||1;state.selectedId=c.selectedId || c.events[0]?.id || '';state.query=c.query||'';state.league=c.league||'';
     $('searchInput').value=state.query; state.marketIndex=0;
     displayFeed();
     if(!c.fetchedAt || Date.now()-new Date(c.fetchedAt).getTime()>=state.refreshEvery)fetchSporty();
@@ -195,8 +197,8 @@
     document.querySelectorAll('[data-mode]').forEach(b=>{const active=b.dataset.mode===mode;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
     restoreView();
   }
-  async function fetchSporty() {
-    const family=state.family, mode=state.mode, key=feedKey(), c=cacheFor(key);
+  async function fetchSporty(context={}) {
+    const family=context.family||state.family, mode=context.mode||state.mode, key=family+':'+mode, c=cacheFor(key);
     if(pending.has(key))return pending.get(key);
     c.loading=true;c.error='';if(feedKey()===key)displayFeed();
     const preserve=Boolean(c.fetchedAt);
@@ -209,7 +211,7 @@
           try {
             const response=await fetch('/api/virtual?'+new URLSearchParams({family,mode,page:String(page)}),{cache:'no-store',signal:controller.signal});
             obj=await response.json();
-            if(obj.version!==VERSION)throw new Error('Deployment mismatch: expected API '+VERSION+', received '+(obj.version||'older version')+'. Deploy the entire V4 folder.');
+            if(obj.version!==VERSION)throw new Error('Deployment mismatch: expected API '+VERSION+', received '+(obj.version||'older version')+'. Deploy the entire V5 folder.');
             if(!response.ok||!obj.ok)throw new Error(obj.error||'Feed request failed.');
             if(obj.family!==family||obj.mode!==mode||!Array.isArray(obj.events)||typeof obj.more!=='boolean')throw new Error('Unexpected feed response.');
           } finally { clearTimeout(timer); }
@@ -233,6 +235,7 @@
         c.loading=false;pending.delete(key);persistFeed(key);
         if(feedKey()===key)displayFeed();
         renderSlip();
+        document.dispatchEvent(new CustomEvent('scope:feed',{detail:{family,mode}}));
       }
     })();
     pending.set(key,job);return job;
@@ -282,6 +285,7 @@
       if(!response.ok||!obj.ok||obj.version!==VERSION)throw new Error(obj.error||'Booking response could not be verified.');
       if(fingerprint!==JSON.stringify(state.slip)){ $('bookingResult').textContent='The slip changed while booking. Request a new code for the current selections.';return;}
       $('bookingResult').innerHTML='<strong>SportyBet code: '+safe(obj.code)+'</strong> · <a class="text-button" href="'+safe(obj.url)+'" target="_blank" rel="noopener noreferrer">Load on SportyBet ↗</a><p>'+safe(obj.note)+'</p>';
+      window.ScopeTracker?.add(picks,obj.code);
     }catch(e){$('bookingResult').textContent='No verified code available: '+e.message;}
     finally{$('bookSlip').disabled=!(state.slip.length>0 && state.slip.length<=30 && new Set(state.slip.map(s=>s.family)).size===1 && state.slip.every(s=>s.sourceKind==='api'&&['Real','vFootball'].includes(s.family)&&s.rawEventId&&s.marketId&&s.outcomeId));}
   }
@@ -342,6 +346,13 @@
     $('journalList').innerHTML=items.length?items.map(item=>`<div class="journal-entry"><span>${safe(item.name)}</span><small>${safe(item.result)}</small></div>`).join(''):'<p class="placeholder">No observations recorded.</p>';
   }
   function bind() {
+    $('trackSlip').addEventListener('click',async()=>{if(!state.slip.length||state.slip.length>30||new Set(state.slip.map(p=>p.family)).size!==1||state.slip.some(p=>p.sourceKind!=='api')){$('slipFeedback').textContent='Choose 1–30 provider selections in one category to track.';return;}await window.ScopeTracker?.add(state.slip);await window.ScopeTracker?.refresh();$('ticketHistory').scrollIntoView({behavior:'smooth'});});
+    $('prevEvents').addEventListener('click',()=>{state.eventPage--;updateEventList();rememberView();});
+    $('nextEvents').addEventListener('click',()=>{state.eventPage++;updateEventList();rememberView();});
+    $('loadCodeForm').addEventListener('submit',async e=>{
+      e.preventDefault();$('loadCodeButton').disabled=true;$('loadCodeFeedback').textContent='Loading and verifying every selection with SportyBet…';
+      try{const r=await fetch('/api/load-code?'+new URLSearchParams({code:$('loadCodeInput').value.trim().toUpperCase()}),{cache:'no-store',signal:AbortSignal.timeout(22000)}),p=await r.json();if(!r.ok||!p.ok||p.version!==VERSION||!Array.isArray(p.slip))throw Error(p.error||'Code could not be verified.');state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();window.ScopeTracker?.add(p.slip,p.code);$('loadCodeFeedback').textContent='Loaded '+p.slip.length+' verified '+p.family+' selections from '+p.code+'. Current prices may differ from the original code. No bet was placed.';}catch(err){$('loadCodeFeedback').textContent='Code not loaded: '+err.message;}finally{$('loadCodeButton').disabled=false;}
+    });
     document.querySelectorAll('[data-family]').forEach(b=>b.addEventListener('click',()=>changeFamily(b.dataset.family)));
     document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>changeMode(b.dataset.mode)));
     $('fetchBtn').addEventListener('click',fetchSporty);
@@ -350,8 +361,8 @@
     $('clearSlip').addEventListener('click',()=>{state.slip=[];save(STORE_SLIP,[]);renderSlip();});
     $('copySlip').addEventListener('click',async()=>{const text=state.slip.map(s=>`${s.event} | ${s.market} | ${s.outcome} @ ${fmtOdds(s.odds)}`).join('\n');if(!text){$('slipFeedback').textContent='Add a selection first.';return;}try{await navigator.clipboard.writeText(text);$('slipFeedback').textContent='Selections copied. This is NOT a SportyBet booking code.';}catch{$('slipFeedback').textContent='Copy unavailable here. Select text manually.';}});
     document.addEventListener('visibilitychange',()=>{if(!document.hidden&&(!cacheFor(feedKey()).fetchedAt||Date.now()-new Date(cacheFor(feedKey()).fetchedAt).getTime()>=state.refreshEvery))fetchSporty();});
-    $('searchInput').addEventListener('input',e=>{state.query=e.target.value.toLowerCase().trim();updateEventList();});
-    $('leagueFilter').addEventListener('change',e=>{state.league=e.target.value;updateEventList();});
+    $('searchInput').addEventListener('input',e=>{state.eventPage=1;state.query=e.target.value.toLowerCase().trim();updateEventList();});
+    $('leagueFilter').addEventListener('change',e=>{state.eventPage=1;state.league=e.target.value;updateEventList();});
     $('eventList').addEventListener('click',e=>{
       const target=e.target.closest('button[data-select]');if(!target)return;
       state.selectedId=target.dataset.select;state.marketIndex=0;
@@ -407,12 +418,18 @@
     state.slip=getSaved(STORE_SLIP).filter(s=>s&&s.event&&numOdds(s.odds));
     bind();updateJournal();renderSlip();
     changeFamily(state.family);
-    fetch('/api/status',{cache:'no-store'}).then(r=>r.json()).then(x=>{if(x.version!==VERSION)setNotice('Deployment mismatch. Deploy all V4 files together.','bad');}).catch(()=>{});
+    fetch('/api/status',{cache:'no-store'}).then(r=>r.json()).then(x=>{if(x.version!==VERSION)setNotice('Deployment mismatch. Deploy all V5 files together.','bad');}).catch(()=>{});
     setInterval(()=>{if(!document.hidden)fetchSporty();},state.refreshEvery);
     document.querySelectorAll('[data-family]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.family===state.family)));
     document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
     function time() {$('nowClock').textContent=new Intl.DateTimeFormat('en-NG',{timeZone:'Africa/Lagos',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())+' WAT';}
     time();setInterval(time,60000);
   }
+  window.ScopeApp={
+    snapshot:family=>cacheFor(family+':upcoming'),
+    refresh:family=>fetchSporty({family,mode:'upcoming'}),
+    selected:()=>detailEvent(),
+    addPicks:picks=>{state.slip=[];for(const p of picks){const e={id:p.eventId,rawEventId:p.rawEventId,gameType:p.family,home:p.home,away:p.away,origin:p.source,sourceKind:'api',roundId:p.roundId||''};addSlip(e,{id:p.marketId,specifier:p.specifier,name:p.market,outcomes:[{id:p.outcomeId,name:p.outcome,odds:p.odds,active:true}]},0);}}
+  };
   init();
 })();

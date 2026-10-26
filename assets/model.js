@@ -39,7 +39,8 @@
     const league = family === 'Real' ? [category?.name, category?.tournament?.name || context.league].filter(Boolean).join(' · ') : text(raw.leagueName, category?.name, context.league);
     return {
       id: `api-${family}-${id}`, rawEventId: id, sportId: raw.sport?.id || context.sportId || '', productId: Number(raw.markets?.[0]?.product || context.productId || (raw.status===1?1:3)),
-      home, away, league: league || 'SportyBet', gameType: family,
+      home, away, homeId: text(raw.homeTeamId,raw.homeTeam?.id), awayId: text(raw.awayTeamId,raw.awayTeam?.id),
+      tournamentId: text(category?.tournament?.id,raw.tournamentId), league: league || 'SportyBet', gameType: family,
       time: raw.estimateStartTime ?? raw.startTime ?? context.time ?? null,
       markets: markets(raw), totalMarketSize: raw.totalMarketSize ?? raw.marketCount ?? null,
       origin: `SportyBet ${family === 'Instant' ? 'anonymous Instant Football round' : family} response (unofficial)`, sourceKind: 'api',

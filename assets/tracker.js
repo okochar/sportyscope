@@ -1,0 +1,34 @@
+(() => {
+  'use strict';
+  const $=id=>document.getElementById(id),M=ScopeTrackingModel,esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  let tickets=[],page=1,refreshing=false,feedback={samples:0,markets:{}},dbPromise;
+  function db(){if(!dbPromise)dbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open('sportyscope.research.history',1);req.onupgradeneeded=()=>req.result.createObjectStore('tickets',{keyPath:'id'});req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});return dbPromise;}
+  async function all(){const d=await db();return new Promise((resolve,reject)=>{const r=d.transaction('tickets').objectStore('tickets').getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
+  async function put(ticket){const d=await db();return new Promise((resolve,reject)=>{const tx=d.transaction('tickets','readwrite');tx.objectStore('tickets').put(ticket);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+  function render(){
+    tickets.sort((a,b)=>b.createdAt-a.createdAt);const pages=Math.max(1,Math.ceil(tickets.length/10));page=Math.max(1,Math.min(page,pages));
+    $('historyPage').textContent='Page '+page+' of '+pages;$('historyPrev').disabled=page===1;$('historyNext').disabled=page===pages;
+    $('historyStatus').textContent=(refreshing?'Checking provider results… · ':'')+tickets.length+' saved tickets · '+feedback.samples+' distinct verified win/loss evaluations available for local calibration. Verified completed scores feed the next provider-history model refresh.';
+    $('trackedTickets').innerHTML=tickets.length?tickets.slice((page-1)*10,page*10).map(t=>`<details class="tracked-ticket"><summary><span class="result-badge ${esc(M.ticketStatus(t.picks))}">${esc(M.ticketStatus(t.picks))}</span> ${esc(t.family)} · ${t.picks.length} legs · ${Number(t.picks.reduce((n,p)=>n*Number(p.odds||1),1)).toFixed(2)} odds${t.code?' · '+esc(t.code):' · suggested ticket'} · ${esc(new Date(t.createdAt).toLocaleString('en-NG',{timeZone:'Africa/Lagos'}))} WAT</summary><div class="research-table-wrap"><table class="research-table"><thead><tr><th>Match</th><th>Selection</th><th>Odds</th><th>Status</th><th>Verified score / detail</th></tr></thead><tbody>${t.picks.map(p=>`<tr><td>${esc(p.home&&p.away?p.home+' vs '+p.away:p.event)}</td><td>${esc(p.market)} ${esc(p.specifier)} · ${esc(p.outcome)}</td><td>${Number(p.odds).toFixed(2)}</td><td><span class="result-badge ${esc(p.status||'pending')}">${esc(p.status||'pending')}</span></td><td>${p.result?esc(p.result.ft.join(':'))+' · '+esc(p.result.source):esc(p.note||'Awaiting a verified completed result.')}</td></tr>`).join('')}</tbody></table></div></details>`).join(''):'<p>Completed analysis runs, local selections and loaded/reserved codes will appear here. Results are tracked without placing a bet.</p>';
+  }
+  async function reload(){tickets=await all();feedback=M.learning(tickets);render();document.dispatchEvent(new CustomEvent('scope:learning',{detail:{samples:feedback.samples}}));}
+  async function add(input,code=''){
+    try{if(!Array.isArray(input)||!input.length||input.length>30)return;const family=input[0].family;if(input.some(p=>p.family!==family))return;
+      const picks=input.map(p=>({...p,rawEventId:p.rawEventId||p.eventId,specifier:p.specifier||'',status:'pending'})),id=family+'|'+picks.map(M.key).sort().join('~');
+      const old=(await all()).find(t=>t.id===id);if(old){if(code&&old.code!==code){old.code=code;for(const p of old.picks){const current=picks.find(x=>M.key(x)===M.key(p));if(current)p.odds=current.odds;}await put(old);await reload();}return;}
+      await put({id,family,code,createdAt:Date.now(),picks});await reload();
+    }catch{$('historyStatus').textContent='Browser history storage is unavailable. Provider data and the picker remain usable.';}
+  }
+  async function refresh(){
+    if(refreshing||document.hidden)return;refreshing=true;render();
+    try{for(const t of tickets){const waiting=t.picks.filter(p=>!['won','lost','void'].includes(p.status));if(!waiting.length)continue;
+      const res=await fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({picks:waiting.map(p=>({family:p.family,rawEventId:p.rawEventId,marketId:p.marketId,specifier:p.specifier||'',outcomeId:p.outcomeId,market:p.market,outcome:p.outcome}))}),signal:AbortSignal.timeout(60000)}),r=await res.json();if(!res.ok||!r.ok)continue;
+      for(const u of r.updates){const p=t.picks.find(p=>M.key(p)===u.key);if(p){Object.assign(p,u);if(u.result&&['won','lost','void'].includes(u.status))p.verifiedAt=u.checkedAt;}}
+      await put(t);
+    }await reload();}catch{}finally{refreshing=false;render();}
+  }
+  window.ScopeTracker={add,refresh,feedback:()=>feedback};
+  $('refreshHistory').addEventListener('click',refresh);$('historyPrev').addEventListener('click',()=>{page--;render();});$('historyNext').addEventListener('click',()=>{page++;render();});
+  reload().then(refresh).catch(()=>{$('historyStatus').textContent='Browser history storage is unavailable.';});
+  setInterval(()=>{if(!document.hidden)refresh();},60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
+})();

@@ -1,0 +1,52 @@
+{
+  "bizCode": 10000,
+  "message": "0#0",
+  "data": {
+    "totalNum": 1,
+    "tournaments": [
+      {
+        "id": "sv:league:1",
+        "name": "Virtual",
+        "events": [
+          {
+            "eventId": "sr:match:200026102521067",
+            "gameId": "40017",
+            "estimateStartTime": 1792938840000,
+            "status": 3,
+            "setScore": "1:2",
+            "gameScore": [
+              "0:1",
+              "1:1"
+            ],
+            "matchStatus": "End",
+            "homeTeamName": "BHA",
+            "awayTeamName": "AST",
+            "sport": {
+              "id": "sr:sport:202120001",
+              "name": "vFootball",
+              "category": {
+                "id": "sv:category:202120001",
+                "name": "England",
+                "tournament": {
+                  "id": "sv:league:1",
+                  "name": "Virtual"
+                }
+              }
+            },
+            "regularTimeScore": [
+              "0:1",
+              "1:1"
+            ],
+            "ai": false,
+            "bgEvent": false,
+            "matchTrackerNotAllowed": false,
+            "containsPcbb": false,
+            "banned": false
+          }
+        ],
+        "categoryName": "England",
+        "categoryId": "sv:category:202120001"
+      }
+    ]
+  }
+}

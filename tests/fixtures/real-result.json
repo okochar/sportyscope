@@ -1,0 +1,61 @@
+{
+  "bizCode": 10000,
+  "message": "0#0",
+  "data": {
+    "totalNum": 1,
+    "tournaments": [
+      {
+        "id": "sr:tournament:23",
+        "name": "Serie A",
+        "events": [
+          {
+            "eventId": "sr:match:71945334",
+            "gameId": "38210",
+            "estimateStartTime": 1792927800000,
+            "status": 4,
+            "setScore": "2:1",
+            "gameScore": [
+              "0:0",
+              "2:1"
+            ],
+            "matchStatus": "Ended",
+            "homeTeamName": "Inter",
+            "awayTeamName": "Fiorentina",
+            "sport": {
+              "id": "sr:sport:1",
+              "name": "Football",
+              "category": {
+                "id": "sr:category:31",
+                "name": "Italy",
+                "tournament": {
+                  "id": "sr:tournament:23",
+                  "name": "Serie A"
+                }
+              }
+            },
+            "regularTimeScore": [
+              "0:0"
+            ],
+            "ai": false,
+            "bgEvent": false,
+            "matchTrackerNotAllowed": false,
+            "eventSource": {
+              "preMatchSource": {
+                "sourceType": "BET_RADAR",
+                "sourceId": "71945334"
+              },
+              "liveSource": {
+                "sourceType": "BET_GENIUS",
+                "sourceId": "111111113978109"
+              }
+            },
+            "containsPcbb": false,
+            "banned": false
+          }
+        ],
+        "categoryName": "Italy",
+        "categoryId": "sr:category:31"
+      }
+    ]
+  }
+}

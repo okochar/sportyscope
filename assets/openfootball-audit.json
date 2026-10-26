@@ -1,0 +1,183 @@
+{
+  "provider": "OpenFootball",
+  "licence": "CC0-1.0",
+  "licenceUrl": "https://raw.githubusercontent.com/openfootball/football.json/master/LICENSE.md",
+  "retrievedAt": "2026-10-26T14:27:52.733Z",
+  "records": 6083,
+  "profiles": 200,
+  "oldest": "2024-08-09",
+  "newest": "2026-09-20",
+  "sources": [
+    {
+      "league": "en.1",
+      "season": "2024-25",
+      "name": "English Premier League 2024/25",
+      "records": 380,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.1.json"
+    },
+    {
+      "league": "de.1",
+      "season": "2024-25",
+      "name": "Deutsche Bundesliga 2024/25",
+      "records": 306,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/de.1.json"
+    },
+    {
+      "league": "en.2",
+      "season": "2024-25",
+      "name": "English Championship 2024/25",
+      "records": 557,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.2.json"
+    },
+    {
+      "league": "es.1",
+      "season": "2024-25",
+      "name": "Spain Primera División 2024/25",
+      "records": 370,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/es.1.json"
+    },
+    {
+      "league": "it.1",
+      "season": "2024-25",
+      "name": "Italian Serie A 2024/25",
+      "records": 370,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/it.1.json"
+    },
+    {
+      "league": "fr.1",
+      "season": "2024-25",
+      "name": "French Ligue 1 2024/25",
+      "records": 306,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/fr.1.json"
+    },
+    {
+      "league": "nl.1",
+      "season": "2024-25",
+      "name": "Netherlands Eredivisie 2024/25",
+      "records": 306,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/nl.1.json"
+    },
+    {
+      "league": "pt.1",
+      "season": "2024-25",
+      "name": "Portuguese Primeira Liga 2024/25",
+      "records": 306,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/pt.1.json"
+    },
+    {
+      "league": "en.1",
+      "season": "2025-26",
+      "name": "English Premier League 2025/26",
+      "records": 353,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/en.1.json"
+    },
+    {
+      "league": "en.2",
+      "season": "2025-26",
+      "name": "English Championship 2025/26",
+      "records": 521,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/en.2.json"
+    },
+    {
+      "league": "de.1",
+      "season": "2025-26",
+      "name": "Deutsche Bundesliga 2025/26",
+      "records": 294,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/de.1.json"
+    },
+    {
+      "league": "es.1",
+      "season": "2025-26",
+      "name": "Spain Primera División 2025/26",
+      "records": 365,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/es.1.json"
+    },
+    {
+      "league": "fr.1",
+      "season": "2025-26",
+      "name": "French Ligue 1 2025/26",
+      "records": 282,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/fr.1.json"
+    },
+    {
+      "league": "it.1",
+      "season": "2025-26",
+      "name": "Italian Serie A 2025/26",
+      "records": 344,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/it.1.json"
+    },
+    {
+      "league": "nl.1",
+      "season": "2025-26",
+      "name": "Netherlands Eredivisie 2025/26",
+      "records": 295,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/nl.1.json"
+    },
+    {
+      "league": "pt.1",
+      "season": "2025-26",
+      "name": "Portuguese Primeira Liga 2025/26",
+      "records": 287,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/pt.1.json"
+    },
+    {
+      "league": "en.1",
+      "season": "2026-27",
+      "name": "English Premier League 2026/27",
+      "records": 45,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/en.1.json"
+    },
+    {
+      "league": "de.1",
+      "season": "2026-27",
+      "name": "Deutsche Bundesliga 2026/27",
+      "records": 33,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/de.1.json"
+    },
+    {
+      "league": "es.1",
+      "season": "2026-27",
+      "name": "Spain Primera División 2026/27",
+      "records": 64,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/es.1.json"
+    },
+    {
+      "league": "en.2",
+      "season": "2026-27",
+      "name": "English Championship 2026/27",
+      "records": 88,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/en.2.json"
+    },
+    {
+      "league": "fr.1",
+      "season": "2026-27",
+      "name": "French Ligue 1 2026/27",
+      "records": 41,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/fr.1.json"
+    },
+    {
+      "league": "it.1",
+      "season": "2026-27",
+      "name": "Italian Serie A 2026/27",
+      "records": 50,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/it.1.json"
+    },
+    {
+      "league": "nl.1",
+      "season": "2026-27",
+      "name": "Netherlands Eredivisie 2026/27",
+      "records": 62,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/nl.1.json"
+    },
+    {
+      "league": "pt.1",
+      "season": "2026-27",
+      "name": "Portuguese Primeira Liga 2026/27",
+      "records": 58,
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/pt.1.json"
+    }
+  ],
+  "failed": [],
+  "coverage": "Dated results and available half-time scores. No corners, shots, cards, possession, player or xG coverage is implied.",
+  "identityPolicy": "Separate provider namespace. No fuzzy joins or duplicate cross-provider matches are added to the SportyBet model."
+}
