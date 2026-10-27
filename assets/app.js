@@ -3,7 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = { family: 'vFootball', mode: 'upcoming', apiEvents: [], importedEvents: [], selectedId: '', marketIndex: 0,
     selectedOutcome: 0, allMarkets: true, query: '', league: '', eventPage:1, origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
-  const VERSION = '5.0.0';
+  const VERSION = '5.1.0';
   const pending = new Map(), detailCache = new Map(), detailPending = new Set();
   const STORE_EVENTS = 'virtualscope.imported.v1';
   const STORE_JOURNAL = 'virtualscope.journal.v1';
@@ -351,7 +351,7 @@
     $('nextEvents').addEventListener('click',()=>{state.eventPage++;updateEventList();rememberView();});
     $('loadCodeForm').addEventListener('submit',async e=>{
       e.preventDefault();$('loadCodeButton').disabled=true;$('loadCodeFeedback').textContent='Loading and verifying every selection with SportyBet…';
-      try{const r=await fetch('/api/load-code?'+new URLSearchParams({code:$('loadCodeInput').value.trim().toUpperCase()}),{cache:'no-store',signal:AbortSignal.timeout(22000)}),p=await r.json();if(!r.ok||!p.ok||p.version!==VERSION||!Array.isArray(p.slip))throw Error(p.error||'Code could not be verified.');state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();window.ScopeTracker?.add(p.slip,p.code);$('loadCodeFeedback').textContent='Loaded '+p.slip.length+' verified '+p.family+' selections from '+p.code+'. Current prices may differ from the original code. No bet was placed.';}catch(err){$('loadCodeFeedback').textContent='Code not loaded: '+err.message;}finally{$('loadCodeButton').disabled=false;}
+      try{const r=await fetch('/api/load-code?'+new URLSearchParams({code:$('loadCodeInput').value.trim().toUpperCase()}),{cache:'no-store',signal:AbortSignal.timeout(22000)}),p=await r.json();if(!r.ok||!p.ok||p.version!==VERSION||!Array.isArray(p.slip))throw Error(p.error||'Code could not be verified.');state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();window.ScopeTracker?.add(p.slip,p.code);document.dispatchEvent(new CustomEvent('scope:code-loaded',{detail:p}));$('loadCodeFeedback').textContent='Loaded '+p.slip.length+' verified '+p.family+' selections from '+p.code+'. Reviewing history below. Current prices may differ from the original code. No bet was placed.';}catch(err){$('loadCodeFeedback').textContent='Code not loaded: '+err.message;}finally{$('loadCodeButton').disabled=false;}
     });
     document.querySelectorAll('[data-family]').forEach(b=>b.addEventListener('click',()=>changeFamily(b.dataset.family)));
     document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>changeMode(b.dataset.mode)));

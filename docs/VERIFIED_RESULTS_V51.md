@@ -1,0 +1,13 @@
+# V5.1 verification — 27 October 2026
+
+56 automated tests pass, including the prior 47 feed, history, selection, booking and tracking checks. New checks cover per-leg replacements, unsupported evidence, in-play/expired reports, 30-leg independent probability multiplication, cloud owner isolation, input bounds, pagination, disconnected storage and modern/legacy server-key headers.
+
+Browser check against current SportyBet data: loaded genuine vFootball test code G3A44T, evaluated two distinct future matches with 528 dated team rows per team, and generated/read back genuine revised code LAG5BC. The original low-probability 1X2 selections were chosen deliberately to exercise replacement behavior. The experimental all-leg win estimate changed from about 6.14% to 80.18%, while combined odds fell from 12.46 to 1.26. These are model outputs, not measured predictive accuracy or a recommended wager. Codes are temporary and may expire. No account, stake or bet placement was used.
+
+The browser displayed original and suggested market selections, per-leg win/void estimates, sample counts, limitations, before/after odds and percentages, and a verified revised reservation. No browser console errors were observed in that flow.
+
+Ticket review calls the existing research route separately for each leg, with concurrency two and progress, so a 30-leg ticket is not forced into one serverless request. It retains the same fixtures and chooses higher modeled win probability above the replacement minimum odds, where available. No percentage is invented for unsupported markets, price-only fallback or expired/in-play evidence. A whole-ticket percentage requires every leg to be estimated and assumes match independence. Diagnostics remain informational.
+
+Cloud backup implementation is ready but no user Supabase project exists or is connected yet. Database read/write and restore isolation have been verified with controlled adapters, not a real Supabase project. The live app must stay explicit about local-only persistence until the user completes the setup and a real API request succeeds. Run the downloadable combined SQL, set SUPABASE_URL and SUPABASE_SECRET_KEY in Vercel Production, redeploy, and use Cloud history → Sync saved tickets to verify it.
+
+Private browser recovery keys are 256-bit random values; only their server-side SHA-256 hashes scope cloud database records. All tables have RLS and no visitor access grants. Supabase credentials remain server-only. Browser-supplied ticket backups never enter shared history models as verified results. Restored statuses are rechecked against SportyBet before affecting local calibration. Sync and result refresh require the page to be open; no unattended worker was installed.

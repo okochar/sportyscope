@@ -4,7 +4,7 @@
   let tickets=[],page=1,refreshing=false,feedback={samples:0,markets:{}},dbPromise;
   function db(){if(!dbPromise)dbPromise=new Promise((resolve,reject)=>{const req=indexedDB.open('sportyscope.research.history',1);req.onupgradeneeded=()=>req.result.createObjectStore('tickets',{keyPath:'id'});req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});return dbPromise;}
   async function all(){const d=await db();return new Promise((resolve,reject)=>{const r=d.transaction('tickets').objectStore('tickets').getAll();r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
-  async function put(ticket){const d=await db();return new Promise((resolve,reject)=>{const tx=d.transaction('tickets','readwrite');tx.objectStore('tickets').put(ticket);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+  async function put(ticket,cloud=true){if(cloud)ticket.updatedAt=Date.now();const d=await db();await new Promise((resolve,reject)=>{const tx=d.transaction('tickets','readwrite');tx.objectStore('tickets').put(ticket);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});if(cloud)window.ScopeCloud?.queue();}
   function render(){
     tickets.sort((a,b)=>b.createdAt-a.createdAt);const pages=Math.max(1,Math.ceil(tickets.length/10));page=Math.max(1,Math.min(page,pages));
     $('historyPage').textContent='Page '+page+' of '+pages;$('historyPrev').disabled=page===1;$('historyNext').disabled=page===pages;
@@ -15,7 +15,7 @@
   async function add(input,code=''){
     try{if(!Array.isArray(input)||!input.length||input.length>30)return;const family=input[0].family;if(input.some(p=>p.family!==family))return;
       const picks=input.map(p=>({...p,rawEventId:p.rawEventId||p.eventId,specifier:p.specifier||'',status:'pending'})),id=family+'|'+picks.map(M.key).sort().join('~');
-      const old=(await all()).find(t=>t.id===id);if(old){if(code&&old.code!==code){old.code=code;for(const p of old.picks){const current=picks.find(x=>M.key(x)===M.key(p));if(current)p.odds=current.odds;}await put(old);await reload();}return;}
+      const old=(await all()).find(t=>t.id===id);if(old){let changed=false;if(code&&old.code!==code){old.code=code;changed=true;}for(const p of old.picks){const current=picks.find(x=>M.key(x)===M.key(p));if(current&&p.status==='pending'&&Number.isFinite(current.probability)&&!Number.isFinite(p.probability)){Object.assign(p,{probability:current.probability,voidProbability:current.voidProbability,forecastAt:current.forecastAt,evidenceMode:current.evidenceMode});changed=true;}if(code&&current&&current.odds!==p.odds){p.odds=current.odds;changed=true;}}if(changed){await put(old);await reload();}return;}
       await put({id,family,code,createdAt:Date.now(),picks});await reload();
     }catch{$('historyStatus').textContent='Browser history storage is unavailable. Provider data and the picker remain usable.';}
   }
@@ -29,6 +29,6 @@
   }
   window.ScopeTracker={add,refresh,feedback:()=>feedback};
   $('refreshHistory').addEventListener('click',refresh);$('historyPrev').addEventListener('click',()=>{page--;render();});$('historyNext').addEventListener('click',()=>{page++;render();});
-  reload().then(refresh).catch(()=>{$('historyStatus').textContent='Browser history storage is unavailable.';});
+  reload().then(()=>{window.ScopeCloud?.start({all,restore:t=>put(t,false),onRestore:async()=>{await reload();await refresh();}});return refresh();}).catch(()=>{$('historyStatus').textContent='Browser history storage is unavailable.';});
   setInterval(()=>{if(!document.hidden)refresh();},60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh();});
 })();

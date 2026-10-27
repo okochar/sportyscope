@@ -5,6 +5,7 @@ const path = require('node:path');
 const handlers = { '/api/virtual': require('./api/virtual'), '/api/real': require('./api/real'), '/api/event': require('./api/event'), '/api/status': require('./api/status'), '/api/book': require('./api/book'), '/api/auto-book': require('./api/auto-book'), '/api/assistant': require('./api/assistant'), '/api/research': require('./api/research') };
 handlers['/api/load-code']=require('./api/load-code');
 handlers['/api/track']=require('./api/track');
+handlers['/api/tickets']=require('./api/tickets');
 const ROOT = __dirname;
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8', '.json':'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.ico':'image/x-icon' };
@@ -19,7 +20,7 @@ function createServer() {
         let body='';
         for await (const chunk of req) {
           body+=chunk;
-          if (body.length>32000){res.statusCode=413;res.end('Request too large');return;}
+          if (Buffer.byteLength(body)>64000){res.statusCode=413;res.end('Request too large');return;}
         }
         req.body=body;
       }
