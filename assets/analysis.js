@@ -27,16 +27,17 @@
   const fingerprint=(family,picks)=>family+'|'+picks.map(p=>[p.rawEventId,p.marketId,p.specifier||'',p.outcomeId].join(':')).sort().join('|');
   function assemble(candidates,opts={}){
     const s=settings(opts),groups=new Map();for(const c of candidates){const key=c.rawEventId;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(c);}
-    let beam=[{picks:[],odds:1,score:0}];
+    const root={previous:null,pick:null,length:0,odds:1,score:0};let beam=[root];
     const distance=b=>Math.abs(Math.log(b.odds/s.targetOdds));
     for(const choices of groups.values()){
-      const next=beam.filter(b=>b.picks.length<s.legs).flatMap(b=>choices.map(c=>({picks:[...b.picks,c],odds:b.odds*c.odds,score:b.score+c.score})));
-      const unique=new Map();for(const b of [...beam,...next]){const k=b.picks.length+':'+Math.round(Math.log(b.odds)*10000);const prev=unique.get(k);if(!prev||b.score>prev.score)unique.set(k,b);}
+      const prices=new Map();for(const c of choices){const old=prices.get(c.odds);if(!old||c.score>old.score)prices.set(c.odds,c);}
+      const unique=new Map();const keep=b=>{const k=b.length+':'+Math.round(Math.log(b.odds)*10000),prev=unique.get(k);if(!prev||b.score>prev.score)unique.set(k,b);};
+      for(const b of beam){keep(b);if(b.length>=s.legs||(b.length>=2&&b.odds>=s.targetOdds))continue;for(const c of prices.values())keep({previous:b,pick:c,length:b.length+1,odds:b.odds*c.odds,score:b.score+c.score});}
       beam=[...unique.values()].sort((a,b)=>distance(a)-distance(b)||b.score-a.score).slice(0,128);
-      if(!beam.some(b=>!b.picks.length))beam.push({picks:[],odds:1,score:0});
+      if(!beam.some(b=>!b.length))beam.push(root);
     }
     const minimum=groups.size>=2&&s.legs>=2?2:1;
-    return beam.filter(b=>b.picks.length>=minimum).sort((a,b)=>distance(a)-distance(b)||b.score-a.score)[0]?.picks||[];
+    let best=beam.filter(b=>b.length>=minimum).sort((a,b)=>distance(a)-distance(b)||b.score-a.score)[0];const picks=[];while(best?.pick){picks.push(best.pick);best=best.previous;}return picks.reverse();
   }
   function analyze(snapshot,family,opts={},now=Date.now(),reports={},feedback={markets:{}}){
     const s=settings(opts),age=now-new Date(snapshot?.fetchedAt||0).getTime(),base={family,settings:s,analyzedAt:new Date(now).toISOString(),picks:[],combinedOdds:null,scannedEvents:snapshot?.events?.length||0,eligibleEvents:0,scannedMarkets:0,researchedEvents:0,capability:capabilities[family],method:'Separate product histories, transparent statistical estimates, informational diagnostics, current market comparison and target-odds search; explicit price fallback where history is unavailable.'};
