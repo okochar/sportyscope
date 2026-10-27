@@ -101,3 +101,7 @@ test('Unavailable or mixed-category booking codes do not become loaded local sli
  await assert.rejects(()=>loadCode('HSL5KF',async()=>new Response(JSON.stringify({...fixture,isAvailable:false}))),/unavailable|expired/);
  const d=structuredClone(fixture);d.data.ticket.selections[0].sportId='sr:sport:2';await assert.rejects(()=>loadCode('HSL5KF',async()=>new Response(JSON.stringify(d))),/category|mixed/);
 });
+test('Selections without specifiers remain valid through repeated automatic-route validation',()=>{
+ const {validate}=require('../lib/booking'),input={family:'vFootball',selections:[{eventId:'sr:match:123',marketId:'29',outcomeId:'74',specifier:''}]},once=validate(input);assert.deepEqual(validate(once),once);assert.equal(once.selections[0].specifier,undefined);
+ assert.throws(()=>validate({...input,selections:[{...input.selections[0],specifier:null}]}),/Invalid selection/);
+});

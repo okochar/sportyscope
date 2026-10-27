@@ -1,8 +1,10 @@
 # Version 5 verification — 26 October 2026
 
+Deployment: version 5.0.0 was published to https://sportyscope.vercel.app/ on 27 October 2026. All four live feed routes and live per-leg tracking returned successful verified responses.
+
 ## Automated checks
 
-46 Node regression tests passed. They cover full market preservation, fixture/result pagination, booking readback identity, actual operator headers, result validation, half-time and handicap settlement, 30-leg assembly, WAT date windows, missing-data handling, archive separation, deduplicated learning and the server-only Supabase adapter.
+47 Node regression tests passed. They cover full market preservation, fixture/result pagination, booking readback identity, actual operator headers, result validation, half-time and handicap settlement, 30-leg assembly, WAT date windows, missing-data handling, archive separation, deduplicated learning and the server-only Supabase adapter.
 
 ## Live-source evidence
 
