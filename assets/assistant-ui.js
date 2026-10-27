@@ -1,13 +1,13 @@
 (() => {
   'use strict';
-  const $=id=>document.getElementById(id),A=ScopeAnalysis,VERSION='5.1.0';
+  const $=id=>document.getElementById(id),A=ScopeAnalysis,VERSION='5.2.0';
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const n=v=>Number.isFinite(v)?v.toFixed(2):'—',pct=v=>Number.isFinite(v)?(v*100).toFixed(1)+'%':'—';
   const date=v=>v?new Intl.DateTimeFormat('en-NG',{timeZone:'Africa/Lagos',day:'numeric',month:'short',year:'numeric'}).format(new Date(v)):'—';
   const states=Object.fromEntries(A.families.map(f=>[f,{reports:{},errors:{},running:false,code:null,analysis:null,scanned:0,total:0}]));
   const jobs=new Map();let opts=A.settings(),selected='',generation=0;
   const rankJobs=new Map(),latestRank=new Map();let rankId=0,rankWorker;
-  try{rankWorker=new Worker('/assets/analysis-worker.js?v=5.1.0');rankWorker.onmessage=e=>{const pending=rankJobs.get(e.data.id);if(!pending)return;rankJobs.delete(e.data.id);e.data.error?pending.reject(Error(e.data.error)):pending.resolve(e.data.result);};rankWorker.onerror=()=>{for(const job of rankJobs.values())job.reject(Error('Background ranking could not start. Retry the scan.'));rankJobs.clear();rankWorker?.terminate();rankWorker=null;};}catch{}
+  try{rankWorker=new Worker('/assets/analysis-worker.js?v=5.2.0');rankWorker.onmessage=e=>{const pending=rankJobs.get(e.data.id);if(!pending)return;rankJobs.delete(e.data.id);e.data.error?pending.reject(Error(e.data.error)):pending.resolve(e.data.result);};rankWorker.onerror=()=>{for(const job of rankJobs.values())job.reject(Error('Background ranking could not start. Retry the scan.'));rankJobs.clear();rankWorker?.terminate();rankWorker=null;};}catch{}
   try{opts=A.settings(JSON.parse(localStorage.getItem('scope.research.settings')||'{}'));}catch{}
   for(const [id,k]of [['targetOdds','targetOdds'],['analysisLegs','legs'],['analysisMinOdds','minOdds'],['analysisMaxOdds','maxOdds']])$(id).value=opts[k];
   $('analysisFamily').value=opts.family;$('analysisWindow').value=opts.window;
@@ -95,16 +95,20 @@
     }catch(e){s.error=e.message;s.code=null;}finally{s.running=false;renderCards();if(s.requested){s.requested=false;if(opts.family==='All'||opts.family===family)scan(family);}}
   }
   async function scanAll(automatic=false){for(const f of A.families.filter(f=>opts.family==='All'||f===opts.family)){states[f].automatic=automatic;scan(f);}}
-  $('analysisSettings').addEventListener('submit',e=>{e.preventDefault();try{opts=A.settings({targetOdds:$('targetOdds').value,legs:$('analysisLegs').value,minOdds:$('analysisMinOdds').value,maxOdds:$('analysisMaxOdds').value,family:$('analysisFamily').value,window:$('analysisWindow').value});generation++;try{localStorage.setItem('scope.research.settings',JSON.stringify(opts));}catch{}for(const s of Object.values(states)){s.code=null;s.analysis=null;}scanAll(false);}catch(err){$('researchReport').textContent=err.message;}});
-  $('analysisCards').addEventListener('click',e=>{const scanBtn=e.target.closest('[data-scan]'),use=e.target.closest('[data-use]');if(scanBtn){states[scanBtn.dataset.scan].automatic=false;scan(scanBtn.dataset.scan);}if(use){const s=states[use.dataset.use];ScopeApp.addPicks(s.analysis.picks);$('slip').scrollIntoView({behavior:'smooth'});}});
+  function preferences(){return {analysis:opts,autoAnalyze:$('autoAnalyze').checked,autoCodes:$('autoCodes').checked};}
+  function savePreferences(){try{localStorage.setItem(ScopeAccount.storageKey('scope.preferences.v2'),JSON.stringify(preferences()));}catch{}ScopeWorkspace.changed('preferences');}
+  $('analysisSettings').addEventListener('submit',e=>{e.preventDefault();try{opts=A.settings({targetOdds:$('targetOdds').value,legs:$('analysisLegs').value,minOdds:$('analysisMinOdds').value,maxOdds:$('analysisMaxOdds').value,family:$('analysisFamily').value,window:$('analysisWindow').value});generation++;savePreferences();for(const s of Object.values(states)){s.code=null;s.analysis=null;}scanAll(false);}catch(err){$('researchReport').textContent=err.message;}});
+  $('analysisCards').addEventListener('click',e=>{const scanBtn=e.target.closest('[data-scan]'),use=e.target.closest('[data-use]');if(scanBtn){states[scanBtn.dataset.scan].automatic=false;scan(scanBtn.dataset.scan);}if(use){const s=states[use.dataset.use];ScopeApp.addPicks(s.analysis.picks);ScopeNavigation.go('slip');}});
   $('researchProfile').addEventListener('change',e=>{selected=e.target.value;renderReport();});
   $('researchSelected').addEventListener('click',async()=>{const e=ScopeApp.selected();if(!e||e.sourceKind!=='api'){$('researchReport').textContent='Select a fetched match in the explorer first.';return;}selected=e.gameType+'|'+e.rawEventId;$('researchReport').textContent='Retrieving verified history and comparing every returned market…';try{await getReport(e.gameType,e.rawEventId);updateAnalysis(e.gameType);}catch(err){$('researchReport').textContent=err.message;}});
-  $('autoAnalyze').addEventListener('change',()=>{if($('autoAnalyze').checked)scanAll(true);});
-  $('autoCodes').addEventListener('change',()=>{generation++;if($('autoCodes').checked)for(const f of A.families)autoBook(f);});
+  $('autoAnalyze').addEventListener('change',()=>{savePreferences();if($('autoAnalyze').checked)scanAll(true);});
+  $('autoCodes').addEventListener('change',()=>{savePreferences();generation++;if($('autoCodes').checked)for(const f of A.families)autoBook(f);});
   document.addEventListener('scope:feed',e=>{if(e.detail.mode==='upcoming')updateAnalysis(e.detail.family);});
   document.addEventListener('scope:learning',()=>{for(const f of A.families)updateAnalysis(f);});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&$('autoAnalyze').checked)scanAll(true);else if(document.hidden){generation++;for(const s of Object.values(states))s.code=null;}});
   setInterval(()=>{renderCards();if(!document.hidden&&$('autoAnalyze').checked)scanAll(true);},90000);
   renderCards();if($('autoAnalyze').checked)scanAll(true);
+  function cachedPreferences(guest=false){try{const raw=localStorage.getItem(guest?'scope.preferences.v2':ScopeAccount.storageKey('scope.preferences.v2'));if(raw)return JSON.parse(raw);if(guest){const old=localStorage.getItem('scope.research.settings');if(old)return {analysis:A.settings(JSON.parse(old)),autoAnalyze:true,autoCodes:true};}}catch{}return null;}
+  ScopeWorkspace.register('preferences',{read:preferences,cached:()=>cachedPreferences(),guest:()=>cachedPreferences(true),empty:()=>({analysis:A.settings(),autoAnalyze:true,autoCodes:true}),apply(value){opts=A.settings(value?.analysis||{});generation++;for(const [id,key]of [['targetOdds','targetOdds'],['analysisLegs','legs'],['analysisMinOdds','minOdds'],['analysisMaxOdds','maxOdds']])$(id).value=opts[key];$('analysisFamily').value=opts.family;$('analysisWindow').value=opts.window;$('autoAnalyze').checked=value?.autoAnalyze!==false;$('autoCodes').checked=value?.autoCodes!==false;for(const s of Object.values(states)){s.code=null;s.analysis=null;}try{localStorage.setItem(ScopeAccount.storageKey('scope.preferences.v2'),JSON.stringify(preferences()));}catch{}renderCards();}});
   fetch('/assets/openfootball-audit.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{$('externalDataSummary').innerHTML='<p><strong>'+esc(d.provider)+'</strong> · '+d.records+' completed results · '+d.profiles+' namespaced team profiles · '+d.sources.length+' league/season files. Dates '+esc(d.oldest)+' to '+esc(d.newest)+'. Licence: <a href="'+esc(d.licenceUrl)+'" target="_blank" rel="noopener noreferrer">'+esc(d.licence)+'</a>.</p><p>'+esc(d.coverage)+' '+esc(d.identityPolicy)+'</p>';}).catch(()=>{$('externalDataSummary').textContent='Supplementary source audit could not load.';});
 })();

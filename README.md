@@ -1,12 +1,13 @@
-# SportyScope / VirtualScope 5
+# SportyScope 5.2
 
 Unofficial football research workspace with separate Real, vFootball, Scheduled and anonymous Instant products. It never signs into a betting account, submits a stake or places a bet.
 
 ## Run
 
-Node 20 or newer; no application packages required.
+Node 20 or newer. The official Supabase SDK is pinned in package-lock.json, with its browser distribution served locally.
 
 ```sh
+npm ci
 npm start
 npm test
 ```
@@ -15,6 +16,8 @@ Vercel deploys the static page and `/api` functions. Deploy the full repository 
 
 ## Available features
 
+- Markets, Auto picks, Tickets, History and Settings are separate screens. Mobile navigation remains accessible at the bottom. Building/loading and evaluating tickets have their own views.
+- Sign in once using an email link. Supabase sessions are remembered and refreshed. Tickets, current slip, preferences, imports and journal save automatically and load on another device using the same account. Local drafts remain available during outages; no recovery keys or manual synchronization are required.
 - All available fixture pages are collected. The explorer displays 30 games per page with dynamic Next/Previous controls; this does not limit the underlying dataset.
 - Target combined odds, maximum 1-30 legs, per-leg price bounds, product and WAT fixture window are configurable. One outcome per event; products have separate tickets. Target search is bounded and does not claim a global optimum or guaranteed win.
 - Real football uses exact provider team IDs and up to three years of available paginated SportyBet team results. vFootball uses its own dated daily results, collected across 14 days and scoped by product and league.
@@ -34,12 +37,12 @@ Corners, shots, cards, possession, player availability, tactics and measured xG 
 
 ## Supabase
 
-The site runs using bundled archival profiles and temporary current-data caches without a database. Persistent storage is prepared but requires a project and server credentials. See [Supabase setup](docs/SUPABASE_SETUP.md) and `supabase/migrations/202610250001_knowledge.sql`.
+The connected SportyScope database stores shared research and private account workspaces. Configure the server URL/secret and public sign-in key once in Vercel Production, then redeploy. See [Supabase setup](docs/SUPABASE_SETUP.md). New installations can apply `assets/supabase-setup.sql`.
 
-No visitor account is required. The service-role credential stays server-side. The migration enables RLS and revokes visitor table access. Ticket history currently belongs to the browser; provider observations/models persist to Supabase once configured.
+Browsing does not require sign-in. Cross-device personal storage requires the same signed-in account. The server verifies each access token using Supabase getUser, scopes every record to that verified identity, and keeps the service credential server-side. All tables have RLS with visitor grants revoked. Optimistic revisions prevent silent overwrites between devices. Shared archives seed automatically; research/result requests persist provider histories. Saving and result checks run while the app is open.
 
 ## Validation
 
-`npm test` covers recorded feeds, all market preservation, pagination, booking identity/readback, history cursors, clock windows, archival identity separation, settlement, deduplicated learning and the server-only database adapter. Browser checks use the actual local app, including 30-row paging, custom settings, genuine code loading, per-leg tracking and mobile layout. See `docs/VERIFIED_RESULTS_V5.md` for the final verification record.
+`npm test` covers feeds, markets, pagination, genuine booking readback, historical models, settlement, learning, server-only credentials, verified account isolation, automatic draft migration, new-device loading and conflicting edits. Browser checks include the actual five-screen interface and mobile navigation. Earlier feed/model verification remains in `docs/VERIFIED_RESULTS_V5.md` and `docs/VERIFIED_RESULTS_V51.md`.
 
 Virtual outcomes remain stochastic. Historical samples and fitted rates do not guarantee a future result. Research and reservation creation do not place a bet.

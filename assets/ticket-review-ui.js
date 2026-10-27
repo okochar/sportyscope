@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const $=id=>document.getElementById(id),R=ScopeTicketReview,V='5.1.0',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  const $=id=>document.getElementById(id),R=ScopeTicketReview,V='5.2.0',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const pct=v=>Number.isFinite(v)?(v*100).toFixed(2)+'%':'Not estimated',num=v=>Number.isFinite(v)?v.toFixed(2):'—';
   let loaded=null,legs=[],running=false,revision=0,analyzedAt=0;
   function render(){
@@ -18,9 +18,9 @@
       if(token!==revision)return;analyzedAt=Date.now();const originals=legs.map(l=>l.original),revised=legs.map(l=>l.revised);await window.ScopeTracker?.add(originals,loaded.code);if(legs.some(l=>l.changed))await window.ScopeTracker?.add(revised);
     }finally{if(token===revision){running=false;render();}}
   }
-  document.addEventListener('scope:code-loaded',e=>{revision++;running=false;loaded=e.detail;legs=[];analyzedAt=0;render();review();});
+  document.addEventListener('scope:code-loaded',e=>{revision++;running=false;loaded=e.detail;legs=[];analyzedAt=0;ScopeNavigation.go('ticketReview');render();review();});
   $('reviewTicket').addEventListener('click',review);
-  $('useRevisedTicket').addEventListener('click',()=>{if(!legs.length)return;ScopeApp.addPicks(legs.map(l=>l.revised));$('reviewBooking').textContent='Suggested revision copied to the local slip. No bet was placed.';});
+  $('useRevisedTicket').addEventListener('click',()=>{if(!legs.length)return;ScopeApp.addPicks(legs.map(l=>l.revised));$('reviewBooking').textContent='Suggested revision copied to the slip. No bet was placed.';ScopeNavigation.go('slip');});
   $('bookRevisedTicket').addEventListener('click',async()=>{
     if(running||!loaded||!legs.length)return;if(Date.now()-analyzedAt>90000){$('reviewBooking').textContent='The review is over 90 seconds old. Review the ticket again before reserving it.';return;}
     const token=revision,picks=legs.map(l=>l.revised),button=$('bookRevisedTicket');if(picks.some(p=>!Number.isFinite(Number(p.time))||Number(p.time)<=Date.now()+30000)){$('reviewBooking').textContent='A kickoff is too close or could not be verified. Review the ticket again before reserving it.';return;}button.disabled=true;$('reviewBooking').textContent='Verifying current SportyBet availability and issuing a new reservation…';

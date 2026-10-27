@@ -51,6 +51,7 @@ revoke all on public.scope_team_history, public.scope_models, public.scope_team_
 grant select, insert, update, delete on public.scope_team_history, public.scope_models, public.scope_team_identities, public.scope_observations, public.scope_condition_profiles to service_role;
 -- No public write policies. Public application routes only ingest validated provider data.
 
+
 -- Personal ticket backups. The API scopes every request to a SHA-256 hash of
 -- a private 256-bit browser recovery key. No public table access is allowed.
 create table if not exists public.scope_tickets (
@@ -64,3 +65,48 @@ alter table public.scope_tickets enable row level security;
 revoke all on public.scope_tickets from anon, authenticated;
 grant select, insert, update, delete on public.scope_tickets to service_role;
 -- Client-supplied backups are never used as verified shared training records.
+
+
+-- Account workspace components. Authentication is checked by the server using
+-- Supabase getUser, and user_id is taken from that verified identity only.
+create table if not exists public.scope_workspace (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  component text not null check (component in ('slip','preferences','journal','imports')),
+  payload jsonb not null,
+  revision bigint not null check (revision > 0),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, component)
+);
+alter table public.scope_workspace enable row level security;
+revoke all on public.scope_workspace from anon, authenticated;
+grant select, insert, update, delete on public.scope_workspace to service_role;
+
+create or replace function public.scope_save_workspace(
+  p_user uuid, p_component text, p_payload jsonb, p_revision bigint
+) returns bigint language plpgsql security invoker set search_path = '' as $$
+begin
+  if p_revision = 0 then
+    insert into public.scope_workspace(user_id,component,payload,revision)
+      values(p_user,p_component,p_payload,1)
+      on conflict (user_id,component) do nothing;
+  else
+    update public.scope_workspace set payload=p_payload,revision=p_revision+1,updated_at=now()
+      where user_id=p_user and component=p_component and revision=p_revision;
+  end if;
+  if not found then
+    raise exception 'Workspace revision conflict' using errcode='40001';
+  end if;
+  return p_revision+1;
+end;
+$$;
+revoke all on function public.scope_save_workspace(uuid,text,jsonb,bigint) from public, anon, authenticated;
+grant execute on function public.scope_save_workspace(uuid,text,jsonb,bigint) to service_role;
+
+
+-- The project's existing event-trigger helper is internal database plumbing.
+-- Calling it as an anonymous or application user is unnecessary.
+do $$ begin
+  if pg_catalog.to_regprocedure('public.rls_auto_enable()') is not null then
+    execute 'revoke execute on function public.rls_auto_enable() from public, anon, authenticated';
+  end if;
+end $$;

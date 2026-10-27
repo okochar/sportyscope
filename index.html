@@ -5,19 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0b1010">
   <meta name="description" content="Unofficial virtual and real sports market explorer for SportyBet. No made-up odds, no bets.">
-  <title>VirtualScope — Virtual market explorer</title>
-  <link rel="stylesheet" href="/assets/style.css?v=5.1.0">
+  <title>Markets · SportyScope</title>
+  <link rel="stylesheet" href="/assets/style.css?v=5.2.0">
 </head>
 <body>
 <div class="layout">
   <aside class="sidebar" aria-label="Product information">
-    <div class="logo"><span class="logo-symbol">V<span class="logo-point">•</span></span><div><strong>VIRTUAL<span>SCOPE</span></strong><small>Market research terminal</small></div></div>
-    <div class="aside-links">
-      <a class="aside-link active" href="#markets"><span class="link-icon">▦</span> Market explorer <span class="link-arrow">↗</span></a>
-      <a class="aside-link" href="#import"><span class="link-icon">↧</span> Import market data</a>
-      <a class="aside-link" href="#log"><span class="link-icon">◷</span> Outcome journal</a>
-      <a class="aside-link" href="#about"><span class="link-icon">ⓘ</span> About this data</a>
-    </div>
+    <div class="logo"><span class="logo-symbol">V<span class="logo-point">•</span></span><div><strong>SPORTY<span>SCOPE</span></strong><small>Market research terminal</small></div></div>
+    <nav class="aside-links" aria-label="Main navigation"><a class="aside-link" data-screen-link="markets" href="#markets"><span class="link-icon">▦</span> <span>Markets</span></a><a class="aside-link" data-screen-link="picks" href="#research"><span class="link-icon">✦</span> <span>Auto picks</span></a><a class="aside-link" data-screen-link="tickets" href="#slip"><span class="link-icon">▤</span> <span>Tickets</span></a><a class="aside-link" data-screen-link="history" href="#ticketHistory"><span class="link-icon">◷</span> <span>History</span></a><a class="aside-link" data-screen-link="settings" href="#settings"><span class="link-icon">⚙</span> <span>Settings</span></a></nav>
     <div class="sidebar-bottom">
       <div class="note-symbol">◈</div>
       <strong>No guesswork.</strong>
@@ -26,14 +21,14 @@
       <span>UNOFFICIAL DATA <span class="small-dot"></span> UNOFFICIAL</span>
     </div>
   </aside>
-  <main class="main" id="markets">
+  <main class="main" id="appMain">
     <header class="topbar">
-      <div class="breadcrumb">WORKSPACE <span>/</span> <strong>MARKET EXPLORER</strong></div>
-      <div class="top-right"><span class="time" id="nowClock">—</span><span class="avatar" aria-label="Research workspace">VS</span></div>
+      <div class="breadcrumb">WORKSPACE <span>/</span> <strong id="workspaceLabel">Markets</strong></div>
+      <div class="top-right"><a id="accountNav" class="account-nav" href="#settings">Sign in</a><span class="time" id="nowClock">—</span><span class="avatar" aria-label="Research workspace">VS</span></div>
     </header>
-    <div class="main-inner">
-      <div class="titleline">
-        <div><div class="eyebrow"><span class="square"></span> SPORTYBET MARKETS / NIGERIA</div><h1>Find the odds.<br><em>See the math.</em></h1><p class="intro">Real football, vFootball, Scheduled Football and anonymous Instant Football snapshots. Feeds update automatically every 45 seconds.</p></div>
+    <div class="save-bar"><span class="save-dot"></span><span id="saveStatus" role="status">Checking saved workspace…</span></div><div class="main-inner">
+<section class="app-screen" data-screen-panel="markets">      <div class="titleline">
+        <div><div class="eyebrow"><span class="square"></span> SPORTYBET MARKETS / NIGERIA</div><h1>Explore markets</h1><p class="intro">Real football, vFootball, Scheduled Football and anonymous Instant Football snapshots. Feeds update automatically every 45 seconds.</p></div>
         <a class="sporty-link" href="https://www.sportybet.com/ng/m/virtuals-lobby" target="_blank" rel="noopener noreferrer">Open SportyBet <span aria-hidden="true">↗</span></a>
       </div>
 
@@ -44,26 +39,7 @@
         <div class="stat stat-source"><span>DATA PROVENANCE</span><div id="sourceName">None</div><small id="sourceStamp">Not yet loaded</small></div>
       </section>
 
-      <section class="utility-card research-workspace" id="research" aria-label="Football research engine">
-        <div class="card-head"><div><div class="card-kicker">EVIDENCE → PATTERNS → MARKETS → SLIP</div><h2>Football research engine</h2><p>Build team histories from SportyBet’s own records, compare markets, and explain each decision. Real clubs and each virtual product have separate evidence profiles.</p></div></div>
-        <form id="analysisSettings" class="research-settings">
-          <label>Target total odds<input id="targetOdds" type="number" value="5" min="1.1" max="1000" step="0.01" list="oddsPresets" required><datalist id="oddsPresets"><option value="2"><option value="5"><option value="10"><option value="20"><option value="50"><option value="100"><option value="500"></datalist></label>
-          <label>Game type<select id="analysisFamily"><option value="vFootball">vFootball</option><option value="Real">Real football</option><option value="Instant">Instant Football</option><option value="Scheduled">Scheduled Football</option><option value="All">All (separate tickets)</option></select></label>
-          <label>Fixture window<select id="analysisWindow"><option value="today">Today (WAT)</option><option value="24h">Next 24 hours</option><option value="7days">Next 7 days</option></select></label>
-          <label>Maximum legs<input id="analysisLegs" type="number" value="30" min="1" max="30" required></label>
-          <label>Minimum leg odds<input id="analysisMinOdds" type="number" value="1.15" min="1.01" max="10" step="0.01" required></label>
-          <label>Maximum leg odds<input id="analysisMaxOdds" type="number" value="3" min="1.01" max="10" step="0.01" required></label>
-          <button class="button primary" type="submit">Build my selections</button>
-        </form>
-        <div class="research-switches"><label><input id="autoAnalyze" type="checkbox" checked> Automatically refresh research while this page is open</label><label><input id="autoCodes" type="checkbox" checked> Generate verified reservation codes when evidence qualifies</label></div>
-        <p class="notice">Experimental statistical baseline. This is not yet a comprehensive trained football AI. It currently ingests dated results, opponents, half-time scores and provider virtual statistics where verified. Rich event/player data is tracked as a coverage gap. No bet is placed.</p>
-        <div id="analysisCards" class="analysis-cards" aria-live="polite"></div>
-        <div class="research-toolbar"><button id="researchSelected" type="button" class="button subtle">Research selected match</button><label>Evidence profile<select id="researchProfile" aria-label="Evidence profile"><option value="">Select a researched match</option></select></label></div>
-        <div id="researchReport" aria-live="polite"><p>Select a match or let the scanner build evidence profiles. Available history drives the model; missing history uses an explicit market-price fallback.</p></div>
-        <details><summary>Additional data sources and access</summary><div id="externalDataSummary">Loading source audit…</div><p>SportyBet supplies the primary current fixtures and team histories. OpenFootball is a separately identified supplementary archive. LiveScore Bet’s public statistics widgets were inspected; an open structured feed was not verified. StatsBomb and Football-Data publish restrictions relevant to automated training or redistribution, so their raw data has not been added to this public app.</p></details>
-      </section>
-
-      <section class="workspace" aria-label="Market data">
+      <section class="workspace" id="markets" aria-label="Market data">
         <div class="section-top"><div><h2>Explore games</h2><p>Choose real sports or virtual games. Real and virtual data never mix.</p></div><div class="connection" id="connectionBadge"><span class="pulse"></span> Not connected</div></div>
         <div class="family-tabs" role="group" aria-label="Game category">
           <button type="button" data-family="Real" class="family"><span>🏟</span> REAL SPORTS <span class="family-type">Football · Auto sync</span></button>
@@ -112,8 +88,29 @@
         </div>
       </section>
 
-      <section class="utility-card" id="slip" aria-label="Local selection slip" style="margin-top:20px">
-        <div class="card-head"><div><div class="card-kicker">LOCAL BUILDER · NOT AN OFFICIAL SPORTYBET BETSLIP</div><h2>Selection slip (<span id="slipCount">0</span>)</h2><p>Tap an outcome in the market inspector to add it. Selections remain on your device. One pick per event; products stay separate.</p></div><span class="card-glyph">▤</span></div>
+</section>
+<section class="app-screen" data-screen-panel="picks" hidden>      <section class="utility-card research-workspace" id="research" aria-label="Football research engine">
+        <div class="card-head"><div><div class="card-kicker">EVIDENCE → PATTERNS → MARKETS → SLIP</div><h2>Automatic picks</h2><p>Build team histories from SportyBet’s own records, compare markets, and explain each decision. Real clubs and each virtual product have separate evidence profiles.</p></div></div>
+        <form id="analysisSettings" class="research-settings">
+          <label>Target total odds<input id="targetOdds" type="number" value="5" min="1.1" max="1000" step="0.01" list="oddsPresets" required><datalist id="oddsPresets"><option value="2"><option value="5"><option value="10"><option value="20"><option value="50"><option value="100"><option value="500"></datalist></label>
+          <label>Game type<select id="analysisFamily"><option value="vFootball">vFootball</option><option value="Real">Real football</option><option value="Instant">Instant Football</option><option value="Scheduled">Scheduled Football</option><option value="All">All (separate tickets)</option></select></label>
+          <label>Fixture window<select id="analysisWindow"><option value="today">Today (WAT)</option><option value="24h">Next 24 hours</option><option value="7days">Next 7 days</option></select></label>
+          <label>Maximum legs<input id="analysisLegs" type="number" value="30" min="1" max="30" required></label>
+          <label>Minimum leg odds<input id="analysisMinOdds" type="number" value="1.15" min="1.01" max="10" step="0.01" required></label>
+          <label>Maximum leg odds<input id="analysisMaxOdds" type="number" value="3" min="1.01" max="10" step="0.01" required></label>
+          <button class="button primary" type="submit">Build my selections</button>
+        </form>
+        <div class="research-switches"><label><input id="autoAnalyze" type="checkbox" checked> Automatically refresh research while this page is open</label><label><input id="autoCodes" type="checkbox" checked> Generate verified reservation codes when evidence qualifies</label></div>
+        <p class="notice">Experimental statistical baseline. This is not yet a comprehensive trained football AI. It currently ingests dated results, opponents, half-time scores and provider virtual statistics where verified. Rich event/player data is tracked as a coverage gap. No bet is placed.</p>
+        <div id="analysisCards" class="analysis-cards" aria-live="polite"></div>
+        <details class="evidence-drawer"><summary>Match evidence and model details</summary><div class="research-toolbar"><button id="researchSelected" type="button" class="button subtle">Research selected match</button><label>Evidence profile<select id="researchProfile" aria-label="Evidence profile"><option value="">Select a researched match</option></select></label></div>
+        <div id="researchReport" aria-live="polite"><p>Select a match or let the scanner build evidence profiles. Available history drives the model; missing history uses an explicit market-price fallback.</p></div>
+        </details><details><summary>Additional data sources and access</summary><div id="externalDataSummary">Loading source audit…</div><p>SportyBet supplies the primary current fixtures and team histories. OpenFootball is a separately identified supplementary archive. LiveScore Bet’s public statistics widgets were inspected; an open structured feed was not verified. StatsBomb and Football-Data publish restrictions relevant to automated training or redistribution, so their raw data has not been added to this public app.</p></details>
+      </section>
+
+</section>
+<section class="app-screen" data-screen-panel="tickets" hidden><div class="screen-title"><h1>Your tickets</h1><p>Build a slip, load a SportyBet code, or review every leg with available history.</p></div><nav class="ticket-tabs" aria-label="Ticket workspace"><a href="#slip" data-ticket-link="builder">Build &amp; load</a><a href="#ticketReview" data-ticket-link="review">Evaluate ticket</a></nav><div data-ticket-panel="builder">      <section class="utility-card" id="slip" aria-label="Local selection slip" style="margin-top:20px">
+        <div class="card-head"><div><div class="card-kicker">LOCAL BUILDER · NOT AN OFFICIAL SPORTYBET BETSLIP</div><h2>Selection slip (<span id="slipCount">0</span>)</h2><p>Tap an outcome in the market inspector to add it. Selections save automatically to your account when signed in. One pick per event; products stay separate.</p></div><span class="card-glyph">▤</span></div>
         <form id="loadCodeForm" class="research-toolbar"><label>Load an existing SportyBet code<input id="loadCodeInput" placeholder="e.g. booking code" maxlength="16" minlength="4" pattern="[A-Za-z0-9]{4,16}" required autocomplete="off"></label><button id="loadCodeButton" type="submit" class="button subtle">Load &amp; evaluate code</button></form>
         <p id="loadCodeFeedback" role="status"></p>
         <div id="slipItems" aria-live="polite"><p class="placeholder">Choose priced markets to build a local slip.</p></div>
@@ -124,35 +121,40 @@
         <div class="card-actions"><button type="button" class="button primary" id="copySlip">Copy selections</button><button type="button" class="button subtle" id="trackSlip">Track these selections</button><button type="button" class="text-button danger" id="clearSlip">Clear selections</button></div>
         <p id="slipFeedback" role="status"></p>
       </section>
-      <section class="utility-card research-workspace" id="ticketReview" aria-label="Booking code evaluation">
+</div><div data-ticket-panel="review" hidden>      <section class="utility-card research-workspace" id="ticketReview" aria-label="Booking code evaluation">
         <div class="card-head"><div><div class="card-kicker">LOADED CODE → LEG EVIDENCE → SUGGESTED REVISION</div><h2>Evaluate a SportyBet ticket</h2><p>Load a code in the slip above. Every leg is checked against that product’s team histories and current markets. Available for single-product real-football and vFootball codes, up to 30 distinct matches.</p></div></div>
         <div class="research-toolbar"><label>Minimum replacement odds<input id="reviewMinOdds" type="number" min="1.01" max="10" step="0.01" value="1.10"></label><button type="button" class="button subtle" id="reviewTicket" disabled>Review history again</button></div>
         <p id="reviewStatus" role="status"></p><div id="ticketReviewResults" aria-live="polite"></div>
         <div class="research-toolbar"><button type="button" class="button subtle" id="useRevisedTicket" disabled>Use suggested revision in slip</button><button type="button" class="button primary" id="bookRevisedTicket" disabled>Get revised SportyBet code</button></div><p id="reviewBooking" role="status"></p>
       </section>
-      <section class="utility-card" id="ticketHistory" aria-label="Ticket result history" style="margin-top:20px"><div class="card-head"><div><div class="card-kicker">VERIFIED RESULTS → PROFILES → NEXT MODEL RUN</div><h2>Ticket history &amp; learning</h2><p>Suggested, loaded and reserved tickets save on this device, with private cloud backup once Supabase is connected. Each leg is checked against completed provider scores while the app is open. Pending, void and unverified outcomes remain distinct; no bet is placed.</p></div></div>
-        <div class="cloud-history"><h3>Cloud history</h3><p id="cloudHistoryStatus" role="status">Checking database connection…</p><div class="research-toolbar"><button id="syncHistory" type="button" class="button subtle">Sync saved tickets</button><button id="copyHistoryKey" type="button" class="button subtle">Copy private recovery key</button></div>
-          <details><summary>Set up Supabase — step by step</summary><ol><li>Open <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">Supabase Dashboard</a>, create a new project called SportyScope, choose the Free plan if offered, save its database password privately, and wait until the project is ready.</li><li><a href="/assets/supabase-setup.sql" download="SportyScope-Supabase-setup.sql">Download the setup SQL</a>. Open the file, copy all its text, then in Supabase choose SQL Editor → New query, paste it and click Run. It creates both the football knowledge tables and private ticket history.</li><li>Copy the project URL from the Connect dialog. In Settings → API Keys, copy a server <strong>secret key</strong> (sb_secret_…). Keep the secret out of this page and chat.</li><li>Open your SportyScope project in <a href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">Vercel</a> → Settings → Environment Variables. Add <code>SUPABASE_URL</code> = the project URL and <code>SUPABASE_SECRET_KEY</code> = that secret key. Select Production and save.</li><li>In Vercel → Deployments, redeploy the latest production deployment. Reload SportyScope and click Sync saved tickets. This panel must say <strong>Cloud connected</strong>. Existing local tickets are uploaded automatically, and later changes sync while the page is open.</li><li>Copy your private recovery key and save it in your password manager. On another device, use “Restore history” below with that key. It is separate from Supabase credentials; anyone with this recovery key can access this history.</li></ol><p>Raw feed pages and unplaced matches are not permanent ticket records. Generated selections, loaded codes, tracked slips and provider-verified results are saved. Research records persist when requested. A browser must be open for result refresh; this does not create an unattended scheduled worker.</p></details>
-          <details><summary>Restore history on another device</summary><form id="restoreHistoryForm" class="research-toolbar"><label>Private history recovery key<input id="restoreHistoryKey" type="password" minlength="64" maxlength="64" pattern="[A-Fa-f0-9]{64}" required autocomplete="off"></label><button type="submit" class="button subtle">Restore &amp; merge saved history</button></form><p>Use the recovery key copied from SportyScope, never a Supabase API key. Your current local tickets are merged into this private history.</p></details>
-        </div><button id="refreshHistory" type="button" class="button subtle">Refresh results</button><p id="historyStatus" role="status"></p><div id="trackedTickets"></div><div class="event-pager"><button id="historyPrev" type="button" class="button subtle">← Previous</button><span id="historyPage"></span><button id="historyNext" type="button" class="button subtle">Next →</button></div></section>
-      <section class="lower-grid">
+</div></section>
+<section class="app-screen" data-screen-panel="history" hidden><div class="screen-title"><h1>Ticket history</h1><p>Follow each leg from pending to a verified result.</p></div>      <section class="utility-card" id="ticketHistory" aria-label="Ticket result history" style="margin-top:20px"><div class="card-head"><div><div class="card-kicker">VERIFIED RESULTS → PROFILES → NEXT MODEL RUN</div><h2>Ticket history &amp; learning</h2><p>Suggested, loaded and reserved tickets save on this device, with automatic account storage across devices. Each leg is checked against completed provider scores while the app is open. Pending, void and unverified outcomes remain distinct; no bet is placed.</p></div></div>
+        <p id="cloudHistoryStatus" class="autosave-note" role="status">Checking saved history…</p><button id="refreshHistory" type="button" class="button subtle">Refresh results</button><p id="historyStatus" role="status"></p><div id="trackedTickets"></div><div class="event-pager"><button id="historyPrev" type="button" class="button subtle">← Previous</button><span id="historyPage"></span><button id="historyNext" type="button" class="button subtle">Next →</button></div></section>
+</section>
+<section class="app-screen" data-screen-panel="settings" hidden><div class="screen-title"><h1>Settings</h1><p>Your account, saved workspace and database status.</p></div><section class="utility-card account-card"><div class="card-kicker">ONE ACCOUNT · EVERY DEVICE</div><h2>Your account</h2><p id="accountStatus">Checking your account…</p><form id="accountSignIn" class="research-toolbar"><label>Email address<input id="accountEmail" type="email" required autocomplete="email" placeholder="you@example.com"></label><button id="accountSubmit" type="submit" class="button primary" disabled>Email me a sign-in link</button></form><button id="accountSignOut" type="button" class="button subtle" hidden>Sign out on this device</button><p id="accountFeedback" role="status"></p><p>Sign in with the same email on each device. Your session stays remembered; tickets, current slip, preferences, imports and journal save automatically. No database keys or recovery codes are entered here.</p></section>
+<section class="utility-card database-card"><h2>Database connection</h2><p id="databaseStatus" role="status">Checking Supabase…</p><p id="knowledgeStatus" role="status"></p><button type="button" id="checkDatabase" class="button subtle">Check connection</button><div id="workspaceConflicts" role="status"></div><details><summary>Project owner setup</summary><p>The server needs SUPABASE_URL and SUPABASE_SECRET_KEY in Vercel Production, followed by a redeploy. The publishable key is configured separately for sign-in. Never enter a server key on this website.</p><p>For email links, in Supabase → Authentication → URL Configuration, set Site URL to https://sportyscope.vercel.app and allow https://sportyscope.vercel.app/** as a redirect URL. Enable the Email provider. For visitors beyond the project owner, configure your own SMTP sender in Supabase.</p><a class="text-button" href="/assets/supabase-setup.sql" download="SportyScope-Supabase-setup.sql">Download database setup SQL</a></details></section><details class="settings-tools"><summary>Data imports and outcome journal</summary>      <section class="lower-grid">
         <div class="utility-card" id="import"><div class="card-head"><div><div class="card-kicker">01 / INPUT</div><h2>Import data</h2><p>Bring in SportyBet results or odds you've collected.</p></div><span class="card-glyph">↧</span></div><div class="upload-area"><label class="upload-label" for="fileInput"><span>＋</span><strong>Select CSV or JSON file</strong><small>Up to 2 MB · kept on your device</small></label><input id="fileInput" type="file" accept=".csv,.json,text/csv,application/json" hidden><p id="importFeedback" role="status">Column names: league, home, away, home_odds, draw_odds, away_odds.</p></div><div class="card-actions"><button type="button" class="text-button" id="exportEvents">Export loaded events ↗</button><button type="button" class="text-button danger" id="clearImported">Clear imported events</button></div></div>
         <div class="utility-card" id="log"><div class="card-head"><div><div class="card-kicker">02 / OBSERVE</div><h2>Outcome journal</h2><p>Record actual results. Logging is not a prediction method.</p></div><span class="card-glyph">◷</span></div><form id="journalForm" class="journal-form"><label>Event / note<input id="journalEvent" placeholder="e.g. Team A vs Team B" maxlength="140" required></label><div class="journal-row"><label>Observed result<select id="journalResult"><option value="Home win">Home win</option><option value="Draw">Draw</option><option value="Away win">Away win</option></select></label><button class="button primary" type="submit">Record</button></div></form><div id="journalList" class="journal-list"><p class="placeholder">No observations recorded.</p></div><div class="card-actions"><button type="button" class="text-button" id="exportJournal">Export journal ↗</button><button type="button" class="text-button danger" id="clearJournal">Clear journal</button></div></div>
       </section>
-      <section class="transparency" id="about"><div class="transparency-icon">!</div><div><strong>Important: an honest data boundary.</strong><p>Virtual events are produced by random number generators and algorithms. Historical streaks do not reliably predict future rounds. This project does not access your account, place bets, or claim a winning edge. Any successful fetch must be checked against SportyBet itself before it is trusted.</p></div></section>
-      <footer><span>VIRTUALSCOPE / 5.1.0 · MERGED RESEARCH ENGINE</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
+</details><details class="settings-tools"><summary>About the data</summary>      <section class="transparency" id="about"><div class="transparency-icon">!</div><div><strong>Important: an honest data boundary.</strong><p>Virtual events are produced by random number generators and algorithms. Historical streaks do not reliably predict future rounds. This project does not access your account, place bets, or claim a winning edge. Any successful fetch must be checked against SportyBet itself before it is trusted.</p></div></section>
+</details></section>
+      <footer><span>SPORTYSCOPE / 5.2.0 · MERGED RESEARCH ENGINE</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
     </div>
   </main>
 </div>
-<script src="/assets/model.js?v=5.1.0" defer></script>
-<script src="/assets/research.js?v=5.1.0" defer></script>
-<script src="/assets/analysis.js?v=5.1.0" defer></script>
-<script src="/assets/tracking-model.js?v=5.1.0" defer></script>
-<script src="/assets/cloud-history.js?v=5.1.0" defer></script>
-<script src="/assets/tracker.js?v=5.1.0" defer></script>
-<script src="/assets/app.js?v=5.1.0" defer></script>
-<script src="/assets/ticket-review.js?v=5.1.0" defer></script>
-<script src="/assets/ticket-review-ui.js?v=5.1.0" defer></script>
-<script src="/assets/assistant-ui.js?v=5.1.0" defer></script>
+<nav class="mobile-nav" aria-label="Main navigation"><a data-screen-link="markets" href="#markets"><span aria-hidden="true">▦</span><span>Markets</span></a><a data-screen-link="picks" href="#research"><span aria-hidden="true">✦</span><span>Auto picks</span></a><a data-screen-link="tickets" href="#slip"><span aria-hidden="true">▤</span><span>Tickets</span></a><a data-screen-link="history" href="#ticketHistory"><span aria-hidden="true">◷</span><span>History</span></a><a data-screen-link="settings" href="#settings"><span aria-hidden="true">⚙</span><span>Settings</span></a></nav>
+<script src="/assets/supabase.js" defer></script>
+<script src="/assets/navigation.js?v=5.2.0" defer></script>
+<script src="/assets/account-ui.js?v=5.2.0" defer></script>
+<script src="/assets/model.js?v=5.2.0" defer></script>
+<script src="/assets/research.js?v=5.2.0" defer></script>
+<script src="/assets/analysis.js?v=5.2.0" defer></script>
+<script src="/assets/tracking-model.js?v=5.2.0" defer></script>
+<script src="/assets/persistence.js?v=5.2.0" defer></script>
+<script src="/assets/tracker.js?v=5.2.0" defer></script>
+<script src="/assets/app.js?v=5.2.0" defer></script>
+<script src="/assets/ticket-review.js?v=5.2.0" defer></script>
+<script src="/assets/ticket-review-ui.js?v=5.2.0" defer></script>
+<script src="/assets/assistant-ui.js?v=5.2.0" defer></script>
 </body>
 </html>

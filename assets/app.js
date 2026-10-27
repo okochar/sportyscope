@@ -3,7 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = { family: 'vFootball', mode: 'upcoming', apiEvents: [], importedEvents: [], selectedId: '', marketIndex: 0,
     selectedOutcome: 0, allMarkets: true, query: '', league: '', eventPage:1, origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
-  const VERSION = '5.1.0';
+  const VERSION = '5.2.0';
   const pending = new Map(), detailCache = new Map(), detailPending = new Set();
   const STORE_EVENTS = 'virtualscope.imported.v1';
   const STORE_JOURNAL = 'virtualscope.journal.v1';
@@ -14,10 +14,10 @@
   const canFetch=()=>['Real','vFootball','Scheduled','Instant'].includes(state.family);
 
   function getSaved(key) {
-    try { const v = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(v) ? v : []; }
+    try { const v = JSON.parse(localStorage.getItem(ScopeAccount.storageKey(key)) || '[]'); return Array.isArray(v) ? v : []; }
     catch { return []; }
   }
-  function save(key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch {} }
+  function save(key, value) { try { localStorage.setItem(ScopeAccount.storageKey(key), JSON.stringify(value)); } catch {} const name=key===STORE_SLIP?'slip':key===STORE_JOURNAL?'journal':key===STORE_EVENTS?'imports':null;if(name)window.ScopeWorkspace?.changed(name); }
   function safe(str) { return String(str ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]); }
   function firstText(...choices) {
     for (const s of choices) if (typeof s === 'string' && s.trim()) return s.trim();
@@ -136,7 +136,7 @@
     $('loadDetail')?.addEventListener('click',()=>loadDetail(event));
     $('marketSearch').addEventListener('input', e=>{const q=e.target.value.trim().toLowerCase(); $('allMarkets').querySelectorAll('details').forEach(d=>{d.hidden=!d.querySelector('summary').textContent.toLowerCase().includes(q);});});
     $('allMarkets').addEventListener('click',ev=>{const b=ev.target.closest('.slip-pick');if(!b)return;addSlip(event,event.markets[Number(b.dataset.market)],Number(b.dataset.outcome));});
-    $('prefillNote').addEventListener('click',()=>{$('journalEvent').value=`${event.home} vs ${event.away}`; $('log').scrollIntoView({behavior:'smooth',block:'center'});});
+    $('prefillNote').addEventListener('click',()=>{$('journalEvent').value=`${event.home} vs ${event.away}`; ScopeNavigation.go('log'); $('log').scrollIntoView({behavior:'smooth',block:'center'});});
   }
   function updateAll() {
     updateStats();updateLeagues();updateEventList();updateDetail();
@@ -257,11 +257,12 @@
   function addSlip(event,market,index){
     const outcome=market?.outcomes?.[index];if(!outcome||market.active===false||!outcome.active||!numOdds(outcome.odds))return;
     if(event.closeAt&&Date.now()>=event.closeAt){$('slipFeedback').textContent='This scheduled matchday has closed. Refresh the feed.';return;}
+    if(state.slip.length>=30&&!state.slip.some(p=>p.eventId===event.id)){$('slipFeedback').textContent='A ticket can contain at most 30 matches. Remove a selection before adding another.';return;}
     const identifier=[event.id,market.id,market.specifier||'',outcome.id||outcome.name].join('::');
     const item={identifier,eventId:event.id,family:event.gameType,rawEventId:event.rawEventId,source:event.origin,event:event.home+' vs '+event.away,market:market.name+(market.specifier?' · '+market.specifier:''),marketId:market.id,specifier:market.specifier||'',outcomeId:outcome.id,outcome:outcome.name,odds:outcome.odds,addedAt:new Date().toISOString(),roundId:event.roundId||'',sourceKind:event.sourceKind};
     // One pick per event avoids presenting correlated outcomes as an accumulator.
     state.slip=state.slip.filter(x=>x.eventId!==event.id);state.slip.push(item);save(STORE_SLIP,state.slip);renderSlip();
-    $('slipFeedback').textContent='Selection saved locally. One pick per event; adding another replaces it.';
+    $('slipFeedback').textContent='Selection added. Saving is automatic when signed in. One pick per event.';
   }
   function renderSlip(){
     const el=$('slipItems');if(!el)return;
@@ -331,7 +332,7 @@
       $('importFeedback').textContent=`✓ Imported ${count} event${count===1?'':'s'} as user-supplied data. No prices were retrieved from SportyBet.`;
       $('importFeedback').style.color='#c0f66b';
       setNotice(`Imported ${count} user-supplied events. These prices are not a SportyBet live connection.`);
-      document.getElementById('markets').scrollIntoView({behavior:'smooth'});
+      ScopeNavigation.go('markets');
     } catch(err) { $('importFeedback').style.color='#ffa6a0'; $('importFeedback').textContent=`Import failed: ${err.message}`; }
     finally {$('fileInput').value='';}
   }
@@ -346,7 +347,7 @@
     $('journalList').innerHTML=items.length?items.map(item=>`<div class="journal-entry"><span>${safe(item.name)}</span><small>${safe(item.result)}</small></div>`).join(''):'<p class="placeholder">No observations recorded.</p>';
   }
   function bind() {
-    $('trackSlip').addEventListener('click',async()=>{if(!state.slip.length||state.slip.length>30||new Set(state.slip.map(p=>p.family)).size!==1||state.slip.some(p=>p.sourceKind!=='api')){$('slipFeedback').textContent='Choose 1–30 provider selections in one category to track.';return;}await window.ScopeTracker?.add(state.slip);await window.ScopeTracker?.refresh();$('ticketHistory').scrollIntoView({behavior:'smooth'});});
+    $('trackSlip').addEventListener('click',async()=>{if(!state.slip.length||state.slip.length>30||new Set(state.slip.map(p=>p.family)).size!==1||state.slip.some(p=>p.sourceKind!=='api')){$('slipFeedback').textContent='Choose 1–30 provider selections in one category to track.';return;}await window.ScopeTracker?.add(state.slip);ScopeNavigation.go('ticketHistory');window.ScopeTracker?.refresh();});
     $('prevEvents').addEventListener('click',()=>{state.eventPage--;updateEventList();rememberView();});
     $('nextEvents').addEventListener('click',()=>{state.eventPage++;updateEventList();rememberView();});
     $('loadCodeForm').addEventListener('submit',async e=>{
@@ -432,4 +433,6 @@
     addPicks:picks=>{state.slip=[];for(const p of picks){const e={id:p.eventId,rawEventId:p.rawEventId,gameType:p.family,home:p.home,away:p.away,origin:p.source,sourceKind:'api',roundId:p.roundId||''};addSlip(e,{id:p.marketId,specifier:p.specifier,name:p.market,outcomes:[{id:p.outcomeId,name:p.outcome,odds:p.odds,active:true}]},0);}}
   };
   init();
+  const configs=[['slip',STORE_SLIP,()=>state.slip,value=>{state.slip=value;renderSlip();}],['journal',STORE_JOURNAL,()=>state.journal,value=>{state.journal=value;updateJournal();}],['imports',STORE_EVENTS,()=>state.importedEvents,value=>{state.importedEvents=value;updateAll();}]];
+  for(const [name,key,read,set]of configs){const cached=guest=>{try{const value=localStorage.getItem(guest?key:ScopeAccount.storageKey(key));return value?JSON.parse(value):null;}catch{return null;}};ScopeWorkspace.register(name,{read,cached:()=>cached(false),guest:()=>cached(true),empty:()=>[],apply(value){const rows=Array.isArray(value)?value:[];set(rows);try{localStorage.setItem(ScopeAccount.storageKey(key),JSON.stringify(rows));}catch{}}});}
 })();
