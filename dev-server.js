@@ -21,7 +21,7 @@ function createServer() {
         let body='';
         for await (const chunk of req) {
           body+=chunk;
-          if (Buffer.byteLength(body)>(url.pathname==='/api/account'?2500000:64000)){res.statusCode=413;res.end('Request too large');return;}
+          if (Buffer.byteLength(body)>(url.pathname==='/api/account'?2500000:url.pathname==='/api/tickets'?256000:64000)){res.statusCode=413;res.end('Request too large');return;}
         }
         req.body=body;
       }

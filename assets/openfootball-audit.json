@@ -1,183 +1,2034 @@
 {
   "provider": "OpenFootball",
+  "version": 2,
+  "sourceCommit": "e6744429ee395bc86f247348c6184bb08d4eb361",
   "licence": "CC0-1.0",
-  "licenceUrl": "https://raw.githubusercontent.com/openfootball/football.json/master/LICENSE.md",
-  "retrievedAt": "2026-10-26T14:27:52.733Z",
-  "records": 6083,
-  "profiles": 200,
-  "oldest": "2024-08-09",
-  "newest": "2026-09-20",
+  "licenceUrl": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/LICENSE.md",
+  "retrievedAt": "2026-10-28T08:19:18.021Z",
+  "records": 89706,
   "sources": [
     {
-      "league": "en.1",
-      "season": "2024-25",
-      "name": "English Premier League 2024/25",
-      "records": 380,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.1.json"
+      "file": "2010-11/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/at.1.json",
+      "name": "Österr. Bundesliga 2010/11",
+      "records": 180,
+      "rejected": 0
     },
     {
-      "league": "de.1",
-      "season": "2024-25",
+      "file": "2010-11/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/en.2.json",
+      "name": "English Championship 2010/11",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2010-11/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/de.1.json",
+      "name": "Deutsche Bundesliga 2010/11",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2010-11/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/en.1.json",
+      "name": "English Premier League 2010/11",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2010-11/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/at.2.json",
+      "name": "Österr. Erste Liga 2010/11",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2010-11/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/en.3.json",
+      "name": "English League One 2010/11",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2010-11/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2010-11/en.4.json",
+      "name": "English League Two 2010/11",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/de.1.json",
+      "name": "Deutsche Bundesliga 2011/12",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/at.2.json",
+      "name": "Österr. Erste Liga 2011/12",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/at.1.json",
+      "name": "Österr. Bundesliga 2011/12",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/en.1.json",
+      "name": "English Premier League 2011/12",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/en.4.json",
+      "name": "English League Two 2011/12",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/en.3.json",
+      "name": "English League One 2011/12",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/en.2.json",
+      "name": "English Championship 2011/12",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2011-12/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2011-12/uefa.cl.json",
+      "name": "UEFA Champions League 2011/12",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/at.1.json",
+      "name": "Österr. Bundesliga 2012/13",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/at.2.json",
+      "name": "Österr. Erste Liga 2012/13",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/de.1.json",
+      "name": "Deutsche Bundesliga 2012/13",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2012/13",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/en.1.json",
+      "name": "English Premier League 2012/13",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/en.2.json",
+      "name": "English Championship 2012/13",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/en.3.json",
+      "name": "English League One 2012/13",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/en.4.json",
+      "name": "English League Two 2012/13",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/es.1.json",
+      "name": "Primera División de España 2012/13",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/uefa.cl.json",
+      "name": "UEFA Champions League 2012/13",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2012-13/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2012-13/es.2.json",
+      "name": "Segunda División de España 2012/13",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/at.1.json",
+      "name": "Österr. Bundesliga 2013/14",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/at.2.json",
+      "name": "Österr. Erste Liga 2013/14",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/de.1.json",
+      "name": "Deutsche Bundesliga 2013/14",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2013/14",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/en.1.json",
+      "name": "English Premier League 2013/14",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/en.2.json",
+      "name": "English Championship 2013/14",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/en.4.json",
+      "name": "English League Two 2013/14",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/es.1.json",
+      "name": "Primera División de España 2013/14",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/en.3.json",
+      "name": "English League One 2013/14",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/es.2.json",
+      "name": "Segunda División de España 2013/14",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/it.2.json",
+      "name": "Italian Serie B 2013/14",
+      "records": 472,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/it.1.json",
+      "name": "Italian Serie A 2013/14",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2013-14/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2013-14/uefa.cl.json",
+      "name": "UEFA Champions League 2013/14",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/at.1.json",
+      "name": "Österr. Bundesliga 2014/15",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/ch.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/ch.1.json",
+      "name": "Swiss Super League 2014/15",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/at.2.json",
+      "name": "Österr. Erste Liga 2014/15",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/de.1.json",
+      "name": "Deutsche Bundesliga 2014/15",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2014/15",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/de.3.json",
+      "name": "Deutsche 3. Liga 2014/15",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/en.1.json",
+      "name": "English Premier League 2014/15",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/en.2.json",
+      "name": "English Championship 2014/15",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/es.1.json",
+      "name": "Primera División de España 2014/15",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/en.4.json",
+      "name": "English League Two 2014/15",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/en.3.json",
+      "name": "English League One 2014/15",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/fr.1.json",
+      "name": "French Ligue 1 2014/15",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/fr.2.json",
+      "name": "French Ligue 2 2014/15",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/es.2.json",
+      "name": "Segunda División de España 2014/15",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/it.1.json",
+      "name": "Italian Serie A 2014/15",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/uefa.cl.json",
+      "name": "UEFA Champions League 2014/15",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/at.2.json",
+      "name": "Österr. Erste Liga 2015/16",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/at.1.json",
+      "name": "Österr. Bundesliga 2015/16",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2014-15/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2014-15/it.2.json",
+      "name": "Italian Serie B 2014/15",
+      "records": 472,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/de.1.json",
+      "name": "Deutsche Bundesliga 2015/16",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2015/16",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/de.3.json",
+      "name": "Deutsche 3. Liga 2015/16",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/en.1.json",
+      "name": "English Premier League 2015/16",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/en.2.json",
+      "name": "English Championship 2015/16",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/en.3.json",
+      "name": "English League One 2015/16",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/es.1.json",
+      "name": "Primera División de España 2015/16",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/en.4.json",
+      "name": "English League Two 2015/16",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/fr.2.json",
+      "name": "French Ligue 2 2015/16",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/es.2.json",
+      "name": "Segunda División de España 2015/16",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/it.1.json",
+      "name": "Italian Serie A 2015/16",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/fr.1.json",
+      "name": "French Ligue 1 2015/16",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/uefa.cl.json",
+      "name": "UEFA Champions League 2015/16",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2015-16/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2015-16/it.2.json",
+      "name": "Italian Serie B 2015/16",
+      "records": 472,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/at.1.json",
+      "name": "Österr. Bundesliga 2016/17",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/at.2.json",
+      "name": "Österr. Erste Liga 2016/17",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/de.1.json",
+      "name": "Deutsche Bundesliga 2016/17",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2016/17",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/en.1.json",
+      "name": "English Premier League 2016/17",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/es.1.json",
+      "name": "Primera División de España 2016/17",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/es.2.json",
+      "name": "Segunda División de España 2016/17",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/de.3.json",
+      "name": "Deutsche 3. Liga 2016/17",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/fr.2.json",
+      "name": "French Ligue 2 2016/17",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/it.1.json",
+      "name": "Italian Serie A 2016/17",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/it.2.json",
+      "name": "Italian Serie B 2016/17",
+      "records": 470,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/at.2.json",
+      "name": "Österr. Erste Liga 2017/18",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/de.1.json",
+      "name": "Deutsche Bundesliga 2017/18",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/uefa.cl.json",
+      "name": "UEFA Champions League 2016/17",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2016-17/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2016-17/fr.1.json",
+      "name": "French Ligue 1 2016/17",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/at.1.json",
+      "name": "Österr. Bundesliga 2017/18",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2017/18",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/es.1.json",
+      "name": "Primera División de España 2017/18",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/de.3.json",
+      "name": "Deutsche 3. Liga 2017/18",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/en.1.json",
+      "name": "English Premier League 2017/18",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/fr.1.json",
+      "name": "French Ligue 1 2017/18",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/fr.2.json",
+      "name": "French Ligue 2 2017/18",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/es.2.json",
+      "name": "Segunda División de España 2017/18",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/uefa.cl.json",
+      "name": "UEFA Champions League 2017/18",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/it.2.json",
+      "name": "Italian Serie B 2017/18",
+      "records": 472,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/ar.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/ar.1.json",
+      "name": "Argentina Primera Division 2018/19",
+      "records": 325,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/at.cup.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/at.cup.json",
+      "name": "ÖFB Cup 2018/19",
+      "records": 63,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/at.1.json",
+      "name": "Österr. Bundesliga 2018/19",
+      "records": 195,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/at.2.json",
+      "name": "Österr. 2. Liga 2018/19",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/be.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/be.1.json",
+      "name": "Belgium First Division A 2018/19",
+      "records": 270,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/au.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/au.1.json",
+      "name": "Australia | A-League 2018/19",
+      "records": 140,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/ch.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/ch.1.json",
+      "name": "Swiss Super League 2018/19",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/cz.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/cz.1.json",
+      "name": "Czech Republic First League 2018/19",
+      "records": 277,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/de.1.json",
+      "name": "Deutsche Bundesliga 2018/19",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2017-18/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2017-18/it.1.json",
+      "name": "Italian Serie A 2017/18",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2018/19",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/de.cup.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/de.cup.json",
+      "name": "DFB Pokal 2018/19",
+      "records": 63,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/de.3.json",
+      "name": "Deutsche 3. Liga 2018/19",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/en.2.json",
+      "name": "English Championship 2018/19",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/en.3.json",
+      "name": "English League One 2018/19",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/en.1.json",
+      "name": "English Premier League 2018/19",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/en.4.json",
+      "name": "English League Two 2018/19",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/fr.2.json",
+      "name": "French Ligue 2 2018/19",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/es.1.json",
+      "name": "Primera División de España 2018/19",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/gr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/gr.1.json",
+      "name": "Greek Super League 2018/19",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/fr.1.json",
+      "name": "French Ligue 1 2018/19",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/hu.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/hu.1.json",
+      "name": "Hungarian Nemzeti Bajnokság I 2018/19",
+      "records": 198,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/it.1.json",
+      "name": "Italian Serie A 2018/19",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/mx.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/mx.1.json",
+      "name": "Liga MX 2018/19",
+      "records": 334,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/nl.1.json",
+      "name": "Netherlands Eredivisie 2018/19",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/it.2.json",
+      "name": "Italian Serie B 2018/19",
+      "records": 352,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/es.2.json",
+      "name": "Segunda División de España 2018/19",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/ru.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/ru.1.json",
+      "name": "Russia Premier League 2018/19",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/pt.1.json",
+      "name": "Portuguese Primeira Liga 2018/19",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/sco.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/sco.1.json",
+      "name": "Scottish Premiership 2018/19",
+      "records": 198,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/uefa.cl.json",
+      "name": "UEFA Champions League 2018/19",
+      "records": 125,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/ar.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/ar.1.json",
+      "name": "Argentina Primera Division 2019/20",
+      "records": 276,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/at.1.json",
+      "name": "Österr. Bundesliga 2019/20",
+      "records": 195,
+      "rejected": 0
+    },
+    {
+      "file": "2018-19/tr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2018-19/tr.1.json",
+      "name": "Turkish Süper Lig 2018/19",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/at.2.json",
+      "name": "Österr. 2. Liga 2019/20",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/at.cup.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/at.cup.json",
+      "name": "ÖFB Cup 2019/20",
+      "records": 63,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/be.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/be.1.json",
+      "name": "Belgium First Division A 2019/20",
+      "records": 232,
+      "rejected": 8
+    },
+    {
+      "file": "2019-20/ch.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/ch.1.json",
+      "name": "Swiss Super League 2019/20",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/ch.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/ch.2.json",
+      "name": "Swiss Challenge League 2019/20",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/de.1.json",
+      "name": "Deutsche Bundesliga 2019/20",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/de.cup.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/de.cup.json",
+      "name": "DFB Pokal 2019/20",
+      "records": 63,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/de.3.json",
+      "name": "Deutsche 3. Liga 2019/20",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2019/20",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/en.1.json",
+      "name": "English Premier League 2019/20",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/en.3.json",
+      "name": "English League One 2019/20",
+      "records": 400,
+      "rejected": 106
+    },
+    {
+      "file": "2019-20/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/en.4.json",
+      "name": "English League Two 2019/20",
+      "records": 440,
+      "rejected": 112
+    },
+    {
+      "file": "2019-20/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/en.2.json",
+      "name": "English Championship 2019/20",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/es.2.json",
+      "name": "Segunda División de España 2019/20",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/es.1.json",
+      "name": "Primera División de España 2019/20",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/fr.2.json",
+      "name": "French Ligue 2 2019/20",
+      "records": 280,
+      "rejected": 100
+    },
+    {
+      "file": "2019-20/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/fr.1.json",
+      "name": "French Ligue 1 2019/20",
+      "records": 279,
+      "rejected": 101
+    },
+    {
+      "file": "2019-20/gr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/gr.1.json",
+      "name": "Greek Super League 2019/20",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/it.1.json",
+      "name": "Italian Serie A 2019/20",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/mx.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/mx.1.json",
+      "name": "Liga MX 2019/20",
+      "records": 275,
+      "rejected": 63
+    },
+    {
+      "file": "2019-20/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/it.2.json",
+      "name": "Italian Serie B 2019/20",
+      "records": 390,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/nl.1.json",
+      "name": "Netherlands Eredivisie 2019/20",
+      "records": 232,
+      "rejected": 74
+    },
+    {
+      "file": "2019-20/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/pt.1.json",
+      "name": "Portuguese Primeira Liga 2019/20",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/ru.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/ru.2.json",
+      "name": "Russia 1. Division 2019/20",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/ru.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/ru.1.json",
+      "name": "Russia Premier League 2019/20",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/sco.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/sco.1.json",
+      "name": "Scottish Premiership 2019/20",
+      "records": 179,
+      "rejected": 19
+    },
+    {
+      "file": "2019-20/tr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/tr.2.json",
+      "name": "Turkish 1. Lig 2019/20",
+      "records": 311,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/tr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/tr.1.json",
+      "name": "Turkish Süper Lig 2019/20",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2019-20/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019-20/uefa.cl.json",
+      "name": "UEFA Champions League 2019/20",
+      "records": 119,
+      "rejected": 0
+    },
+    {
+      "file": "2019/br.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019/br.1.json",
+      "name": "Brasileiro Série A 2019",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2019/cn.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019/cn.1.json",
+      "name": "China | Super League 2019",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2019/jp.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2019/jp.1.json",
+      "name": "Japan | J1 League 2019",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/at.1.json",
+      "name": "Österr. Bundesliga 2020/21",
+      "records": 195,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/at.2.json",
+      "name": "Österr. 2. Liga 2020/21",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/at.cup.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/at.cup.json",
+      "name": "ÖFB Cup 2020/21",
+      "records": 62,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/be.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/be.1.json",
+      "name": "Belgium First Division A 2020/21",
+      "records": 330,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/ch.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/ch.1.json",
+      "name": "Swiss Super League 2020/21",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/ch.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/ch.2.json",
+      "name": "Swiss Challenge League 2020/21",
+      "records": 180,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/cz.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/cz.1.json",
+      "name": "Czech Republic First League 2020/21",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/de.1.json",
+      "name": "Deutsche Bundesliga 2020/21",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/de.cup.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/de.cup.json",
+      "name": "DFB Pokal 2020/21",
+      "records": 63,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/de.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/de.3.json",
+      "name": "Deutsche 3. Liga 2020/21",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2020/21",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/en.1.json",
+      "name": "English Premier League 2020/21",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/en.2.json",
+      "name": "English Championship 2020/21",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/en.4.json",
+      "name": "English League Two 2020/21",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/en.3.json",
+      "name": "English League One 2020/21",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/es.1.json",
+      "name": "Primera División de España 2020/21",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/es.2.json",
+      "name": "Segunda División de España 2020/21",
+      "records": 462,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/fr.2.json",
+      "name": "French Ligue 2 2020/21",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/fr.1.json",
+      "name": "French Ligue 1 2020/21",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/gr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/gr.1.json",
+      "name": "Greek Super League 2020/21",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/hu.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/hu.1.json",
+      "name": "Hungarian Nemzeti Bajnokság I 2020/21",
+      "records": 198,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/it.2.json",
+      "name": "Italian Serie B 2020/21",
+      "records": 388,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/it.1.json",
+      "name": "Italian Serie A 2020/21",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/nl.1.json",
+      "name": "Netherlands Eredivisie 2020/21",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/mx.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/mx.1.json",
+      "name": "Liga MX 2020/21",
+      "records": 342,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/pt.1.json",
+      "name": "Portuguese Primeira Liga 2020/21",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/ru.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/ru.1.json",
+      "name": "Russia Premier League 2020/21",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/sco.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/sco.1.json",
+      "name": "Scottish Premiership 2020/21",
+      "records": 198,
+      "rejected": 0
+    },
+    {
+      "file": "2020-21/tr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020-21/tr.1.json",
+      "name": "Turkish Süper Lig 2020/21",
+      "records": 420,
+      "rejected": 0
+    },
+    {
+      "file": "2020/br.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020/br.1.json",
+      "name": "Brasileiro Série A 2020",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2020/cn.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020/cn.1.json",
+      "name": "China | Super League 2020",
+      "records": 160,
+      "rejected": 0
+    },
+    {
+      "file": "2020/jp.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2020/jp.1.json",
+      "name": "Japan | J1 League 2020",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/at.1.json",
+      "name": "Österr. Bundesliga 2021/22",
+      "records": 195,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2021/22",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/de.1.json",
+      "name": "Deutsche Bundesliga 2021/22",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/en.1.json",
+      "name": "English Premier League 2021/22",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/en.2.json",
+      "name": "English Championship 2021/22",
+      "records": 557,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/it.1.json",
+      "name": "Italian Serie A 2021/22",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/es.1.json",
+      "name": "Primera División de España 2021/22",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/fr.1.json",
+      "name": "French Ligue 1 2021/22",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/nl.1.json",
+      "name": "Netherlands Eredivisie 2021/22",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/de.1.json",
+      "name": "Deutsche Bundesliga 2022/23",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/at.1.json",
+      "name": "Österr. Bundesliga 2022/23",
+      "records": 195,
+      "rejected": 0
+    },
+    {
+      "file": "2021-22/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2021-22/pt.1.json",
+      "name": "Portuguese Primeira Liga 2021/22",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2022/23",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/en.1.json",
+      "name": "English Premier League 2022/23",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/es.1.json",
+      "name": "Primera División de España 2022/23",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/en.2.json",
+      "name": "English Championship 2022/23",
+      "records": 557,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/fr.1.json",
+      "name": "French Ligue 1 2022/23",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/nl.1.json",
+      "name": "Netherlands Eredivisie 2022/23",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/it.1.json",
+      "name": "Italian Serie A 2022/23",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2022-23/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2022-23/pt.1.json",
+      "name": "Portuguese Primeira Liga 2022/23",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2023/24",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/at.1.json",
+      "name": "Österr. Bundesliga 2023/24",
+      "records": 195,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/de.1.json",
+      "name": "Deutsche Bundesliga 2023/24",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/en.1.json",
+      "name": "English Premier League 2023/24",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/en.2.json",
+      "name": "English Championship 2023/24",
+      "records": 557,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/fr.1.json",
+      "name": "French Ligue 1 2023/24",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/es.1.json",
+      "name": "Primera División de España 2023/24",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/it.1.json",
+      "name": "Italian Serie A 2023/24",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/nl.1.json",
+      "name": "Netherlands Eredivisie 2023/24",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2023-24/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2023-24/pt.1.json",
+      "name": "Portuguese Primeira Liga 2023/24",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/at.1.json",
+      "name": "Österr. Bundesliga 2024/25",
+      "records": 194,
+      "rejected": 1
+    },
+    {
+      "file": "2024-25/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/at.2.json",
+      "name": "Österr. 2. Liga 2024/25",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/au.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/au.1.json",
+      "name": "Australia | A-League 2024/25",
+      "records": 169,
+      "rejected": 7
+    },
+    {
+      "file": "2024-25/be.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/be.1.json",
+      "name": "Belgium First Division A 2024/25",
+      "records": 313,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/de.1.json",
       "name": "Deutsche Bundesliga 2024/25",
       "records": 306,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/de.1.json"
+      "rejected": 0
     },
     {
-      "league": "en.2",
-      "season": "2024-25",
+      "file": "2024-25/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2024/25",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/dz.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/dz.1.json",
+      "name": "Algeria | Ligue 1 2024/25",
+      "records": 160,
+      "rejected": 80
+    },
+    {
+      "file": "2024-25/eg.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/eg.1.json",
+      "name": "Egypt | Premiership 2024/25",
+      "records": 183,
+      "rejected": 42
+    },
+    {
+      "file": "2024-25/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/en.1.json",
+      "name": "English Premier League 2024/25",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/en.3.json",
+      "name": "English League One 2024/25",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/en.2.json",
       "name": "English Championship 2024/25",
       "records": 557,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.2.json"
+      "rejected": 0
     },
     {
-      "league": "es.1",
-      "season": "2024-25",
+      "file": "2024-25/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/en.4.json",
+      "name": "English League Two 2024/25",
+      "records": 552,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/es.1.json",
       "name": "Spain Primera División 2024/25",
       "records": 370,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/es.1.json"
+      "rejected": 10
     },
     {
-      "league": "it.1",
-      "season": "2024-25",
-      "name": "Italian Serie A 2024/25",
-      "records": 370,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/it.1.json"
-    },
-    {
-      "league": "fr.1",
-      "season": "2024-25",
+      "file": "2024-25/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/fr.1.json",
       "name": "French Ligue 1 2024/25",
       "records": 306,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/fr.1.json"
+      "rejected": 0
     },
     {
-      "league": "nl.1",
-      "season": "2024-25",
+      "file": "2024-25/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/fr.2.json",
+      "name": "French Ligue 2 2024/25",
+      "records": 306,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/es.2.json",
+      "name": "Spain Segunda División 2024/25",
+      "records": 453,
+      "rejected": 9
+    },
+    {
+      "file": "2024-25/gr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/gr.1.json",
+      "name": "Greek Super League 2024/25",
+      "records": 236,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/it.1.json",
+      "name": "Italian Serie A 2024/25",
+      "records": 370,
+      "rejected": 10
+    },
+    {
+      "file": "2024-25/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/it.2.json",
+      "name": "Italian Serie B 2024/25",
+      "records": 387,
+      "rejected": 3
+    },
+    {
+      "file": "2024-25/ma.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/ma.1.json",
+      "name": "Morocco | Botola Pro 1 2024/25",
+      "records": 200,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/mx.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/mx.1.json",
+      "name": "Liga MX 2024/25",
+      "records": 340,
+      "rejected": 0
+    },
+    {
+      "file": "2024-25/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/nl.1.json",
       "name": "Netherlands Eredivisie 2024/25",
       "records": 306,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/nl.1.json"
+      "rejected": 0
     },
     {
-      "league": "pt.1",
-      "season": "2024-25",
+      "file": "2024-25/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/pt.1.json",
       "name": "Portuguese Primeira Liga 2024/25",
       "records": 306,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/pt.1.json"
+      "rejected": 0
     },
     {
-      "league": "en.1",
-      "season": "2025-26",
-      "name": "English Premier League 2025/26",
-      "records": 353,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/en.1.json"
+      "file": "2024-25/sco.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/sco.1.json",
+      "name": "Scottish Premiership 2024/25",
+      "records": 228,
+      "rejected": 0
     },
     {
-      "league": "en.2",
-      "season": "2025-26",
-      "name": "English Championship 2025/26",
-      "records": 521,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/en.2.json"
+      "file": "2024-25/tr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/tr.1.json",
+      "name": "Turkish Süper Lig 2024/25",
+      "records": 338,
+      "rejected": 4
     },
     {
-      "league": "de.1",
-      "season": "2025-26",
+      "file": "2024-25/uefa.cl.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2024-25/uefa.cl.json",
+      "name": "UEFA Champions League 2024/25",
+      "records": 188,
+      "rejected": 1
+    },
+    {
+      "file": "2025-26/at.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/at.1.json",
+      "name": "Österr. Bundesliga 2025/26",
+      "records": 71,
+      "rejected": 61
+    },
+    {
+      "file": "2025-26/at.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/at.2.json",
+      "name": "Österr. 2. Liga 2025/26",
+      "records": 96,
+      "rejected": 144
+    },
+    {
+      "file": "2025-26/be.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/be.1.json",
+      "name": "Belgium First Division A 2025/26",
+      "records": 104,
+      "rejected": 136
+    },
+    {
+      "file": "2025-26/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/de.1.json",
       "name": "Deutsche Bundesliga 2025/26",
-      "records": 294,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/de.1.json"
+      "records": 306,
+      "rejected": 0
     },
     {
-      "league": "es.1",
-      "season": "2025-26",
+      "file": "2025-26/de.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/de.2.json",
+      "name": "Deutsche 2. Bundesliga 2025/26",
+      "records": 99,
+      "rejected": 207
+    },
+    {
+      "file": "2025-26/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/en.1.json",
+      "name": "English Premier League 2025/26",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2025-26/en.3.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/en.3.json",
+      "name": "English League One 2025/26",
+      "records": 356,
+      "rejected": 196
+    },
+    {
+      "file": "2025-26/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/en.2.json",
+      "name": "English Championship 2025/26",
+      "records": 557,
+      "rejected": 0
+    },
+    {
+      "file": "2025-26/en.4.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/en.4.json",
+      "name": "English League Two 2025/26",
+      "records": 276,
+      "rejected": 288
+    },
+    {
+      "file": "2025-26/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/es.1.json",
       "name": "Spain Primera División 2025/26",
-      "records": 365,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/es.1.json"
+      "records": 380,
+      "rejected": 0
     },
     {
-      "league": "fr.1",
-      "season": "2025-26",
+      "file": "2025-26/es.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/es.2.json",
+      "name": "Spain Segunda División 2025/26",
+      "records": 131,
+      "rejected": 331
+    },
+    {
+      "file": "2025-26/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/fr.1.json",
       "name": "French Ligue 1 2025/26",
-      "records": 282,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/fr.1.json"
+      "records": 305,
+      "rejected": 1
     },
     {
-      "league": "it.1",
-      "season": "2025-26",
+      "file": "2025-26/fr.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/fr.2.json",
+      "name": "French Ligue 2 2025/26",
+      "records": 116,
+      "rejected": 190
+    },
+    {
+      "file": "2025-26/gr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/gr.1.json",
+      "name": "Greek Super League 2025/26",
+      "records": 62,
+      "rejected": 120
+    },
+    {
+      "file": "2025-26/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/it.1.json",
       "name": "Italian Serie A 2025/26",
-      "records": 344,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/it.1.json"
+      "records": 380,
+      "rejected": 0
     },
     {
-      "league": "nl.1",
-      "season": "2025-26",
+      "file": "2025-26/it.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/it.2.json",
+      "name": "Italian Serie B 2025/26",
+      "records": 309,
+      "rejected": 71
+    },
+    {
+      "file": "2025-26/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/nl.1.json",
       "name": "Netherlands Eredivisie 2025/26",
-      "records": 295,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/nl.1.json"
+      "records": 305,
+      "rejected": 1
     },
     {
-      "league": "pt.1",
-      "season": "2025-26",
+      "file": "2025-26/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/pt.1.json",
       "name": "Portuguese Primeira Liga 2025/26",
-      "records": 287,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2025-26/pt.1.json"
+      "records": 306,
+      "rejected": 0
     },
     {
-      "league": "en.1",
-      "season": "2026-27",
-      "name": "English Premier League 2026/27",
-      "records": 45,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/en.1.json"
+      "file": "2025-26/sco.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/sco.1.json",
+      "name": "Scottish Premiership 2025/26",
+      "records": 63,
+      "rejected": 135
     },
     {
-      "league": "de.1",
-      "season": "2026-27",
+      "file": "2025-26/tr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025-26/tr.1.json",
+      "name": "Turkish Süper Lig 2025/26",
+      "records": 99,
+      "rejected": 207
+    },
+    {
+      "file": "2025/ar.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/ar.1.json",
+      "name": "Argentina Primera Division 2025",
+      "records": 240,
+      "rejected": 0
+    },
+    {
+      "file": "2025/br.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/br.1.json",
+      "name": "Brasileiro Série A 2025",
+      "records": 380,
+      "rejected": 0
+    },
+    {
+      "file": "2025/br.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/br.2.json",
+      "name": "Brasileiro Série B 2025",
+      "records": 57,
+      "rejected": 323
+    },
+    {
+      "file": "2025/co.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/co.1.json",
+      "name": "Colombia Primera A 2025",
+      "records": 167,
+      "rejected": 33
+    },
+    {
+      "file": "2025/cn.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/cn.1.json",
+      "name": "China | Super League 2025",
+      "records": 79,
+      "rejected": 161
+    },
+    {
+      "file": "2025/copa.l.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/copa.l.json",
+      "name": "Copa Libertadores 2025",
+      "records": 154,
+      "rejected": 1
+    },
+    {
+      "file": "2025/jp.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/jp.1.json",
+      "name": "Japan | J1 League 2025",
+      "records": 136,
+      "rejected": 244
+    },
+    {
+      "file": "2026-27/de.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/de.1.json",
       "name": "Deutsche Bundesliga 2026/27",
-      "records": 33,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/de.1.json"
+      "records": 36,
+      "rejected": 270
     },
     {
-      "league": "es.1",
-      "season": "2026-27",
-      "name": "Spain Primera División 2026/27",
-      "records": 64,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/es.1.json"
+      "file": "2025/mls.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2025/mls.json",
+      "name": "Major League Soccer 2025",
+      "records": 164,
+      "rejected": 346
     },
     {
-      "league": "en.2",
-      "season": "2026-27",
+      "file": "2026-27/en.2.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/en.2.json",
       "name": "English Championship 2026/27",
-      "records": 88,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/en.2.json"
+      "records": 95,
+      "rejected": 457
     },
     {
-      "league": "fr.1",
-      "season": "2026-27",
+      "file": "2026-27/en.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/en.1.json",
+      "name": "English Premier League 2026/27",
+      "records": 50,
+      "rejected": 330
+    },
+    {
+      "file": "2026-27/fr.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/fr.1.json",
       "name": "French Ligue 1 2026/27",
-      "records": 41,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/fr.1.json"
+      "records": 45,
+      "rejected": 261
     },
     {
-      "league": "it.1",
-      "season": "2026-27",
+      "file": "2026-27/es.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/es.1.json",
+      "name": "Spain Primera División 2026/27",
+      "records": 69,
+      "rejected": 311
+    },
+    {
+      "file": "2026-27/it.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/it.1.json",
       "name": "Italian Serie A 2026/27",
       "records": 50,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/it.1.json"
+      "rejected": 330
     },
     {
-      "league": "nl.1",
-      "season": "2026-27",
+      "file": "2026-27/nl.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/nl.1.json",
       "name": "Netherlands Eredivisie 2026/27",
-      "records": 62,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/nl.1.json"
+      "records": 63,
+      "rejected": 243
     },
     {
-      "league": "pt.1",
-      "season": "2026-27",
+      "file": "2026-27/pt.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026-27/pt.1.json",
       "name": "Portuguese Primeira Liga 2026/27",
-      "records": 58,
-      "url": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/pt.1.json"
+      "records": 62,
+      "rejected": 244
+    },
+    {
+      "file": "2026/br.1.json",
+      "url": "https://raw.githubusercontent.com/openfootball/football.json/e6744429ee395bc86f247348c6184bb08d4eb361/2026/br.1.json",
+      "name": "Brasileiro Série A 2026",
+      "records": 277,
+      "rejected": 103
     }
   ],
   "failed": [],
-  "coverage": "Dated results and available half-time scores. No corners, shots, cards, possession, player or xG coverage is implied.",
-  "identityPolicy": "Separate provider namespace. No fuzzy joins or duplicate cross-provider matches are added to the SportyBet model."
+  "identityPolicy": "Real football only. Exact normalized labels and explicit aliases; ambiguous identities are not joined. Overlapping SportyBet result rows take precedence.",
+  "digest": "b3d6d25ee16697ab5af10ac5d34237181e623c54cc221f8a3ae16c65b1398ff9",
+  "profiles": 1296,
+  "oldest": "2010-07-12",
+  "newest": "2026-09-20",
+  "coverage": "Completed dated scores and explicit half-time scores. Corners, shots, injuries, xG and every match ever played are not covered."
 }

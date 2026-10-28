@@ -3,7 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = { family: 'vFootball', mode: 'upcoming', apiEvents: [], importedEvents: [], selectedId: '', marketIndex: 0,
     selectedOutcome: 0, allMarkets: true, query: '', league: '', eventPage:1, origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
-  const VERSION = '5.2.0';
+  const VERSION = '5.3.0';
   const pending = new Map(), detailCache = new Map(), detailPending = new Set();
   const STORE_EVENTS = 'virtualscope.imported.v1';
   const STORE_JOURNAL = 'virtualscope.journal.v1';
@@ -257,7 +257,7 @@
   function addSlip(event,market,index){
     const outcome=market?.outcomes?.[index];if(!outcome||market.active===false||!outcome.active||!numOdds(outcome.odds))return;
     if(event.closeAt&&Date.now()>=event.closeAt){$('slipFeedback').textContent='This scheduled matchday has closed. Refresh the feed.';return;}
-    if(state.slip.length>=30&&!state.slip.some(p=>p.eventId===event.id)){$('slipFeedback').textContent='A ticket can contain at most 30 matches. Remove a selection before adding another.';return;}
+    if(state.slip.length>=50&&!state.slip.some(p=>p.eventId===event.id)){$('slipFeedback').textContent='A ticket can contain at most 50 matches. Remove a selection before adding another.';return;}
     const identifier=[event.id,market.id,market.specifier||'',outcome.id||outcome.name].join('::');
     const item={identifier,eventId:event.id,family:event.gameType,rawEventId:event.rawEventId,source:event.origin,event:event.home+' vs '+event.away,market:market.name+(market.specifier?' · '+market.specifier:''),marketId:market.id,specifier:market.specifier||'',outcomeId:outcome.id,outcome:outcome.name,odds:outcome.odds,addedAt:new Date().toISOString(),roundId:event.roundId||'',sourceKind:event.sourceKind};
     // One pick per event avoids presenting correlated outcomes as an accumulator.
@@ -271,9 +271,9 @@
     $('slipCount').textContent=String(state.slip.length);
     const combined=state.slip.reduce((p,s)=>p*Number(s.odds),1);
     $('slipOdds').textContent=state.slip.length&&families.size===1&&Number.isFinite(combined)?combined.toFixed(2):families.size>1?'Separate products · no combined accumulator':'—';
-    const eligible=state.slip.length>0 && state.slip.length<=30 && families.size===1 && state.slip.every(s=>s.sourceKind==='api' && ['Real','vFootball'].includes(s.family) && s.rawEventId && s.marketId && s.outcomeId);
+    const eligible=state.slip.length>0 && state.slip.length<=50 && families.size===1 && state.slip.every(s=>s.sourceKind==='api' && ['Real','vFootball'].includes(s.family) && s.rawEventId && s.marketId && s.outcomeId);
     $('bookSlip').disabled=!eligible;
-    $('bookingInfo').textContent=eligible?'SportyBet will validate these selections and issue a reservation code. No stake or account is used.':'Booking supports 1–30 fetched real-football or vFootball selections in one category. Instant, Scheduled and imported picks remain local.';
+    $('bookingInfo').textContent=eligible?'SportyBet will validate these selections and issue a reservation code. No stake or account is used.':'Booking supports 1–50 fetched real-football or vFootball selections in one category. Instant, Scheduled and imported picks remain local.';
     const signature=JSON.stringify(state.slip);
     if($('bookingResult').dataset.slip!==signature){$('bookingResult').replaceChildren();$('bookingResult').dataset.slip=signature;}
   }
@@ -288,7 +288,7 @@
       $('bookingResult').innerHTML='<strong>SportyBet code: '+safe(obj.code)+'</strong> · <a class="text-button" href="'+safe(obj.url)+'" target="_blank" rel="noopener noreferrer">Load on SportyBet ↗</a><p>'+safe(obj.note)+'</p>';
       window.ScopeTracker?.add(picks,obj.code);
     }catch(e){$('bookingResult').textContent='No verified code available: '+e.message;}
-    finally{$('bookSlip').disabled=!(state.slip.length>0 && state.slip.length<=30 && new Set(state.slip.map(s=>s.family)).size===1 && state.slip.every(s=>s.sourceKind==='api'&&['Real','vFootball'].includes(s.family)&&s.rawEventId&&s.marketId&&s.outcomeId));}
+    finally{$('bookSlip').disabled=!(state.slip.length>0 && state.slip.length<=50 && new Set(state.slip.map(s=>s.family)).size===1 && state.slip.every(s=>s.sourceKind==='api'&&['Real','vFootball'].includes(s.family)&&s.rawEventId&&s.marketId&&s.outcomeId));}
   }
   function csvRows(text) {
     const rows=[];let row=[],cell='',quoted=false;
@@ -347,7 +347,7 @@
     $('journalList').innerHTML=items.length?items.map(item=>`<div class="journal-entry"><span>${safe(item.name)}</span><small>${safe(item.result)}</small></div>`).join(''):'<p class="placeholder">No observations recorded.</p>';
   }
   function bind() {
-    $('trackSlip').addEventListener('click',async()=>{if(!state.slip.length||state.slip.length>30||new Set(state.slip.map(p=>p.family)).size!==1||state.slip.some(p=>p.sourceKind!=='api')){$('slipFeedback').textContent='Choose 1–30 provider selections in one category to track.';return;}await window.ScopeTracker?.add(state.slip);ScopeNavigation.go('ticketHistory');window.ScopeTracker?.refresh();});
+    $('trackSlip').addEventListener('click',async()=>{if(!state.slip.length||state.slip.length>50||new Set(state.slip.map(p=>p.family)).size!==1||state.slip.some(p=>p.sourceKind!=='api')){$('slipFeedback').textContent='Choose 1–50 provider selections in one category to track.';return;}await window.ScopeTracker?.add(state.slip);ScopeNavigation.go('ticketHistory');window.ScopeTracker?.refresh();});
     $('prevEvents').addEventListener('click',()=>{state.eventPage--;updateEventList();rememberView();});
     $('nextEvents').addEventListener('click',()=>{state.eventPage++;updateEventList();rememberView();});
     $('loadCodeForm').addEventListener('submit',async e=>{
@@ -430,6 +430,7 @@
     snapshot:family=>cacheFor(family+':upcoming'),
     refresh:family=>fetchSporty({family,mode:'upcoming'}),
     selected:()=>detailEvent(),
+    loadVerified:p=>{state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();},
     addPicks:picks=>{state.slip=[];for(const p of picks){const e={id:p.eventId,rawEventId:p.rawEventId,gameType:p.family,home:p.home,away:p.away,origin:p.source,sourceKind:'api',roundId:p.roundId||''};addSlip(e,{id:p.marketId,specifier:p.specifier,name:p.market,outcomes:[{id:p.outcomeId,name:p.outcome,odds:p.odds,active:true}]},0);}}
   };
   init();

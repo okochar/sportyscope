@@ -4,9 +4,9 @@ const p={family:'Real',rawEventId:'sr:match:1',marketId:'18',specifier:'total=1.
 const identity={async user(req){const key=/^Bearer ([ab]{64})$/.exec(req.headers.authorization||'')?.[1];return key?{id:key[0],owner:hash('account:'+key[0])}:null;}};
 function ticket(){return {id:'Real|Real|sr:match:1|18|total=1.5|12',family:'Real',createdAt:Date.now(),picks:[p],code:'ABC123'};}
 function run(handler,method,token='a'.repeat(64),body,query={},origin){return new Promise(resolve=>{const res={headers:{},setHeader(k,v){this.headers[k]=v;},end(s){resolve({status:this.statusCode,body:JSON.parse(s),headers:this.headers});}};handler({method,headers:{host:'localhost',...(token?{authorization:'Bearer '+token}:{}),...(origin?{origin}:{})},body,query},res);});}
-test('Cloud tickets validate identities, keep 30-leg limit and discard arbitrary payload fields',()=>{
+test('Cloud tickets validate identities, keep 50-leg limit and discard arbitrary payload fields',()=>{
  const clean=sanitize({...ticket(),serviceKey:'never-save',picks:[{...p,arbitrary:'discard'}]});assert.equal(clean.id,ticket().id);assert.equal(clean.serviceKey,undefined);assert.equal(clean.picks[0].arbitrary,undefined);assert.equal(clean.picks[0].probability,.8);
- assert.throws(()=>sanitize({...ticket(),id:'other'}),/identity/);assert.throws(()=>sanitize({...ticket(),picks:[p,p]}),/duplicate/);assert.throws(()=>sanitize({...ticket(),picks:Array(31).fill(p)}),/30/);assert.throws(()=>sanitize({...ticket(),picks:[{...p,family:'vFootball'}]}));
+ assert.throws(()=>sanitize({...ticket(),id:'other'}),/identity/);assert.throws(()=>sanitize({...ticket(),picks:[p,p]}),/duplicate/);assert.throws(()=>sanitize({...ticket(),picks:Array(51).fill(p)}),/50/);assert.throws(()=>sanitize({...ticket(),picks:[{...p,family:'vFootball'}]}));
  assert.notEqual(owner({authorization:'Bearer '+'a'.repeat(64)}),owner({authorization:'Bearer '+'b'.repeat(64)}));assert.throws(()=>owner({}));
 });
 test('Private ticket API scopes backups by hashed recovery key and supports restore pagination',async()=>{

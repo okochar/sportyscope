@@ -90,7 +90,7 @@ test('Price fallback is explicit and uses no invented historical samples',()=>{
  const fallback=require('../lib/price-fallback'),r=fallback({...event,markets:[market]},'History absent');assert.equal(r.evidenceMode,'price');assert.equal(r.home,undefined);assert.equal(r.comparisons.length,2);assert.ok(r.issues.some(s=>s.includes('not a historical prediction')));
 });
 test('Thirty distinct legs can be assembled when requested and supported',()=>{
- const cs=Array.from({length:30},(_,i)=>({rawEventId:'e'+i,odds:1.25,score:.9})),p=A.assemble(cs,{legs:30,targetOdds:1.25**30});assert.equal(p.length,30);assert.equal(A.settings({legs:30}).legs,30);assert.throws(()=>A.settings({legs:31}));
+ const cs=Array.from({length:30},(_,i)=>({rawEventId:'e'+i,odds:1.25,score:.9})),p=A.assemble(cs,{legs:30,targetOdds:1.25**30});assert.equal(p.length,30);assert.equal(A.settings({legs:30}).legs,30);assert.throws(()=>A.settings({legs:51}));
 });
 test('Existing SportyBet code loads all selected current prices without placing an order',async()=>{
  const {loadCode}=require('../lib/booking'),fixture=require('./fixtures/booking-loaded.json');let called=0;

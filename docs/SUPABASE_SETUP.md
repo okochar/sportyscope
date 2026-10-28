@@ -1,34 +1,30 @@
-# Supabase account storage — V5.2
+# Account storage — V5.3
 
-The live SportyScope project uses Supabase for shared football knowledge and private account workspaces. Database credentials are entered once in Vercel, never on a visitor's device. Recovery keys and manual synchronization have been removed.
+The connected project is SportyScope, zvwdvsibbnkekzcvkjtb. Production server variables SUPABASE_URL, SUPABASE_SECRET_KEY and SUPABASE_PUBLISHABLE_KEY are configured. Do not enter service credentials into the website or chat. The setup SQL and account-review migration have been applied; new installations can use assets/supabase-setup.sql.
 
-## Existing project
+## Existing email-link account: set a password once
 
-The connected project is SportyScope (zvwdvsibbnkekzcvkjtb). Its original six tables were present and healthy. The initial connection failure came from the missing SUPABASE_SECRET_KEY in Vercel Production. SUPABASE_URL alone cannot authenticate the server. A localhost test server also does not inherit Vercel's production variables.
+1. Open https://sportyscope.vercel.app/#settings and keep the Log in tab selected.
+2. Enter the same email used previously and choose Set or reset password. No password is needed for this button.
+3. Open the newest reset email once. It must return to the live SportyScope URL, not localhost. Choose and confirm a password with at least 8 characters.
+4. You stay signed in. On another device choose Log in with that email and password. A new account uses Create account and confirms its email once.
 
-The account-workspace and event-trigger permission migrations have now been applied to the connected database. New installations can run assets/supabase-setup.sql once. Server variables in Production are:
+Email requests are not successful sign-ins. An expired or reused callback shows a clear recovery message. Failed credentials and unconfirmed emails get actionable feedback. The official SDK remembers and refreshes sessions. Account workspaces save automatically; there is no manual sync or recovery-key flow.
 
-- SUPABASE_URL: the project API URL, not the dashboard URL or database connection string.
-- SUPABASE_SECRET_KEY: the server secret; legacy SUPABASE_SERVICE_ROLE_KEY also works.
-- SUPABASE_PUBLISHABLE_KEY: the enabled publishable key for the official browser SDK. This is public; it never grants direct access to private application tables.
+## Supabase redirect settings
 
-After changing variables, redeploy Production. Settings → Database connection performs actual table reads and reports precise failures. The app automatically prepares its bundled legacy and OpenFootball archives in the database, and research/result requests persist current verified provider observations and snapshots.
+In Authentication → URL Configuration, Site URL must be https://sportyscope.vercel.app and Redirect URLs must include https://sportyscope.vercel.app/**. The user confirmed both settings were saved on 28 October 2026. Email authentication must remain enabled. The default Supabase sender has restrictions/rate limits; external users may require custom SMTP. The app reports actual provider errors.
 
-## Sign in once on each device
+## Automatic persistence
 
-1. In Supabase → Authentication → URL Configuration, set Site URL to https://sportyscope.vercel.app and allow https://sportyscope.vercel.app/** as a redirect URL. Email authentication must be enabled. If using a local development callback, explicitly allow that development origin too.
-2. Open the LIVE site → Settings. Enter your email and choose Email me a sign-in link. Open the link on that device. Use the same email on another device to load the same account.
-3. Your session is remembered and refreshed by the official Supabase SDK. The app automatically saves tickets, current slip, analysis preferences, imports and outcome journal. Existing device drafts and history are migrated into the first signed-in account on that browser. Each account's local cache is kept separate.
-4. The save bar reports saving, saved or a concrete failure. When two devices edit the same slip/preferences simultaneously, Settings offers the cloud version or the retained device draft. This prevents silent overwrites. A read-only new device never replaces an existing cloud slip with an empty one.
+Current slip, picker preferences, imports, outcome journal and code-review snapshots live in scope_workspace, keyed to the verified auth user. Tickets live in scope_tickets with server-derived ownership. Changed components queue a background save after 400 ms; ticket and result updates also queue persistence. A stable Saved to Supabase message confirms completion, while real failures stay visible. Local drafts survive connection failures. Conflicting changes on two devices retain the local draft and offer an explicit choice in Account.
 
-Supabase's default email sender may only deliver to project organization members and has rate limits. Configure a custom SMTP sender to support other email addresses. The app displays provider errors; it does not claim that an email was sent when Supabase rejects it.
+Legacy device drafts and earlier private-key ticket backups migrate into the first account used in that browser automatically. Keys are not requested from users or sent to another account. Restored result claims are reverified before learning. Public shared research data never receives untrusted private backup outcomes as training evidence.
 
-## Storage boundaries
+## Shared data
 
-Private account components live in scope_workspace, keyed by verified Supabase user ID and component. Tickets use a stable hash of the verified user ID in scope_tickets. Every protected request verifies the bearer token through Supabase's user endpoint; browser-provided IDs and user_metadata never grant access. All application tables have RLS and visitor table privileges revoked. The workspace save RPC uses invoker rights, restricted execution and optimistic revisions.
+The static CC0 archive imports in bounded, resumable chunks from the bundled source snapshot. Complete chunks are retained across visits; the manifest includes source commit, digest and actual row count. SportyBet real-team snapshots and new/corrected observations are retained as research runs. vFootball result histories are separate and retained incrementally. The app does not claim that score archives provide corners, injuries or every historical match.
 
-Shared histories, model versions, source-separated identities, observations and condition profiles remain separate from private notes and ticket backups. Browser backups never become trusted training results. Restored statuses are rechecked against the provider before local calibration.
+The browser receives only an enabled publishable key. Private API requests verify users through Supabase getUser; user_metadata and browser-supplied user IDs do not authorize records. Tables have RLS and visitor grants revoked. The CAS save function uses invoker rights and restricted execution. Account changes do not modify these security boundaries.
 
-Automatic saving and result checks run while the app is open and catch up when it returns. This release does not add an unattended server worker. Feeds remain complete snapshots with 30 visible games per page; they are not all saved as personal tickets.
-
-Official documentation: https://supabase.com/docs/guides/auth/auth-email-passwordless and https://vercel.com/docs/environment-variables/managing-environment-variables
+Official reference: https://supabase.com/docs/guides/auth/passwords

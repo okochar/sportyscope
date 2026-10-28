@@ -59,14 +59,27 @@
     if(id==='45'&&!m.specifier){const c=/^(\d+)\s*:\s*(\d+)$/.exec(name);if(c)return (h,a)=>h===Number(c[1])&&a===Number(c[2]);}
     return null;
   }
-  function compare(event,fitted){
+  function historical(event,records,row){
+    const settle=settlement({id:row.marketId,specifier:row.specifier},{id:row.outcomeId,name:row.outcome});if(!settle)return null;
+    const samples=[],seen=new Set();
+    for(const r of records){
+      if(seen.has(r.id))continue;let pair=row.period==='first'?r.ht:row.period==='second'?r.ht&&r.ft.map((v,i)=>v-r.ht[i]):r.ft;if(!pair)continue;
+      // Use actual home appearances of the home team and away appearances of
+      // the away team; one match contributes once even if both teams appear.
+      if(r.homeId!==event.homeId&&r.awayId!==event.awayId)continue;
+      seen.add(r.id);const value=settle(...pair);if(value===null)continue;samples.push(value);
+    }
+    if(!samples.length)return null;const wins=samples.filter(v=>v===true).length,voids=samples.filter(v=>v==='void').length;
+    return {samples:samples.length,wins,voids,rate:wins/samples.length,definition:'Observed condition frequency in available home-team home fixtures and away-team away fixtures, deduplicated; not a calibrated future probability.'};
+  }
+  function compare(event,fitted,records=[]){
     const distributions=fitted?{full:grid(fitted),first:fitted.first?grid(fitted.first):null,second:fitted.second?grid(fitted.second):null}:{},rows=[],unsupported=new Map();let assessed=0,modeledMarkets=0;
     const first=new Set(['60','63','64','65','66','68','69','70','75','81']),second=new Set(['83','85','87','88','90','91','92']);
     for(const m of event.markets||[]){let supported=false;const period=first.has(m.id)?'first':second.has(m.id)?'second':'full',distribution=distributions[period];for(const o of m.outcomes||[]){assessed++;const settle=settlement(m,o);if(!settle||!distribution)continue;supported=true;
       let win=0,voidP=0;for(const s of distribution){const v=settle(s.home,s.away);if(v===true)win+=s.p;else if(v==='void')voidP+=s.p;}
       const odds=Number(o.odds),loss=Math.max(0,1-win-voidP),ev=win*(odds-1)-loss;
       if(!Number.isFinite(odds)||odds<1.01)continue;
-      rows.push({marketId:m.id,market:m.name,specifier:m.specifier||'',period,outcomeId:o.id,outcome:o.name,odds,probability:win,voidProbability:voidP,expectedReturn:ev,priceThreshold:(1-voidP)/odds,active:m.active!==false&&o.active!==false});
+      const row={marketId:m.id,market:m.name,specifier:m.specifier||'',period,outcomeId:o.id,outcome:o.name,odds,probability:win,voidProbability:voidP,expectedReturn:ev,priceThreshold:(1-voidP)/odds,active:m.active!==false&&o.active!==false};row.empirical=historical(event,records,row);rows.push(row);
     }if(supported)modeledMarkets++;else{const key=m.name||m.id;unsupported.set(key,(unsupported.get(key)||0)+1);}}
     return {rows:rows.sort((a,b)=>b.expectedReturn-a.expectedReturn),marketsReturned:event.markets?.length||0,outcomesAssessed:assessed,modeledMarkets,unmodeled:[...unsupported].map(([name,count])=>({name,count,reason:/corner|booking|card|shot|player|minute/i.test(name)?'Required event/player history is not ingested.':'Settlement or dependency model not verified.'}))};
   }
@@ -83,7 +96,7 @@
     const home=profile(records,event.homeId,now),away=profile(records,event.awayId,now),h2h=records.filter(r=>(r.homeId===event.homeId&&r.awayId===event.awayId)||(r.homeId===event.awayId&&r.awayId===event.homeId)).sort((a,b)=>b.time-a.time);
     const fitted=fit(records,event.homeId,event.awayId,now);
     if(fitted){const halves=records.filter(r=>r.ht);fitted.first=fit(halves.map(r=>({...r,ft:r.ht})),event.homeId,event.awayId,now);fitted.second=fit(halves.map(r=>({...r,ft:r.ft.map((v,i)=>v-r.ht[i])})),event.homeId,event.awayId,now);}
-    const markets=compare(event,fitted),validation={home:backtest(records,event.homeId,now),away:backtest(records,event.awayId,now)};
+    const markets=compare(event,fitted,records),validation={home:backtest(records,event.homeId,now),away:backtest(records,event.awayId,now)};
     const issues=[];for(const [label,p]of [['Home',home],['Away',away]]){if(p.total.games<20)issues.push(label+' team has fewer than 20 completed regular-time results.');if(!p.newest||now-p.newest>30*DAY)issues.push(label+' team results are over 30 days old or missing.');}
     if(!histories.every(h=>h.complete))issues.push('History pagination is incomplete.');
     if(fitted&&(fitted.homeVenue<6||fitted.awayVenue<6))issues.push('Fewer than six results for the required home/away venue.');
@@ -97,5 +110,5 @@
       {name:'Lineups, injuries, transfers, tactics, news, standings',status:'reference',detail:'SportyBet exposes match/team research pages. These contextual fields are not yet ingested or included in the statistical model.'}
     ]};
   }
-  return {profile,metrics,fit,poisson,grid,canonical,settlement,compare,backtest,build};
+  return {profile,metrics,fit,poisson,grid,canonical,settlement,historical,compare,backtest,build};
 });

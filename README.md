@@ -1,48 +1,35 @@
-# SportyScope 5.2
+# SportyScope 5.3
 
-Unofficial football research workspace with separate Real, vFootball, Scheduled and anonymous Instant products. It never signs into a betting account, submits a stake or places a bet.
+Football research for separate Real, vFootball, Scheduled and anonymous Instant products. The app does not access a betting account, submit a stake or place a bet.
 
 ## Run
 
-Node 20 or newer. The official Supabase SDK is pinned in package-lock.json, with its browser distribution served locally.
+Use Node 20 or newer. Run npm ci, npm start and npm test. Production is https://sportyscope.vercel.app. Local servers do not inherit Vercel variables. Deploy static assets and all API routes together; clients reject mismatched versions.
 
-```sh
-npm ci
-npm start
-npm test
-```
+## Main flows
 
-Vercel deploys the static page and `/api` functions. Deploy the full repository together; the browser rejects mismatched API versions. Functions allow up to 60 seconds for historical collection and code verification.
+- Markets: all fixture pages and returned markets, with 30 matches visible per page.
+- Auto picks: choose target odds, product, time window, minimum leg odds, maximum 50 legs and minimum 75–99% model estimate (80% default). There is no 1,000 target-odds ceiling; any finite target of at least 1.10 is accepted.
+- The strongest supported market is selected on each match first. Matches are ranked by the lesser of modeled probability and available observed frequency. The odds target only stops adding legs; it cannot select a weaker high-odds market. Unreachable targets show the shortfall. Price-only forecasts never qualify. At least 20 result rows per team and 20 observed comparisons where available are required.
+- Check code: paste a SportyBet booking code directly, load all up to 50 legs, retain qualifying legs and replace weaker legs with the strongest supported market on the same match. No replacement-odds control. Missing evidence stays unresolved. The revision can be reserved only when every leg meets the filter. Same-match dependence prevents a combined percentage, not individual leg review.
+- History: per-leg pending/won/lost/void/unverified results; provider-verified outcomes enter local diagnostics and subsequent history refreshes. Personal backup statuses are not trusted as shared training data.
+- Account: Create account, Log in with password, Set/reset password and change password. Sessions persist and refresh. Slips, preferences, imports, journal, reviewed codes and tracked tickets save automatically, with offline device retention and conflict protection. No manual save button or visitor-entered database key.
+- Actions have inline status, compact notifications and scan/review progress. Background saves do not repeatedly flash an updating message. Research starts automatically in Auto picks when enabled; feed refreshes retain data across screen changes.
 
-## Available features
+## Data and models
 
-- Markets, Auto picks, Tickets, History and Settings are separate screens. Mobile navigation remains accessible at the bottom. Building/loading and evaluating tickets have their own views.
-- Sign in once using an email link. Supabase sessions are remembered and refreshed. Tickets, current slip, preferences, imports and journal save automatically and load on another device using the same account. Local drafts remain available during outages; no recovery keys or manual synchronization are required.
-- All available fixture pages are collected. The explorer displays 30 games per page with dynamic Next/Previous controls; this does not limit the underlying dataset.
-- Target combined odds, maximum 1-30 legs, per-leg price bounds, product and WAT fixture window are configurable. One outcome per event; products have separate tickets. Target search is bounded and does not claim a global optimum or guaranteed win.
-- Real football uses exact provider team IDs and up to three years of available paginated SportyBet team results. vFootball uses its own dated daily results, collected across 14 days and scoped by product and league.
-- Profiles show form, opponents, venue splits, goals, half-time/second-half patterns, H2H and 40 observed final-score conditions. Independent Poisson models compare verified 1X2, double chance, totals, team totals, BTTS, correct-score, European handicap, draw-no-bet and supported whole/half-line Asian handicaps. Other returned markets remain visible without invented predictions.
-- Model diagnostics are informational. They do not veto selection. Missing historical models use a visibly labelled price fallback from complementary current markets. Closed, suspended, missing and unsupported outcomes cannot be invented.
-- Genuine SportyBet reservation codes work for Real and vFootball: current selections are revalidated server-side and every ID is checked on readback. Existing codes can be loaded into the local slip. Scheduled/Instant transferable booking flows remain unverified and local.
-- Suggested, loaded and reserved tickets can be tracked in IndexedDB. Each leg is checked against completed provider scores. Results are calculated research outcomes, not official account payouts. Unsupported market or product results remain unverified. Pending, void, won and lost states are distinct.
-- Distinct verified win/loss evaluations adjust local ranking with a shrinkage prior. Repeated tickets do not duplicate the same prediction in learning. Current provider-result histories refit the statistical model on later runs. This does not establish a profitable edge.
+89,706 completed OpenFootball results from 288 source files were imported from a pinned CC0 source commit. Dates: 2010-07-12 to 2026-09-20. There are 1,296 distinct source labels, including spelling variants, not 1,296 verified club identities. The archive is saved in resumable, digest-versioned chunks in Supabase. Exact labels and explicit aliases can extend earlier real-team seasons; conflicting/ambiguous identities are not guessed and overlapping dates are excluded. Inference can use the bundled cache of this same versioned archive.
 
-## Imported and additional data
+Real SportyBet results use exact provider IDs and retain the initial available three-year import in Supabase. Later refreshes stop at known pages and upsert new/corrected observations. vFootball retains its own source-separated dated results and refreshes recent days after its initial 14-day collection. Sources stay separated by product.
 
-The user's 2022 Instant bot archive produced 6,359 distinct scored row signatures, 20 team profiles and 380 ordered H2H profiles. Individual dates and match IDs are absent; duplicate ambiguity and current simulator comparability are disclosed. See [legacy review](docs/LEGACY_REVIEW.md).
+The user's 2022 Instant archive supplies 20 team profiles, 380 ordered pairs and 40 observed final-score conditions. Its missing dates, independent match IDs and current-simulator validation are disclosed. Scheduled statistics are small undated provider samples. Price fallbacks remain descriptive and cannot satisfy the history-based picker or ticket review.
 
-The OpenFootball supplement contains 6,083 completed results from 24 league/season files and 200 namespaced team profiles, retrieved for 2024/25-2026/27. The latest supplied scored fixture was 20 September 2026 at collection time. It is a separate CC0 archive, not silently joined to SportyBet IDs or used to double-count matches. Refresh it with `node scripts/collect-openfootball.js`.
+Profiles include opponents, form, venues, goals, half-time/second-half scores and H2H where actually available. Poisson models cover verified result, double-chance, totals, team totals, BTTS, correct score and supported handicap settlements. Corners, cards, shots, player availability, tactics and measured xG remain unsupported without their own verified records. Google search does not supply a complete reusable sports database.
 
-Corners, shots, cards, possession, player availability, tactics and measured xG require additional verified records. Final scores cannot supply them. Public viewing of statistics widgets does not establish an open reusable feed. See [data-source review](docs/DATA_SOURCES.md).
+Percentages are experimental model estimates, not a measured future win rate or winning guarantee. Observed frequency is shown separately. Accumulator estimates multiply probabilities under an explicit independence assumption. Fifty independent legs at 80% each have an all-leg probability around 0.0014%. Virtual histories do not establish an advantage over a random generator.
 
-## Supabase
+## Codes and storage
 
-The connected SportyScope database stores shared research and private account workspaces. Configure the server URL/secret and public sign-in key once in Vercel Production, then redeploy. See [Supabase setup](docs/SUPABASE_SETUP.md). New installations can apply `assets/supabase-setup.sql`.
+Real/vFootball reservations are issued by SportyBet and shown only after every requested identifier matches readback. Any provider rejection remains an error; no invented code is returned. Instant/Scheduled transferable codes remain unverified. Supabase server credentials never reach visitors. The server verifies Supabase users and derives ownership from that identity. All tables have RLS and public table access is revoked; save revisions prevent silent device overwrites.
 
-Browsing does not require sign-in. Cross-device personal storage requires the same signed-in account. The server verifies each access token using Supabase getUser, scopes every record to that verified identity, and keeps the service credential server-side. All tables have RLS with visitor grants revoked. Optimistic revisions prevent silent overwrites between devices. Shared archives seed automatically; research/result requests persist provider histories. Saving and result checks run while the app is open.
-
-## Validation
-
-`npm test` covers feeds, markets, pagination, genuine booking readback, historical models, settlement, learning, server-only credentials, verified account isolation, automatic draft migration, new-device loading and conflicting edits. Browser checks include the actual five-screen interface and mobile navigation. Earlier feed/model verification remains in `docs/VERIFIED_RESULTS_V5.md` and `docs/VERIFIED_RESULTS_V51.md`.
-
-Virtual outcomes remain stochastic. Historical samples and fitted rates do not guarantee a future result. Research and reservation creation do not place a bet.
+See docs/SUPABASE_SETUP.md, docs/DATA_SOURCES.md and docs/VERIFIED_RESULTS_V53.md. Automatic saving, collection and result checks run while the app is open, with catch-up after reconnection; this release does not add an unattended server worker.

@@ -13,7 +13,7 @@
   }
   async function reload(){const account=owner(),saved=await all(account);if(account!==owner())return;tickets=saved;feedback=M.learning(tickets);render();document.dispatchEvent(new CustomEvent('scope:learning',{detail:{samples:feedback.samples}}));}
   async function add(input,code=''){
-    try{await ScopeAccount.ready;const account=owner();if(!Array.isArray(input)||!input.length||input.length>30)return;const family=input[0].family;if(input.some(p=>p.family!==family))return;
+    try{await ScopeAccount.ready;const account=owner();if(!Array.isArray(input)||!input.length||input.length>50)return;const family=input[0].family;if(input.some(p=>p.family!==family))return;
       const picks=input.map(p=>({...p,rawEventId:p.rawEventId||p.eventId,specifier:p.specifier||'',status:'pending'})),id=family+'|'+picks.map(M.key).sort().join('~');
       const old=(await all(account)).find(t=>t.id===id);if(old){let changed=false;if(code&&old.code!==code){old.code=code;changed=true;}for(const p of old.picks){const current=picks.find(x=>M.key(x)===M.key(p));if(current&&p.status==='pending'&&Number.isFinite(current.probability)&&!Number.isFinite(p.probability)){Object.assign(p,{probability:current.probability,voidProbability:current.voidProbability,forecastAt:current.forecastAt,evidenceMode:current.evidenceMode});changed=true;}if(code&&current&&current.odds!==p.odds){p.odds=current.odds;changed=true;}}if(changed){await put(old,true,account);await reload();}return;}
       await put({id,family,code,createdAt:Date.now(),picks},true,account);await reload();
