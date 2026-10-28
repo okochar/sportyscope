@@ -64,8 +64,8 @@ test('Partial or different booking readback is rejected',()=>{
 });
 test('Local app serves versioned assets, protects server files and rejects unsupported API methods',async()=>{
  const server=createServer();await new Promise(ok=>server.listen(0,'127.0.0.1',ok));const base='http://127.0.0.1:'+server.address().port;
- try{const html=await fetch(base).then(r=>r.text());assert.match(html,/app.js\?v=5.3.0/);assert.match(html,/model.js/);
- const status=await fetch(base+'/api/status');assert.equal(status.headers.get('x-virtualscope-version'),'5.3.0');assert.equal((await status.json()).version,'5.3.0');
+ try{const html=await fetch(base).then(r=>r.text());assert.match(html,/app.js\?v=5.3.1/);assert.match(html,/model.js/);
+ const status=await fetch(base+'/api/status');assert.equal(status.headers.get('x-virtualscope-version'),'5.3.1');assert.equal((await status.json()).version,'5.3.1');
  assert.equal((await fetch(base+'/lib/upstream.js')).status,404);assert.equal((await fetch(base+'/api/virtual',{method:'POST'})).status,405);assert.equal((await fetch(base+'/api/book')).status,405);assert.equal((await fetch(base+'/api/event?eventId=evil&family=Real')).status,400);
  const invalid=await fetch(base+'/api/book',{method:'POST',headers:{'Content-Type':'application/json',Origin:'https://evil.test'},body:'{}'});assert.equal(invalid.status,403);
  }finally{await new Promise(ok=>server.close(ok));}

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0b1010">
   <meta name="description" content="Unofficial virtual and real sports market explorer for SportyBet. No made-up odds, no bets.">
   <title>Markets · SportyScope</title>
-  <link rel="stylesheet" href="/assets/style.css?v=5.3.0">
+  <link rel="stylesheet" href="/assets/style.css?v=5.3.1">
 </head>
 <body>
 <div class="layout">
@@ -96,8 +96,8 @@
           <label>Game type<select id="analysisFamily"><option value="vFootball">vFootball</option><option value="Real">Real football</option><option value="Instant">Instant Football</option><option value="Scheduled">Scheduled Football</option><option value="All">All (separate tickets)</option></select></label>
           <label>Fixture window<select id="analysisWindow"><option value="today">Today (WAT)</option><option value="24h">Next 24 hours</option><option value="7days">Next 7 days</option></select></label>
           <label>Maximum legs<input id="analysisLegs" type="number" value="50" min="1" max="50" required></label>
-          <label>Minimum leg odds<input id="analysisMinOdds" type="number" value="1.01" min="1.01" max="10" step="0.01" required></label>
-          <label>Minimum estimated win<select id="analysisConfidence"><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option><option value="0.95">95%</option><option value="0.99">99%</option></select></label><label>Maximum leg odds<input id="analysisMaxOdds" type="number" value="10" min="1.01" max="100000" step="0.01" required></label>
+          <label>Minimum leg odds<input id="analysisMinOdds" type="number" value="1.15" min="1.15" max="10" step="0.01" required></label>
+          <label>Minimum estimated win<select id="analysisConfidence"><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option><option value="0.95">95%</option><option value="0.99">99%</option></select></label><label>Maximum leg odds<input id="analysisMaxOdds" type="number" value="10" min="1.15" max="100000" step="0.01" required></label>
           <button class="button primary" type="submit">Build my selections</button>
         </form>
         <div class="research-switches"><label><input id="autoAnalyze" type="checkbox" checked> Automatically refresh research while this page is open</label><label><input id="autoCodes" type="checkbox" checked> Generate verified reservation codes when evidence qualifies</label></div>
@@ -123,8 +123,8 @@
       </section>
 </div><div data-ticket-panel="review" hidden>      <section class="utility-card research-workspace" id="ticketReview" aria-label="Booking code evaluation">
         <div class="card-head"><div><div class="card-kicker">LOADED CODE → LEG EVIDENCE → SUGGESTED REVISION</div><h2>Evaluate a SportyBet ticket</h2><p>Paste an existing SportyBet code here. Check up to 50 legs against available histories, then replace weaker legs with qualifying markets on the same matches. The target is an estimate filter, not a promised win rate.</p></div></div>
-        <form id="reviewCodeForm" class="review-code-form"><label>SportyBet booking code<input id="reviewCodeInput" placeholder="Paste booking code" maxlength="16" minlength="4" pattern="[A-Za-z0-9]{4,16}" required autocomplete="off"></label><label>Minimum estimated win per leg<select id="reviewThreshold"><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option></select></label><button type="submit" id="reviewCodeButton" class="button primary">Load &amp; check every leg</button></form><div class="research-toolbar"><button type="button" class="text-button" id="reviewTicket" disabled>Check loaded ticket again</button></div>
-        <p id="reviewStatus" role="status"></p><div id="ticketReviewResults" aria-live="polite"></div>
+        <form id="reviewCodeForm" class="review-code-form"><label>SportyBet booking code<input id="reviewCodeInput" placeholder="Paste booking code" maxlength="16" minlength="4" pattern="[A-Za-z0-9]{4,16}" required autocomplete="off"></label><label>Minimum estimated win per leg<select id="reviewThreshold"><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option></select></label><button type="submit" id="reviewCodeButton" class="button primary">Load &amp; check every leg</button></form><p class="form-hint">Balanced review: new replacements start at 1.15 odds. Original markets that already meet your history filter stay unchanged.</p><div class="research-toolbar"><button type="button" class="text-button" id="reviewTicket" disabled>Check loaded ticket again</button></div>
+        <p id="reviewStatus" role="status"></p><p id="reviewReturnStatus" role="status" class="connection-message"></p><div id="ticketReviewResults" aria-live="polite"></div>
         <div class="research-toolbar"><button type="button" class="button subtle" id="useRevisedTicket" disabled>Use qualifying revision in slip</button><button type="button" class="button primary" id="bookRevisedTicket" disabled>Get revised SportyBet code</button></div><p id="reviewBooking" role="status"></p>
       </section>
 </div></section>
@@ -138,24 +138,24 @@
       </section>
 </details><details class="settings-tools"><summary>About the data</summary>      <section class="transparency" id="about"><div class="transparency-icon">!</div><div><strong>Important: an honest data boundary.</strong><p>Virtual events are produced by random number generators and algorithms. Historical streaks do not reliably predict future rounds. This project does not access your account, place bets, or claim a winning edge. Any successful fetch must be checked against SportyBet itself before it is trusted.</p></div></section>
 </details></section>
-      <footer><span>SPORTYSCOPE / 5.3.0 · MERGED RESEARCH ENGINE</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
+      <footer><span>SPORTYSCOPE / 5.3.1 · MERGED RESEARCH ENGINE</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
     </div>
   </main>
 </div>
 <nav class="mobile-nav" aria-label="Main navigation"><a data-screen-link="markets" href="#markets"><span aria-hidden="true">▦</span><span>Markets</span></a><a data-screen-link="picks" href="#research"><span aria-hidden="true">✦</span><span>Auto picks</span></a><a data-screen-link="tickets" href="#ticketReview"><span aria-hidden="true">▤</span><span>Check code</span></a><a data-screen-link="history" href="#ticketHistory"><span aria-hidden="true">◷</span><span>History</span></a><a data-screen-link="settings" href="#settings"><span aria-hidden="true">⚙</span><span>Account</span></a></nav>
 <script src="/assets/supabase.js" defer></script>
-<script src="/assets/feedback.js?v=5.3.0" defer></script>
-<script src="/assets/navigation.js?v=5.3.0" defer></script>
-<script src="/assets/account-ui.js?v=5.3.0" defer></script>
-<script src="/assets/model.js?v=5.3.0" defer></script>
-<script src="/assets/research.js?v=5.3.0" defer></script>
-<script src="/assets/analysis.js?v=5.3.0" defer></script>
-<script src="/assets/tracking-model.js?v=5.3.0" defer></script>
-<script src="/assets/persistence.js?v=5.3.0" defer></script>
-<script src="/assets/tracker.js?v=5.3.0" defer></script>
-<script src="/assets/app.js?v=5.3.0" defer></script>
-<script src="/assets/ticket-review.js?v=5.3.0" defer></script>
-<script src="/assets/ticket-review-ui.js?v=5.3.0" defer></script>
-<script src="/assets/assistant-ui.js?v=5.3.0" defer></script>
+<script src="/assets/feedback.js?v=5.3.1" defer></script>
+<script src="/assets/navigation.js?v=5.3.1" defer></script>
+<script src="/assets/account-ui.js?v=5.3.1" defer></script>
+<script src="/assets/model.js?v=5.3.1" defer></script>
+<script src="/assets/research.js?v=5.3.1" defer></script>
+<script src="/assets/analysis.js?v=5.3.1" defer></script>
+<script src="/assets/tracking-model.js?v=5.3.1" defer></script>
+<script src="/assets/persistence.js?v=5.3.1" defer></script>
+<script src="/assets/tracker.js?v=5.3.1" defer></script>
+<script src="/assets/app.js?v=5.3.1" defer></script>
+<script src="/assets/ticket-review.js?v=5.3.1" defer></script>
+<script src="/assets/ticket-review-ui.js?v=5.3.1" defer></script>
+<script src="/assets/assistant-ui.js?v=5.3.1" defer></script>
 </body>
 </html>

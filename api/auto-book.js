@@ -22,7 +22,7 @@ async function execute(body,fetcher){
     if(verified.validUntil<=Date.now()+300000)throw Error('The selections are too close to kickoff; a fresh analysis is needed.');
     return {...verified,picks};
   }
-  const code=await book({family,selections},fetcher);return {...code,picks};
+  const code=await book({family,selections},fetcher);if(code.prices.some(p=>!Number.isFinite(p.odds)||p.odds<settings.minOdds||p.odds>settings.maxOdds))throw Error('Current reservation prices no longer meet the balanced odds filters. Re-run the analysis.');return {...code,picks};
 }
 async function handler(req,res){
   if(req.method!=='POST'){res.setHeader('Allow','POST');return json(res,405,{ok:false,error:'POST only.'});}

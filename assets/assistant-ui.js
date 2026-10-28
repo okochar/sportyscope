@@ -1,13 +1,13 @@
 (() => {
   'use strict';
-  const $=id=>document.getElementById(id),A=ScopeAnalysis,VERSION='5.3.0';
+  const $=id=>document.getElementById(id),A=ScopeAnalysis,VERSION='5.3.1';
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const n=v=>Number.isFinite(v)?v.toFixed(2):'—',pct=v=>Number.isFinite(v)?(v*100).toFixed(1)+'%':'—';
   const date=v=>v?new Intl.DateTimeFormat('en-NG',{timeZone:'Africa/Lagos',day:'numeric',month:'short',year:'numeric'}).format(new Date(v)):'—';
   const states=Object.fromEntries(A.families.map(f=>[f,{reports:{},errors:{},running:false,code:null,analysis:null,scanned:0,total:0}]));
   const jobs=new Map();let opts=A.settings(),selected='',generation=0;
   const rankJobs=new Map(),latestRank=new Map();let rankId=0,rankWorker;
-  try{rankWorker=new Worker('/assets/analysis-worker.js?v=5.3.0');rankWorker.onmessage=e=>{const pending=rankJobs.get(e.data.id);if(!pending)return;rankJobs.delete(e.data.id);e.data.error?pending.reject(Error(e.data.error)):pending.resolve(e.data.result);};rankWorker.onerror=()=>{for(const job of rankJobs.values())job.reject(Error('Background ranking could not start. Retry the scan.'));rankJobs.clear();rankWorker?.terminate();rankWorker=null;};}catch{}
+  try{rankWorker=new Worker('/assets/analysis-worker.js?v=5.3.1');rankWorker.onmessage=e=>{const pending=rankJobs.get(e.data.id);if(!pending)return;rankJobs.delete(e.data.id);e.data.error?pending.reject(Error(e.data.error)):pending.resolve(e.data.result);};rankWorker.onerror=()=>{for(const job of rankJobs.values())job.reject(Error('Background ranking could not start. Retry the scan.'));rankJobs.clear();rankWorker?.terminate();rankWorker=null;};}catch{}
   try{opts=A.settings(JSON.parse(localStorage.getItem('scope.research.settings')||'{}'));}catch{}
   for(const [id,k]of [['targetOdds','targetOdds'],['analysisLegs','legs'],['analysisMinOdds','minOdds'],['analysisMaxOdds','maxOdds']])$(id).value=opts[k];
   $('analysisFamily').value=opts.family;$('analysisWindow').value=opts.window;$('analysisConfidence').value=opts.minProbability;

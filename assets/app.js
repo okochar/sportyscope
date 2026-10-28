@@ -3,7 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = { family: 'vFootball', mode: 'upcoming', apiEvents: [], importedEvents: [], selectedId: '', marketIndex: 0,
     selectedOutcome: 0, allMarkets: true, query: '', league: '', eventPage:1, origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
-  const VERSION = '5.3.0';
+  const VERSION = '5.3.1';
   const pending = new Map(), detailCache = new Map(), detailPending = new Set();
   const STORE_EVENTS = 'virtualscope.imported.v1';
   const STORE_JOURNAL = 'virtualscope.journal.v1';
