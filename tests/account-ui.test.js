@@ -14,5 +14,5 @@ test('Expired-link callback shows a recovery action and opens the account screen
  const h=await harness('#error=access_denied&error_code=otp_expired');assert.match(h.el('accountFeedback').textContent,/expired or was already used/);assert.ok(h.calls.some(x=>x[0]==='navigate'&&x[1]==='settings'));assert.equal(h.context.window.ScopeAccount.user(),null);
 });
 test('Legacy email-link accounts can request password setup with the production redirect',async()=>{
- const h=await harness();h.el('accountEmail').value='test@example.invalid';await h.el('accountForgot').click();const reset=h.calls.find(x=>x[0]==='reset');assert.equal(reset[2].redirectTo,'https://sportyscope.vercel.app/#settings');assert.equal(h.context.window.ScopeAccount.user(),null);assert.match(h.el('accountFeedback').textContent,/newest reset email/);
+ const h=await harness();h.el('accountEmail').value='test@example.invalid';await h.el('accountForgot').click();const reset=h.calls.find(x=>x[0]==='reset');assert.equal(reset[2].redirectTo,'https://sportyscope.vercel.app/');assert.equal(h.context.window.ScopeAccount.user(),null);assert.match(h.el('accountFeedback').textContent,/newest reset email/);
 });

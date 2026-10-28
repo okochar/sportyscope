@@ -3,7 +3,9 @@
   const $=id=>document.getElementById(id);let client=null,user=null,configuration=null,resolveReady,mode='login',busy=false,recovering=new URLSearchParams(location.hash.slice(1)).get('type')==='recovery';
   const callback=new URLSearchParams(location.hash.slice(1)),callbackError=callback.get('error_code')||callback.get('error');
   const ready=new Promise(resolve=>{resolveReady=resolve;});
-  const redirect=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'?'https://sportyscope.vercel.app/#settings':location.origin+'/#settings';
+  // The auth provider owns the callback fragment. Recovery routes to Account
+  // after the SDK has consumed it, so a screen hash cannot corrupt the token.
+  const redirect=()=>location.hostname==='localhost'||location.hostname==='127.0.0.1'?'https://sportyscope.vercel.app/':location.origin+'/';
   function feedback(message,tone='info'){ $('accountFeedback').textContent=message;$('accountFeedback').dataset.tone=tone;window.ScopeFeedback?.notify(message,tone); }
   function controls(){const usable=Boolean(client&&configuration?.database?.connected&&!busy);$('accountSubmit').disabled=!usable;$('accountForgot').disabled=!usable;$('accountSubmit').textContent=busy?'Please wait…':!client?'Connecting…':mode==='signup'?'Create account':'Log in';}
   function showSession(session){
