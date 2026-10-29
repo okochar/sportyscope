@@ -122,7 +122,7 @@
       const keys=JSON.stringify(event.markets.map(m=>[m.id,m.specifier]));
       if($('allMarkets')?.dataset.keys!==keys){ScopeDOM.html($('allMarkets'),marketEntries(event));$('allMarkets').dataset.keys=keys;}
       for(const d of $('allMarkets').querySelectorAll('details[open]'))paintMarket(d,event);
-      if($('detailFeedStatus'))$('detailFeedStatus').textContent=detailCache.get(event.id)?.message||'';
+      if($('marketCount'))$('marketCount').textContent=event.markets.length+' available';if($('marketCoverage'))$('marketCoverage').textContent='Showing all '+event.markets.length+' returned markets'+(event.totalMarketSize?'; SportyBet advertises '+event.totalMarketSize:'')+'. Suspended outcomes remain visible.';if($('detailFeedStatus'))$('detailFeedStatus').textContent=detailCache.get(event.id)?.message||'';
       if($('loadDetail')){$('loadDetail').disabled=detailPending.has(event.id);$('loadDetail').textContent='Reload full event markets';}return;
     }
     $('detailContent').className='';$('detailContent').dataset.event=event.id;
@@ -135,9 +135,9 @@
       <div class="detail-sub">${safe(event.league)}${event.time?' · '+safe(formatTime(event.time)):''}</div>
       <div class="detail-divider"></div>
       <div class="overround"><div class="overround-head"><span>1X2 bookmaker overround</span><b>${margin===null?'—':`${margin>=0?'+':''}${margin.toFixed(1)}%`}</b></div><p>Sum of (1 ÷ decimal odds) minus 100%. This is not your chance of winning.</p></div>
-      <div class="market-title">Inspect market <small>${event.markets.length} available</small></div>
+      <div class="market-title">Inspect market <small id="marketCount">${event.markets.length} available</small></div>
       <label class="search-box" style="margin:12px 0;display:flex"><span>⌕</span><input id="marketSearch" type="search" placeholder="Find a market (e.g. handicap, score, corners)" aria-label="Search all markets"></label>
-      <p class="model-callout">Showing all ${event.markets.length} returned markets${event.totalMarketSize ? `; SportyBet advertises ${event.totalMarketSize}` : ''}. Suspended outcomes remain visible.</p>
+      <p id="marketCoverage" class="model-callout">Showing all ${event.markets.length} returned markets${event.totalMarketSize ? `; SportyBet advertises ${event.totalMarketSize}` : ''}. Suspended outcomes remain visible.</p>
       ${event.sourceKind === 'api' && ['Real','vFootball','Instant'].includes(event.gameType) ? `<p id="detailFeedStatus" class="model-callout">${safe(detailCache.get(event.id)?.message || 'Full event markets load automatically when selected.')}</p><button type="button" class="button subtle" id="loadDetail">Reload full event markets</button>` : ''}
       <div id="allMarkets">${fullMarkets || '<p>No markets present in this response.</p>'}</div>
       <p class="model-callout">Implied percentages come directly from prices. They are not model predictions, and the bookmaker margin is not guaranteed to be constant across markets.</p>

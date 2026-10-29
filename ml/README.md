@@ -28,6 +28,8 @@ Supabase Cron calls a fixed Vercel HTTPS endpoint. Each invocation uses a random
 
 Real football cycles run every 30 minutes. Virtual cycles recheck upcoming round identities; in-progress scans resume in bounded batches. Each cycle can issue two different qualifying tickets. Every code must be issued and read back by SportyBet before saving. Duplicate combinations, unsupported markets and weak fillers cannot produce automatic codes. Account settings include Start/Pause. No staking or payment endpoint is implemented.
 
+For a fresh project, apply the migrations, deploy, then run `supabase/operations/enable_background.sql` once. An account can then start its own worker from History. This installation is already enabled; signing in on another device does not require keys or another schedule.
+
 ## Definitions and limits
 
 Corners are recorded corner-taking events. Yellow, red and second-yellow tags are retained separately; bookmaker card settlement rules are not assumed equivalent. Accurate-shot tags retain their source definition rather than being labelled as operator shots-on-target. Extra-time fixtures are retained but excluded from regular-time training labels. Historical lineups are retrospective records. Missing values remain unknown.
