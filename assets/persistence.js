@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const $=id=>document.getElementById(id),providers=new Map(),names=['slip','preferences','journal','imports','review'];
-  let adapter=null,busy=false,again=false,timer,initialized='',ready=false,applying=false,epoch=0,conflicts=new Map(),meta={};
+  let adapter=null,busy=false,again=false,timer,initialized='',ready=false,applying=false,epoch=0,failures=0,conflicts=new Map(),meta={};
   function status(message,tone=''){$('cloudHistoryStatus').textContent=message;$('saveStatus').textContent=message;$('saveStatus').dataset.tone=tone;}
   const owner=()=>ScopeAccount.user()?.id||'guest',metaKey=()=> 'scope.workspace.meta.'+owner();
   function saveMeta(){try{localStorage.setItem(metaKey(),JSON.stringify(meta));}catch{}}
@@ -11,7 +11,7 @@
     $('workspaceConflicts').innerHTML=[...conflicts.keys()].map(name=>'<div class="workspace-conflict"><p>Your '+name+' also changed on another device. Your local draft is retained. Choose which version to continue with.</p><button type="button" class="button subtle" data-conflict="'+name+'" data-choice="cloud">Use cloud version</button> <button type="button" class="button subtle" data-conflict="'+name+'" data-choice="local">Keep this device’s draft</button></div>').join('');
   }
   async function call(url,headers,body){const r=await fetch(url,{method:body?'POST':'GET',headers:{...headers,...(body?{'Content-Type':'application/json'}:{})},body:body?JSON.stringify(body):undefined,cache:'no-store',signal:AbortSignal.timeout(body?.action==='migrate_legacy'?65000:20000)}),p=await r.json();if(!r.ok||!p.ok){const e=Error(p.error||'Automatic saving is unavailable. Your device copy is retained.');e.http=r.status;throw e;}return p;}
-  function queue(){clearTimeout(timer);timer=setTimeout(()=>{sync();},400);}
+  function queue(delay=400){clearTimeout(timer);timer=setTimeout(()=>{sync();},delay);}
   function changed(name){if(applying||!names.includes(name))return;meta[name]={revision:meta[name]?.revision||0,dirty:true};saveMeta();queue();}
   async function reconcileWorkspace(headers,token){
     const remote=await call('/api/account?view=workspace',headers);if(token!==epoch)return;
@@ -36,7 +36,7 @@
   async function sync(){
     if(!ready||!adapter||providers.size!==names.length)return;if(busy){again=true;return;}
     const user=ScopeAccount.user();if(!user){status('Not logged in · account saving is off');return;}
-    busy=true;const token=epoch;
+    busy=true;const token=epoch;let retry=0;
     try{
       const headers=await ScopeAccount.headers();if(!headers.Authorization)throw Error('Sign in again to resume automatic saving.');
       const legacy=localStorage.getItem('scope.history.private-key');
@@ -52,9 +52,9 @@
         if(token!==epoch)return;await adapter.restore(t);restored++;
       }}
       local=await adapter.all();for(const t of local){if(token!==epoch)return;const r=remote.get(t.id);if(!r||(t.updatedAt||t.createdAt)>(r.updatedAt||r.createdAt))await call('/api/tickets',headers,t);}
-      if(token!==epoch)return;status(conflicts.size?'Saved history · review a workspace conflict in Settings.':'Saved to Supabase · '+local.length+' tickets','good');
+      if(token!==epoch)return;failures=0;status(conflicts.size?'Saved history · review a workspace conflict in Settings.':'Saved to Supabase · '+local.length+' tickets','good');
       if(restored)adapter.onRestore().catch(()=>{});
-    }catch(e){if(token===epoch)status(e.message,'bad');}finally{busy=false;if(again){again=false;queue();}}
+    }catch(e){if(token===epoch){const transient=['AbortError','TimeoutError'].includes(e.name)||e.http>=500||e.http===429||/timed? out|timeout|network|fetch|load failed/i.test(e.message);if(transient){retry=Math.min(60000,5000*2**Math.min(4,failures++));status('Connection interrupted · device copy retained; retrying automatically.','warn');}else status(e.message,'bad');}}finally{busy=false;if(retry){again=false;queue(retry);}else if(again){again=false;queue();}}
   }
   async function switchAccount(){
     epoch++;initialized='';conflicts.clear();renderConflicts();meta=readMeta();

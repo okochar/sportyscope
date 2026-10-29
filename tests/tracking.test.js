@@ -18,6 +18,14 @@ test('First and second half settlement uses its own period score',()=>{
 test('One lost leg marks a ticket lost while all other legs retain independent outcomes',()=>{
  assert.equal(T.ticketStatus([{status:'won'},{status:'lost'},{status:'pending'}]),'lost');assert.equal(T.ticketStatus([{status:'won'},{status:'void'}]),'won');assert.equal(T.ticketStatus([{status:'won'},{status:'unverified'}]),'unverified');assert.equal(T.ticketStatus([{status:'void'}]),'void');
 });
+test('Clock-only refreshes stay local while verified outcomes require a durable save',()=>{
+ const p={status:'pending',time:123,live:{state:'live',clock:'41:00',score:[0,0]},note:'Live score is provisional.'};
+ const clock=T.applyUpdate(p,{status:'pending',time:123,live:{state:'live',clock:'42:00',score:[0,0]},note:p.note,checkedAt:'2026-10-29T12:42:00Z'});
+ assert.equal(clock.changed,true);assert.equal(clock.persist,false);assert.equal(p.live.clock,'42:00');assert.equal(p.checkedAt,'2026-10-29T12:42:00Z');
+ const finished=T.applyUpdate(p,{status:'lost',time:123,result:{id:'verified-result',ft:[0,0]},checkedAt:'2026-10-29T13:30:00Z'});
+ assert.equal(finished.persist,true);assert.equal(p.live,null);assert.equal(p.verifiedAt,'2026-10-29T13:30:00Z');assert.equal(p.status,'lost');
+ const late=T.applyUpdate(p,{status:'pending',live:{state:'live',clock:'89:00'},checkedAt:'2026-10-29T13:31:00Z'});assert.equal(late.persist,false);assert.equal(p.status,'lost');assert.equal(p.live,null);
+});
 test('Learning excludes unverified, pending and duplicate predictions',()=>{
  const p={family:'vFootball',rawEventId:raw.eventId,marketId:'18',specifier:'total=2.5',outcomeId:'13',probability:.7,status:'lost',result:{id:raw.eventId},verifiedAt:'2026-10-25T12:00:00Z'};
  const learning=T.learning([{picks:[p,{...p,status:'won',verifiedAt:null},{...p,rawEventId:'other',status:'pending'}]},{picks:[p]}]);assert.equal(learning.samples,1);assert.equal(learning.markets[T.marketKey(p)].n,1);assert.equal(learning.markets[T.marketKey(p)].residual,-.7);
