@@ -48,7 +48,7 @@
       do{const r=await call('/api/tickets'+(cursor?'?cursor='+encodeURIComponent(cursor):''),headers);if(token!==epoch)return;if(!r.configured)throw Error(r.note);for(const t of r.tickets||[])remote.set(t.id,t);cursor=r.nextCursor||'';if(cursor&&cursors.has(cursor))throw Error('Saved history cursor repeated.');cursors.add(cursor);}while(cursor);
       let local=await adapter.all(),restored=0;
       for(const r of remote.values()){const old=local.find(t=>t.id===r.id);if(!old||(r.updatedAt||r.createdAt)>(old.updatedAt||old.createdAt)){
-        const t={...r,picks:r.picks.map(p=>{const clean={...p,status:'pending',note:'Loaded from your account; checking the provider result.'};delete clean.result;delete clean.verifiedAt;return clean;})};
+        const t={...r,picks:r.picks.map(p=>({...p}))};
         if(token!==epoch)return;await adapter.restore(t);restored++;
       }}
       local=await adapter.all();for(const t of local){if(token!==epoch)return;const r=remote.get(t.id);if(!r||(t.updatedAt||t.createdAt)>(r.updatedAt||r.createdAt))await call('/api/tickets',headers,t);}

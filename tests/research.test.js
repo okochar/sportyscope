@@ -96,10 +96,10 @@ test('Existing SportyBet code loads all selected current prices without placing 
  const {loadCode}=require('../lib/booking'),fixture=require('./fixtures/booking-loaded.json');let called=0;
  const r=await loadCode('hsl5kf',async(url,opts)=>{called++;assert.equal(opts.method,'GET');assert.match(url,/orders\/share\/HSL5KF/);assert.equal(opts.headers.OperId,'2');return new Response(JSON.stringify(fixture));});assert.equal(called,1);assert.equal(r.slip.length,1);assert.equal(r.slip[0].rawEventId,fixture.data.ticket.selections[0].eventId);assert.equal(r.slip[0].odds,4.77);assert.equal(r.family,'Real');
 });
-test('Unavailable or mixed-category booking codes do not become loaded local slips',async()=>{
+test('Readable unavailable and mixed-sport codes load for review with explicit exclusions',async()=>{
  const {loadCode}=require('../lib/booking'),fixture=require('./fixtures/booking-loaded.json');
- await assert.rejects(()=>loadCode('HSL5KF',async()=>new Response(JSON.stringify({...fixture,isAvailable:false}))),/unavailable|expired/);
- const d=structuredClone(fixture);d.data.ticket.selections[0].sportId='sr:sport:2';await assert.rejects(()=>loadCode('HSL5KF',async()=>new Response(JSON.stringify(d))),/category|mixed/);
+ const readable=await loadCode('HSL5KF',async()=>new Response(JSON.stringify({...fixture,isAvailable:false})));assert.equal(readable.readable,true);assert.equal(readable.bookable,false);
+ const d=structuredClone(fixture);d.data.ticket.selections[0].sportId='sr:sport:2';const mixed=await loadCode('HSL5KF',async()=>new Response(JSON.stringify(d)));assert.equal(mixed.slip.length,0);assert.equal(mixed.excluded.length,1);assert.match(mixed.excluded[0].exclusionReason,/Non-football/);
 });
 test('Selections without specifiers remain valid through repeated automatic-route validation',()=>{
  const {validate}=require('../lib/booking'),input={family:'vFootball',selections:[{eventId:'sr:match:123',marketId:'29',outcomeId:'74',specifier:''}]},once=validate(input);assert.deepEqual(validate(once),once);assert.equal(once.selections[0].specifier,undefined);

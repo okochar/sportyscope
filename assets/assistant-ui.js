@@ -1,13 +1,13 @@
 (() => {
   'use strict';
-  const $=id=>document.getElementById(id),A=ScopeAnalysis,VERSION='5.3.1';
+  const $=id=>document.getElementById(id),A=ScopeAnalysis,VERSION='5.5.0';
   const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const n=v=>Number.isFinite(v)?v.toFixed(2):'—',pct=v=>Number.isFinite(v)?(v*100).toFixed(1)+'%':'—';
   const date=v=>v?new Intl.DateTimeFormat('en-NG',{timeZone:'Africa/Lagos',day:'numeric',month:'short',year:'numeric'}).format(new Date(v)):'—';
   const states=Object.fromEntries(A.families.map(f=>[f,{reports:{},errors:{},running:false,code:null,analysis:null,scanned:0,total:0}]));
   const jobs=new Map();let opts=A.settings(),selected='',generation=0;
   const rankJobs=new Map(),latestRank=new Map();let rankId=0,rankWorker;
-  try{rankWorker=new Worker('/assets/analysis-worker.js?v=5.3.1');rankWorker.onmessage=e=>{const pending=rankJobs.get(e.data.id);if(!pending)return;rankJobs.delete(e.data.id);e.data.error?pending.reject(Error(e.data.error)):pending.resolve(e.data.result);};rankWorker.onerror=()=>{for(const job of rankJobs.values())job.reject(Error('Background ranking could not start. Retry the scan.'));rankJobs.clear();rankWorker?.terminate();rankWorker=null;};}catch{}
+  try{rankWorker=new Worker('/assets/analysis-worker.js?v=5.5.0');rankWorker.onmessage=e=>{const pending=rankJobs.get(e.data.id);if(!pending)return;rankJobs.delete(e.data.id);e.data.error?pending.reject(Error(e.data.error)):pending.resolve(e.data.result);};rankWorker.onerror=()=>{for(const job of rankJobs.values())job.reject(Error('Background ranking could not start. Retry the scan.'));rankJobs.clear();rankWorker?.terminate();rankWorker=null;};}catch{}
   try{opts=A.settings(JSON.parse(localStorage.getItem('scope.research.settings')||'{}'));}catch{}
   for(const [id,k]of [['targetOdds','targetOdds'],['analysisLegs','legs'],['analysisMinOdds','minOdds'],['analysisMaxOdds','maxOdds']])$(id).value=opts[k];
   $('analysisFamily').value=opts.family;$('analysisWindow').value=opts.window;$('analysisConfidence').value=opts.minProbability;
@@ -21,6 +21,7 @@
     }).join('');
   }
   function renderOptions(){
+    if(document.activeElement===$('researchProfile'))return;
     const profiles=A.families.flatMap(f=>Object.values(states[f].reports).map(r=>({key:f+'|'+r.eventId,label:f+' · '+(r.event?`${r.event.home} vs ${r.event.away}`:r.statistics?`${r.statistics.homeTeam.teamName} vs ${r.statistics.awayTeam.teamName}`:r.eventId)})));
     $('researchProfile').innerHTML='<option value="">Select a researched match</option>'+profiles.map(p=>`<option value="${esc(p.key)}">${esc(p.label)}</option>`).join('');$('researchProfile').value=selected;
   }
@@ -31,6 +32,7 @@
     let html=`<h3>${esc(e?e.home+' vs '+e.away:stats?stats.homeTeam.teamName+' vs '+stats.awayTeam.teamName:family+' research')}</h3><p>${esc(family)} · updated ${esc(new Date(r.analyzedAt).toLocaleString('en-NG',{timeZone:'Africa/Lagos'}))} WAT</p>`;
     html+='<div class="coverage-grid">'+r.coverage.map(c=>`<div class="coverage-item"><span class="coverage-status ${esc(c.status)}">${esc(c.status)}</span><strong>${esc(c.name)}</strong><p>${esc(c.detail)}</p></div>`).join('')+'</div>';
     if(r.issues.length)html+='<p class="research-gap">'+r.issues.map(esc).join('<br>')+'</p>';
+    if(r.learned){const h=r.learned.home,a=r.learned.away;html+='<details><summary>Historical event statistics and trained models</summary><p>'+esc(r.learned.reason)+'</p>'+table(['Statistic (last 20 historical matches)',e.home,e.away],[['Historical matches',h?.matches??'Unmatched',a?.matches??'Unmatched'],['Most recent recorded match',date(h?.newest),date(a?.newest)],...['corners','shots','accurateShots','yellowCards','redCards','fouls','passes'].map(k=>[k,n(h?.totals[k]?.mean),n(a?.totals[k]?.mean)]),['Full historical starting lineups',h?.lineups??'Unknown',a?.lineups??'Unknown']])+'<p>Accurate shots retain Wyscout’s source definition. These statistics are not current form. See Account → Data &amp; models for training tests and definitions.</p></details>';}
     if(r.home&&r.away){
       const h=r.home,a=r.away;
       html+='<h4>Team evidence and patterns</h4>'+table(['Statistic',e.home,e.away],[['Profile key',h.id,a.id],[r.evidenceMode==='archive'?'Distinct scored samples':'Completed matches',h.total.games,a.total.games],['History dates',date(h.oldest)+' – '+date(h.newest),date(a.oldest)+' – '+date(a.newest)],['W / D / L',`${h.total.wins} / ${h.total.draws} / ${h.total.losses}`,`${a.total.wins} / ${a.total.draws} / ${a.total.losses}`],['Recent form (oldest → newest)',h.form,a.form],['Goals scored / conceded per game',n(h.total.scored)+' / '+n(h.total.conceded),n(a.total.scored)+' / '+n(a.total.conceded)],['Home scoring / conceding',n(h.home.scored)+' / '+n(h.home.conceded),n(a.home.scored)+' / '+n(a.home.conceded)],['Away scoring / conceding',n(h.away.scored)+' / '+n(h.away.conceded),n(a.away.scored)+' / '+n(a.away.conceded)],['Last 5 scoring / previous 5',n(h.last5.scored)+' / '+n(h.previous5.scored),n(a.last5.scored)+' / '+n(a.previous5.scored)],['Clean sheets / failed to score',pct(h.total.cleanSheet)+' / '+pct(h.total.failedToScore),pct(a.total.cleanSheet)+' / '+pct(a.total.failedToScore)],['Both teams scored',pct(h.total.btts),pct(a.total.btts)],['Over 1.5 / 2.5 / 3.5 frequency',[h.total.over15,h.total.over25,h.total.over35].map(pct).join(' / '),[a.total.over15,a.total.over25,a.total.over35].map(pct).join(' / ')],['First-half goals scored / conceded',n(h.firstHalf.scored)+' / '+n(h.firstHalf.conceded),n(a.firstHalf.scored)+' / '+n(a.firstHalf.conceded)],['Second-half goals scored / conceded',n(h.secondHalf.scored)+' / '+n(h.secondHalf.conceded),n(a.secondHalf.scored)+' / '+n(a.secondHalf.conceded)],['Days since last completed game',n(h.restDays),n(a.restDays)]]);
@@ -48,7 +50,7 @@
       html+='<details><summary>Recent and head-to-head records (undated)</summary>'+[h.recentMatches||[],a.recentMatches||[],stats.headToHead.matches].map(xs=>table(['Home','Away','Score'],xs.map(x=>[x.homeTeamName,x.awayTeamName,x.homeScore+':'+x.awayScore]))).join('')+'</details>';
     }
     html+='<details><summary>Sources and coverage</summary><ul>'+r.sources.map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.name)}</a> · ${esc(s.retrievedAt)}${s.records!==undefined?' · '+s.records+' records'+(s.pages?' / '+s.pages+' pages · '+s.windowDays+'-day requested window':''):''}</li>`).join('')+'</ul><p>Free public viewing does not establish a general data redistribution licence. LiveScore Bet’s public client also uses statistics widgets; a reusable open feed has not been verified. <a href="https://www.livescorebet.com/ng/" target="_blank" rel="noopener noreferrer">LiveScore Bet ↗</a></p></details>';
-    $('researchReport').innerHTML=html;
+    ScopeDOM.html($('researchReport'),html);
   }
   async function getReport(family,eventId){
     const key=family+'|'+eventId;if(jobs.has(key))return jobs.get(key);
@@ -73,7 +75,7 @@
     try{
       let previous;try{previous=JSON.parse(localStorage.getItem('scope.booking.last')||'null');}catch{}
       const body=picksBody(family,a.picks);if(previous?.fingerprint===key&&previous.validUntil>Date.now())body.code=previous.code;
-      const res=await fetch('/api/auto-book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(65000)}),r=await res.json();
+      const res=await fetch('/api/auto-book',{method:'POST',headers:{'Content-Type':'application/json',...await ScopeAccount.headers()},body:JSON.stringify(body),signal:AbortSignal.timeout(65000)}),r=await res.json();
       if(!res.ok||!r.ok||r.version!==VERSION)throw Error(r.error||'Booking read-back was not verified.');
       if(token!==generation||s.analysis.fingerprint!==key||!$('autoCodes').checked)return;
       const verifiedPicks=(r.picks||a.picks).map(p=>{const current=r.prices?.find(x=>x.eventId===p.rawEventId&&x.marketId===p.marketId&&x.specifier===(p.specifier||'')&&x.outcomeId===p.outcomeId);return {...p,odds:current?.odds||p.odds};});
@@ -88,18 +90,19 @@
       const currentIds=new Set(snapshot.events.map(e=>e.rawEventId));for(const id of Object.keys(s.reports))if(!currentIds.has(id)&&selected!==family+'|'+id)delete s.reports[id];s.errors={};renderOptions();
       const now=Date.now(),events=snapshot.events.filter(e=>A.open(e,family,now,opts));s.total=events.length;s.scanned=0;let lastAnalysis=0;
       const queue=events;
-      let index=0;async function worker(){while(index<queue.length){if(document.hidden||token!==generation||!$('autoAnalyze').checked&&s.automatic)break;const e=queue[index++],old=s.reports[e.rawEventId];try{if(!old||Date.now()-new Date(old.analyzedAt).getTime()>90000)await getReport(family,e.rawEventId);}catch(err){s.errors[e.rawEventId]=err.message;}s.scanned++;window.ScopeFeedback?.update('scan-'+family,'Checking '+family+': '+s.scanned+' / '+s.total+' matches',s.scanned,s.total);if(Date.now()-lastAnalysis>5000){lastAnalysis=Date.now();updateAnalysis(family);}else renderCards();}}
+      let index=0;async function worker(){while(index<queue.length){if(document.hidden||token!==generation||s.automatic&&window.ScopeBackground?.enabled||!$('autoAnalyze').checked&&s.automatic)break;const e=queue[index++],old=s.reports[e.rawEventId];try{if(!old||Date.now()-new Date(old.analyzedAt).getTime()>90000)await getReport(family,e.rawEventId);}catch(err){s.errors[e.rawEventId]=err.message;}s.scanned++;window.ScopeFeedback?.update('scan-'+family,'Checking '+family+': '+s.scanned+' / '+s.total+' matches',s.scanned,s.total);if(Date.now()-lastAnalysis>5000){lastAnalysis=Date.now();updateAnalysis(family);}else renderCards();}}
       await Promise.all([worker(),worker()]);
       const errors=Object.values(s.errors);if(errors.length)s.error=errors.length+' profile request(s) failed. '+errors[0];
-      if(token!==generation)return;const finalAnalysis=await updateAnalysis(family,true);if(token!==generation||!finalAnalysis)return;if(s.analysis?.picks.length)window.ScopeTracker?.add(s.analysis.picks);await autoBook(family);
+      if(token!==generation)return;const finalAnalysis=await updateAnalysis(family,true);if(token!==generation||!finalAnalysis)return;if(s.analysis?.picks.length&&(!$('autoCodes').checked||!A.capabilities[family].booking))window.ScopeTracker?.add(s.analysis.picks);await autoBook(family);
     }catch(e){s.error=e.message;s.code=null;}finally{s.running=false;window.ScopeFeedback?.finish('scan-'+family,s.error||s.analysis?.message,s.error?'error':'success');renderCards();if(s.requested){s.requested=false;if(opts.family==='All'||opts.family===family)scan(family);}}
   }
-  async function scanAll(automatic=false){if(automatic&&document.querySelector('[data-screen-panel="picks"]').hidden)return;for(const f of A.families.filter(f=>opts.family==='All'||f===opts.family)){if(automatic&&states[f].running)continue;states[f].automatic=automatic;scan(f);}}
+  async function scanAll(automatic=false){if(automatic&&(window.ScopeBackground?.enabled||document.querySelector('[data-screen-panel="picks"]').hidden))return;for(const f of A.families.filter(f=>opts.family==='All'||f===opts.family)){if(automatic&&states[f].running)continue;states[f].automatic=automatic;scan(f);}}
   function preferences(){return {analysis:opts,autoAnalyze:$('autoAnalyze').checked,autoCodes:$('autoCodes').checked};}
-  function savePreferences(){try{localStorage.setItem(ScopeAccount.storageKey('scope.preferences.v2'),JSON.stringify(preferences()));}catch{}ScopeWorkspace.changed('preferences');}
+  function savePreferences(){try{localStorage.setItem(ScopeAccount.storageKey('scope.preferences.v2'),JSON.stringify(preferences()));}catch{}ScopeWorkspace.changed('preferences');window.ScopeBackground?.saveSettings(opts);}
   $('analysisSettings').addEventListener('submit',e=>{e.preventDefault();try{opts=A.settings({targetOdds:$('targetOdds').value,legs:$('analysisLegs').value,minOdds:$('analysisMinOdds').value,maxOdds:$('analysisMaxOdds').value,family:$('analysisFamily').value,window:$('analysisWindow').value,minProbability:$('analysisConfidence').value});generation++;savePreferences();for(const s of Object.values(states)){s.code=null;s.analysis=null;}scanAll(false);}catch(err){$('researchReport').textContent=err.message;ScopeFeedback.notify(err.message,'error');}});
   $('analysisCards').addEventListener('click',e=>{const scanBtn=e.target.closest('[data-scan]'),use=e.target.closest('[data-use]');if(scanBtn){states[scanBtn.dataset.scan].automatic=false;scan(scanBtn.dataset.scan);}if(use){const s=states[use.dataset.use];ScopeApp.addPicks(s.analysis.picks);ScopeNavigation.go('slip');}});
   $('researchProfile').addEventListener('change',e=>{selected=e.target.value;renderReport();});
+  $('researchProfile').addEventListener('blur',renderOptions);
   $('researchSelected').addEventListener('click',async()=>{const e=ScopeApp.selected();if(!e||e.sourceKind!=='api'){$('researchReport').textContent='Select a fetched match in the explorer first.';return;}selected=e.gameType+'|'+e.rawEventId;$('researchReport').textContent='Retrieving verified history and comparing every returned market…';try{await getReport(e.gameType,e.rawEventId);updateAnalysis(e.gameType);}catch(err){$('researchReport').textContent=err.message;}});
   $('autoAnalyze').addEventListener('change',()=>{savePreferences();if($('autoAnalyze').checked)scanAll(true);});
   $('autoCodes').addEventListener('change',()=>{savePreferences();generation++;if($('autoCodes').checked)for(const f of A.families)autoBook(f);});

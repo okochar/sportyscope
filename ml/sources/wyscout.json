@@ -1,0 +1,126 @@
+{
+  "retrievedAt": "2026-10-28T20:16:35.896Z",
+  "collection": "https://doi.org/10.6084/m9.figshare.c.4415000",
+  "attribution": "Pappalardo et al. (2019), Wyscout soccer match event dataset, CC BY 4.0",
+  "files": [
+    {
+      "id": 21385245,
+      "name": "eventid2name.csv",
+      "size": 1001,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/21385245",
+      "supplied_md5": "46daf16100ece0c743eedc9adcfea162",
+      "computed_md5": "46daf16100ece0c743eedc9adcfea162",
+      "mimetype": "text/plain",
+      "doi": "10.6084/m9.figshare.11743836.v1",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "ce7bafb341b36ab4c6093bf1c09c967e9cea10d4223724a1fc679086e5d16842"
+    },
+    {
+      "id": 21385239,
+      "name": "tags2name.csv",
+      "size": 1754,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/21385239",
+      "supplied_md5": "e7acb14918d00e40c80a898b1da8fc39",
+      "computed_md5": "e7acb14918d00e40c80a898b1da8fc39",
+      "mimetype": "text/plain",
+      "doi": "10.6084/m9.figshare.11743818.v1",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "e0bc1bd8ff6ea5339586fdfc3e8e9b285a4a18f1ae2f5868ccc9ec9cecc8a922"
+    },
+    {
+      "id": 15073721,
+      "name": "players.json",
+      "size": 1737347,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/15073721",
+      "supplied_md5": "f28ddf6326281efeda6488b2169f5609",
+      "computed_md5": "f28ddf6326281efeda6488b2169f5609",
+      "mimetype": "text/plain",
+      "doi": "10.6084/m9.figshare.7765196.v3",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "877a111cb1005b73df5645e9338bd74fb4b496bace2fbc545a72abb3b73efa2e"
+    },
+    {
+      "id": 15073697,
+      "name": "teams.json",
+      "size": 27404,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/15073697",
+      "supplied_md5": "1381ff9449f21105090729cf0e086b5b",
+      "computed_md5": "1381ff9449f21105090729cf0e086b5b",
+      "mimetype": "text/plain",
+      "doi": "10.6084/m9.figshare.7765310.v3",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "9f7a4a3b3d92c0be33f40613ad6e6eb4316c3b9771ec74c61a22c9b8ece23a4d"
+    },
+    {
+      "id": 15073685,
+      "name": "competitions.json",
+      "size": 1209,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/15073685",
+      "supplied_md5": "3dc210a4805dda5337b0ff9f7eaa407a",
+      "computed_md5": "3dc210a4805dda5337b0ff9f7eaa407a",
+      "mimetype": "text/plain",
+      "doi": "10.6084/m9.figshare.7765316.v4",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "39a738d2bc97638502e1ead01d661b54c623d6d6b37f77de3846f9a94db7a3a1"
+    },
+    {
+      "id": 14464685,
+      "name": "events.zip",
+      "size": 77323413,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/14464685",
+      "supplied_md5": "7c20e8647e7eda58d7838a0c7b1ec6ab",
+      "computed_md5": "7c20e8647e7eda58d7838a0c7b1ec6ab",
+      "mimetype": "application/zip",
+      "doi": "10.6084/m9.figshare.7770599.v1",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "877e015b716ffdeea18f04418e3f24fed307ed03c37ff305cabe1f47c4822a45"
+    },
+    {
+      "id": 14464622,
+      "name": "matches.zip",
+      "size": 645097,
+      "is_link_only": false,
+      "download_url": "https://ndownloader.figshare.com/files/14464622",
+      "supplied_md5": "51d80beb17480919f69a53a0152c2d71",
+      "computed_md5": "51d80beb17480919f69a53a0152c2d71",
+      "mimetype": "application/zip",
+      "doi": "10.6084/m9.figshare.7770422.v1",
+      "license": {
+        "value": 1,
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/"
+      },
+      "sha256": "c8f92bb7533e5c127e043cee764c991b5c25b4f5e70a65be931baae0b1765ce9"
+    }
+  ]
+}

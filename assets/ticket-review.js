@@ -2,7 +2,7 @@
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./analysis'));else root.ScopeTicketReview=factory(root.ScopeAnalysis);})(typeof globalThis!=='undefined'?globalThis:this,function(A){
   'use strict';
   const key=p=>[p.marketId,p.specifier||'',p.outcomeId].join('|');
-  function estimate(p,row,report){return {...p,time:report.event.time,odds:row.odds,probability:row.probability,voidProbability:row.voidProbability||0,empirical:row.empirical||null,evidenceMode:report.evidenceMode||'dated-history',forecastAt:report.analyzedAt};}
+  function estimate(p,row,report){return {...p,time:report.event.time,live:report.live||null,odds:row.odds,probability:row.probability,voidProbability:row.voidProbability||0,empirical:row.empirical||null,evidenceMode:report.evidenceMode||'dated-history',forecastAt:report.analyzedAt};}
   function valid(row){return row?.active===true&&Number.isFinite(row.probability)&&row.probability>=0&&row.probability<=1&&Number.isFinite(row.voidProbability)&&row.voidProbability>=0&&row.probability+row.voidProbability<=1.000001&&Number.isFinite(row.odds)&&row.odds>=1.01;}
   function leg(p,report,{threshold=.8,now=Date.now()}={}){
     if(!Number.isFinite(threshold)||threshold<.75||threshold>.99)throw Error('Choose an estimate threshold between 75% and 99%.');
@@ -11,7 +11,7 @@
     if(!report?.ok||report.family!==p.family||report.eventId!==p.rawEventId)return {...base,reason:'History could not be matched to this event.'};
     const age=now-new Date(report.analyzedAt).getTime(),e=report.event;
     if(!Number.isFinite(age)||age>900000||age< -60000||!e||e.rawEventId!==p.rawEventId||e.gameType!==p.family)return {...base,reason:'A fresh matching research snapshot is required.'};
-    if(!Number.isFinite(Number(e.time))||Number(e.time)<=now||e.productId===1)return {...base,reason:'Kickoff has passed or this is in play. The pre-match model cannot evaluate it.'};
+    if((Number(e.time)<=now||e.productId===1)&&!(report.live?.state==='live'&&report.fitted?.live))return {...base,reason:'Ticket is readable. A verified live score, clock and supported live scenario are required to evaluate this started match.'};
     original.time=Number(e.time);base.coverage={home:report.home?.total?.games||0,away:report.away?.total?.games||0,h2h:report.h2h?.length||0};
     if(!report.eligible||!report.fitted||report.evidenceMode==='price')return {...base,reason:'Insufficient historical evidence. Bookmaker price shares are not history-based predictions.'};
     const rows=(report.comparisons||[]).filter(valid),row=rows.find(r=>key(r)===key(p));

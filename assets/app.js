@@ -3,7 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = { family: 'vFootball', mode: 'upcoming', apiEvents: [], importedEvents: [], selectedId: '', marketIndex: 0,
     selectedOutcome: 0, allMarkets: true, query: '', league: '', eventPage:1, origin: 'none', lastFetched: null, busy: false, journal: [], feedCache: {}, slip: [], refreshEvery: 45000, loadToken: 0 };
-  const VERSION = '5.3.1';
+  const VERSION = '5.5.0';
   const pending = new Map(), detailCache = new Map(), detailPending = new Set();
   const STORE_EVENTS = 'virtualscope.imported.v1';
   const STORE_JOURNAL = 'virtualscope.journal.v1';
@@ -90,7 +90,9 @@
   function updateLeagues() {
     const leagues = [...new Set(sourceEvents().map(e=>e.league))].sort();
     const prev = state.league;
-    $('leagueFilter').innerHTML = '<option value="">All leagues</option>'+leagues.map(l=>`<option value="${safe(l)}">${safe(l)}</option>`).join('');
+    if(document.activeElement===$('leagueFilter'))return;
+    const options='<option value="">All leagues</option>'+leagues.map(l=>`<option value="${safe(l)}">${safe(l)}</option>`).join('');
+    if($('leagueFilter').dataset.options!==options){$('leagueFilter').innerHTML=options;$('leagueFilter').dataset.options=options;}
     if (leagues.includes(prev)) $('leagueFilter').value=prev; else {state.league='';$('leagueFilter').value='';}
   }
   function updateEventList() {
@@ -112,15 +114,22 @@
   function updateDetail() {
     const event=detailEvent();
     if (!event || event.gameType!==state.family) {
-      $('detailContent').className='detail-empty';
+      $('detailContent').className='detail-empty';delete $('detailContent').dataset.event;
       $('detailContent').innerHTML='<div class="big-orbit">◉</div><h3>Look closer.</h3><p>Select a match to inspect its markets, implied probabilities and bookmaker margin.</p>';
       return;
     }
-    $('detailContent').className='';
+    if($('detailContent').dataset.event===event.id){
+      const keys=JSON.stringify(event.markets.map(m=>[m.id,m.specifier]));
+      if($('allMarkets')?.dataset.keys!==keys){ScopeDOM.html($('allMarkets'),marketEntries(event));$('allMarkets').dataset.keys=keys;}
+      for(const d of $('allMarkets').querySelectorAll('details[open]'))paintMarket(d,event);
+      if($('detailFeedStatus'))$('detailFeedStatus').textContent=detailCache.get(event.id)?.message||'';
+      if($('loadDetail')){$('loadDetail').disabled=detailPending.has(event.id);$('loadDetail').textContent='Reload full event markets';}return;
+    }
+    $('detailContent').className='';$('detailContent').dataset.event=event.id;
     if (state.marketIndex>=event.markets.length) state.marketIndex=0;
     const margin = margins(event);
     const market=event.markets[state.marketIndex];
-    const fullMarkets=event.markets.map((m,i)=>`<details class="market-entry" ${i===state.marketIndex?'open':''}><summary><strong>${safe(m.name)}${m.specifier?' · '+safe(m.specifier):''}</strong><span>${m.outcomes.length} outcomes${m.group?' · '+safe(m.group):''}</span></summary><div class="outcome-list">${m.outcomes.map(o=>`<div class="outcome-item"><div><strong>${safe(o.name)}</strong><span>${m.active !== false && o.active?'Break-even: '+pct(prob(o.odds)):'Inactive'}</span></div><button type="button" class="outcome-odd slip-pick" data-market="${i}" data-outcome="${m.outcomes.indexOf(o)}" ${m.active === false || !o.active||!numOdds(o.odds)?'disabled':''} title="Add to local bet slip">${fmtOdds(o.odds)}<small>＋ slip</small></button></div>`).join('')}</div></details>`).join('');
+    const fullMarkets=marketEntries(event);
     $('detailContent').innerHTML = `<div class="data-label">${safe(event.sourceKind==='api'?'Fetched via unofficial API':'USER-SUPPLIED DATA')}</div>
       <div class="detail-title">${safe(event.home)}<br><span style="color:#839f87">vs</span> ${safe(event.away)}</div>
       <div class="detail-sub">${safe(event.league)}${event.time?' · '+safe(formatTime(event.time)):''}</div>
@@ -135,9 +144,14 @@
       <button type="button" class="button subtle detail-action" id="prefillNote">＋ Log this event after results</button>`;
     $('loadDetail')?.addEventListener('click',()=>loadDetail(event));
     $('marketSearch').addEventListener('input', e=>{const q=e.target.value.trim().toLowerCase(); $('allMarkets').querySelectorAll('details').forEach(d=>{d.hidden=!d.querySelector('summary').textContent.toLowerCase().includes(q);});});
-    $('allMarkets').addEventListener('click',ev=>{const b=ev.target.closest('.slip-pick');if(!b)return;addSlip(event,event.markets[Number(b.dataset.market)],Number(b.dataset.outcome));});
+    $('allMarkets').dataset.keys=JSON.stringify(event.markets.map(m=>[m.id,m.specifier]));
+    $('allMarkets').addEventListener('toggle',ev=>{if(ev.target.matches('details[open]'))paintMarket(ev.target,detailEvent());},true);
+    for(const d of $('allMarkets').querySelectorAll('details[open]'))paintMarket(d,event);
+    $('allMarkets').addEventListener('click',ev=>{const b=ev.target.closest('.slip-pick');if(!b)return;const current=detailEvent();addSlip(current,current.markets[Number(b.dataset.market)],Number(b.dataset.outcome));});
     $('prefillNote').addEventListener('click',()=>{$('journalEvent').value=`${event.home} vs ${event.away}`; ScopeNavigation.go('log'); $('log').scrollIntoView({behavior:'smooth',block:'center'});});
   }
+  function marketEntries(event){return event.markets.map((m,i)=>`<details class="market-entry" data-market-index="${i}" data-ui-key="${safe(m.id+'|'+m.specifier)}" ${i===state.marketIndex?'open':''}><summary><strong>${safe(m.name)}${m.specifier?' · '+safe(m.specifier):''}</strong><span>${m.outcomes.length} outcomes${m.group?' · '+safe(m.group):''}</span></summary><div class="outcome-list"></div></details>`).join('');}
+  function paintMarket(node,event){const i=Number(node.dataset.marketIndex),m=event?.markets[i];if(!m)return;ScopeDOM.html(node.querySelector('.outcome-list'),m.outcomes.map((o,j)=>`<div class="outcome-item"><div><strong>${safe(o.name)}</strong><span>${m.active!==false&&o.active?'Break-even: '+pct(prob(o.odds)):'Inactive'}</span></div><button type="button" class="outcome-odd slip-pick" data-market="${i}" data-outcome="${j}" ${m.active===false||!o.active||!numOdds(o.odds)?'disabled':''} title="Add to local bet slip">${fmtOdds(o.odds)}<small>＋ slip</small></button></div>`).join(''));}
   function updateAll() {
     updateStats();updateLeagues();updateEventList();updateDetail();
   }
@@ -259,7 +273,7 @@
     if(event.closeAt&&Date.now()>=event.closeAt){$('slipFeedback').textContent='This scheduled matchday has closed. Refresh the feed.';return;}
     if(state.slip.length>=50&&!state.slip.some(p=>p.eventId===event.id)){$('slipFeedback').textContent='A ticket can contain at most 50 matches. Remove a selection before adding another.';return;}
     const identifier=[event.id,market.id,market.specifier||'',outcome.id||outcome.name].join('::');
-    const item={identifier,eventId:event.id,family:event.gameType,rawEventId:event.rawEventId,source:event.origin,event:event.home+' vs '+event.away,market:market.name+(market.specifier?' · '+market.specifier:''),marketId:market.id,specifier:market.specifier||'',outcomeId:outcome.id,outcome:outcome.name,odds:outcome.odds,addedAt:new Date().toISOString(),roundId:event.roundId||'',sourceKind:event.sourceKind};
+    const item={identifier,eventId:event.id,family:event.gameType,rawEventId:event.rawEventId,source:event.origin,event:event.home+' vs '+event.away,home:event.home,away:event.away,time:Number(event.time)||null,market:market.name+(market.specifier?' · '+market.specifier:''),marketId:market.id,specifier:market.specifier||'',outcomeId:outcome.id,outcome:outcome.name,odds:outcome.odds,addedAt:new Date().toISOString(),roundId:event.roundId||'',sourceKind:event.sourceKind};
     // One pick per event avoids presenting correlated outcomes as an accumulator.
     state.slip=state.slip.filter(x=>x.eventId!==event.id);state.slip.push(item);save(STORE_SLIP,state.slip);renderSlip();
     $('slipFeedback').textContent='Selection added. Saving is automatic when signed in. One pick per event.';
@@ -347,12 +361,13 @@
     $('journalList').innerHTML=items.length?items.map(item=>`<div class="journal-entry"><span>${safe(item.name)}</span><small>${safe(item.result)}</small></div>`).join(''):'<p class="placeholder">No observations recorded.</p>';
   }
   function bind() {
+    $('leagueFilter').addEventListener('blur',updateLeagues);
     $('trackSlip').addEventListener('click',async()=>{if(!state.slip.length||state.slip.length>50||new Set(state.slip.map(p=>p.family)).size!==1||state.slip.some(p=>p.sourceKind!=='api')){$('slipFeedback').textContent='Choose 1–50 provider selections in one category to track.';return;}await window.ScopeTracker?.add(state.slip);ScopeNavigation.go('ticketHistory');window.ScopeTracker?.refresh();});
     $('prevEvents').addEventListener('click',()=>{state.eventPage--;updateEventList();rememberView();});
     $('nextEvents').addEventListener('click',()=>{state.eventPage++;updateEventList();rememberView();});
     $('loadCodeForm').addEventListener('submit',async e=>{
       e.preventDefault();$('loadCodeButton').disabled=true;$('loadCodeFeedback').textContent='Loading and verifying every selection with SportyBet…';
-      try{const r=await fetch('/api/load-code?'+new URLSearchParams({code:$('loadCodeInput').value.trim().toUpperCase()}),{cache:'no-store',signal:AbortSignal.timeout(22000)}),p=await r.json();if(!r.ok||!p.ok||p.version!==VERSION||!Array.isArray(p.slip))throw Error(p.error||'Code could not be verified.');state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();window.ScopeTracker?.add(p.slip,p.code);document.dispatchEvent(new CustomEvent('scope:code-loaded',{detail:p}));$('loadCodeFeedback').textContent='Loaded '+p.slip.length+' verified '+p.family+' selections from '+p.code+'. Reviewing history below. Current prices may differ from the original code. No bet was placed.';}catch(err){$('loadCodeFeedback').textContent='Code not loaded: '+err.message;}finally{$('loadCodeButton').disabled=false;}
+      try{const r=await fetch('/api/load-code?'+new URLSearchParams({code:$('loadCodeInput').value.trim().toUpperCase()}),{cache:'no-store',signal:AbortSignal.timeout(22000)}),p=await r.json();if(!r.ok||!p.ok||p.version!==VERSION||!Array.isArray(p.slip))throw Error(p.error||'Code could not be verified.');state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();window.ScopeTracker?.add(p.slip,p.code,{footballSubset:Boolean(p.excluded?.length)});document.dispatchEvent(new CustomEvent('scope:code-loaded',{detail:p}));$('loadCodeFeedback').textContent='Loaded '+p.slip.length+' football selections from '+p.code+(p.excluded?.length?' · '+p.excluded.length+' unsupported selections excluded.':'.')+' Review the original ticket and exclusions below. No bet was placed.';}catch(err){$('loadCodeFeedback').textContent='Code not loaded: '+err.message;}finally{$('loadCodeButton').disabled=false;}
     });
     document.querySelectorAll('[data-family]').forEach(b=>b.addEventListener('click',()=>changeFamily(b.dataset.family)));
     document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>changeMode(b.dataset.mode)));
@@ -431,7 +446,7 @@
     refresh:family=>fetchSporty({family,mode:'upcoming'}),
     selected:()=>detailEvent(),
     loadVerified:p=>{state.slip=p.slip;save(STORE_SLIP,state.slip);renderSlip();},
-    addPicks:picks=>{state.slip=[];for(const p of picks){const e={id:p.eventId,rawEventId:p.rawEventId,gameType:p.family,home:p.home,away:p.away,origin:p.source,sourceKind:'api',roundId:p.roundId||''};addSlip(e,{id:p.marketId,specifier:p.specifier,name:p.market,outcomes:[{id:p.outcomeId,name:p.outcome,odds:p.odds,active:true}]},0);}}
+    addPicks:picks=>{state.slip=[];for(const p of picks){const e={id:p.eventId,rawEventId:p.rawEventId,gameType:p.family,home:p.home,away:p.away,time:p.time,origin:p.source,sourceKind:'api',roundId:p.roundId||''};addSlip(e,{id:p.marketId,specifier:p.specifier,name:p.market,outcomes:[{id:p.outcomeId,name:p.outcome,odds:p.odds,active:true}]},0);}}
   };
   init();
   const configs=[['slip',STORE_SLIP,()=>state.slip,value=>{state.slip=value;renderSlip();}],['journal',STORE_JOURNAL,()=>state.journal,value=>{state.journal=value;updateJournal();}],['imports',STORE_EVENTS,()=>state.importedEvents,value=>{state.importedEvents=value;updateAll();}]];

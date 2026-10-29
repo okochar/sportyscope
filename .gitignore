@@ -5,3 +5,7 @@ supabase/.temp/
 .env.production
 .vercel/
 test-results/
+.cache/
+.venv/
+__pycache__/
+*.pyc

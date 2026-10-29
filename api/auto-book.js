@@ -31,7 +31,7 @@ async function handler(req,res){
   const key=analysis.fingerprint(body.family,body.selections.map(s=>({...s,rawEventId:s.eventId})))+'|'+JSON.stringify(analysis.settings(body.settings))+'|'+(body.code||'');
   try{
     if(!flights.has(key)){const job=execute(body);flights.set(key,job);job.finally(()=>flights.delete(key)).catch(()=>{});}
-    return json(res,200,await flights.get(key));
+    const result=await flights.get(key);if(req.headers.authorization){try{const user=await require('../lib/account').auth.user(req),db=require('../lib/knowledge-store').store;if(user&&db.configured)await require('../lib/generated-tickets').save(db,user.id,result.picks,result.code);}catch{result.saveIssue='Code verified; account saving will retry from the browser.';}}return json(res,200,result);
   }catch(e){return fail(res,e);}
 }
 module.exports=handler;module.exports.execute=execute;

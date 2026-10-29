@@ -73,7 +73,7 @@
     return {samples:samples.length,wins,voids,rate:wins/samples.length,definition:'Observed condition frequency in available home-team home fixtures and away-team away fixtures, deduplicated; not a calibrated future probability.'};
   }
   function compare(event,fitted,records=[]){
-    const distributions=fitted?{full:grid(fitted),first:fitted.first?grid(fitted.first):null,second:fitted.second?grid(fitted.second):null}:{},rows=[],unsupported=new Map();let assessed=0,modeledMarkets=0;
+    const distributions=fitted?{full:grid(fitted).map(s=>({...s,home:s.home+(fitted.offset?.[0]||0),away:s.away+(fitted.offset?.[1]||0)})),first:fitted.first?grid(fitted.first):null,second:fitted.second?grid(fitted.second):null}:{},rows=[],unsupported=new Map();let assessed=0,modeledMarkets=0;
     const first=new Set(['60','63','64','65','66','68','69','70','75','81']),second=new Set(['83','85','87','88','90','91','92']);
     for(const m of event.markets||[]){let supported=false;const period=first.has(m.id)?'first':second.has(m.id)?'second':'full',distribution=distributions[period];for(const o of m.outcomes||[]){assessed++;const settle=settlement(m,o);if(!settle||!distribution)continue;supported=true;
       let win=0,voidP=0;for(const s of distribution){const v=settle(s.home,s.away);if(v===true)win+=s.p;else if(v==='void')voidP+=s.p;}
