@@ -4,16 +4,20 @@ const research=require('../lib/research-service');
 const {request,json,fail}=require('../lib/upstream');
 const {validate,book,check}=require('../lib/booking');
 const flights=new Map();
-async function execute(body,fetcher){
+async function execute(body,fetcher,context={}){
+  const validation=await require('../lib/recommendation-validation').load(context.db,context.userId,body.family);
+
   const {family,selections}=validate(body),settings=analysis.settings(body.settings);
+  if(!Object.values(validation.markets).some(m=>m.status==='passed'&&m.lowerWinBound>=settings.minProbability))throw Error('No reliable ticket: no market currently passes independent validation.');
   if(selections.length>settings.legs)throw Error('More selections supplied than requested.');
   let index=0;const picks=new Array(selections.length);
   await Promise.all(Array.from({length:Math.min(4,selections.length)},async()=>{while(index<selections.length){const i=index++,s=selections[i];
     const report=await research.load({family,eventId:s.eventId},fetcher),e=report.event;
+    require('../lib/recommendation-validation').attach(report,validation);
     const row=report.comparisons.find(r=>r.marketId===s.marketId&&r.specifier===(s.specifier||'')&&r.outcomeId===s.outcomeId);
     const m=row&&{id:row.marketId,name:row.market,specifier:row.specifier,active:row.active},o=row&&{id:row.outcomeId,name:row.outcome,odds:row.odds,active:row.active};
     const pick=m&&o?analysis.candidate(e,m,o,settings,Date.now(),report):null;
-    if(!pick)throw Error('A selection expired, suspended or no longer meets the analysis filters.');
+    if(!pick)throw Error('No reliable ticket: a selection is unavailable or has not passed independent market validation.');
     picks[i]=pick;
   }}));
   if(body.code){
@@ -24,14 +28,15 @@ async function execute(body,fetcher){
   }
   const code=await book({family,selections},fetcher);if(code.prices.some(p=>!Number.isFinite(p.odds)||p.odds<settings.minOdds||p.odds>settings.maxOdds))throw Error('Current reservation prices no longer meet the balanced odds filters. Re-run the analysis.');return {...code,picks};
 }
-async function handler(req,res){
+function createHandler(db=require('../lib/knowledge-store').store,identity=require('../lib/account').auth){return async function handler(req,res){
   if(req.method!=='POST'){res.setHeader('Allow','POST');return json(res,405,{ok:false,error:'POST only.'});}
   if(req.headers.origin){try{if(new URL(req.headers.origin).host!==req.headers.host)return json(res,403,{ok:false,error:'Use automatic booking from this app.'});}catch{return json(res,403,{ok:false,error:'Invalid origin.'});}}
   let body;try{body=typeof req.body==='string'?JSON.parse(req.body):req.body;validate(body);analysis.settings(body.settings);}catch(e){return json(res,400,{ok:false,error:e.message});}
-  const key=analysis.fingerprint(body.family,body.selections.map(s=>({...s,rawEventId:s.eventId})))+'|'+JSON.stringify(analysis.settings(body.settings))+'|'+(body.code||'');
   try{
-    if(!flights.has(key)){const job=execute(body);flights.set(key,job);job.finally(()=>flights.delete(key)).catch(()=>{});}
-    const result=await flights.get(key);if(req.headers.authorization){try{const user=await require('../lib/account').auth.user(req),db=require('../lib/knowledge-store').store;if(user&&db.configured)await require('../lib/generated-tickets').save(db,user.id,result.picks,result.code);}catch{result.saveIssue='Code verified; account saving will retry from the browser.';}}return json(res,200,result);
+    const user=await identity.user(req);if(!user)return json(res,401,{ok:false,error:'Sign in to use validated automatic recommendations.'});
+    const key=user.id+'|'+analysis.fingerprint(body.family,body.selections.map(s=>({...s,rawEventId:s.eventId})))+'|'+JSON.stringify(analysis.settings(body.settings))+'|'+(body.code||'');
+    if(!flights.has(key)){const job=execute(body,undefined,{userId:user.id,db});flights.set(key,job);job.finally(()=>flights.delete(key)).catch(()=>{});}
+    const result=await flights.get(key);try{if(db.configured)await require('../lib/generated-tickets').save(db,user.id,result.picks,result.code);}catch{result.saveIssue='Code verified; account saving will retry from the browser.';}return json(res,200,result);
   }catch(e){return fail(res,e);}
-}
-module.exports=handler;module.exports.execute=execute;
+};}
+module.exports=createHandler();module.exports.execute=execute;module.exports.createHandler=createHandler;

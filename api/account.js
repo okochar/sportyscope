@@ -9,8 +9,13 @@ function createHandler(db=store,identity=auth){return async(req,res)=>{
       if(!/^[a-f0-9-]{36}$/.test(b?.jobId||'')||!/^([a-f0-9]{64})$/.test(b?.token||''))return json(res,401,{ok:false,error:'Invalid worker capability.'});
       const job=await db.claimBackgroundJob(b.jobId,b.token);if(!job)return json(res,401,{ok:false,error:'Worker capability expired or was already used.'});return json(res,200,{ok:true,...await require('../lib/background').run(job,db)});
     }
-    if(req.method==='GET'&&['rich-bootstrap','history-repair'].includes(req.query?.view)){if(!db.configured)return json(res,503,{ok:false,error:'Supabase server connection is required.'});const rich=require('../lib/rich-bootstrap');return json(res,200,{ok:true,...await(req.query.view==='rich-bootstrap'?rich.ensure(db,Number(req.query.cursor||0)):rich.repair(db,String(req.query.after||'')))});}
-    if(req.method==='GET'&&req.query?.view==='bootstrap'){const health=await db.health();if(!health.connected)return json(res,503,{ok:false,error:health.issues.join(' ')});return json(res,200,{ok:true,...await require('../lib/archive-bootstrap').ensure(db,Number(req.query?.cursor||0))});}
+    if(['bootstrap','rich-bootstrap','history-repair'].includes(req.query?.view)){
+      if(req.method!=='POST')return json(res,405,{ok:false,error:'Historical imports require an explicit authenticated POST; opening a page does not start an import.'});
+      if(!await identity.user(req))return json(res,401,{ok:false,error:'Sign in to initialise historical records.'});
+      if(!db.configured)return json(res,503,{ok:false,error:'Supabase server connection is required.'});
+      if(req.query.view==='bootstrap')return json(res,200,{ok:true,...await require('../lib/archive-bootstrap').ensure(db,Number(req.query.cursor||0))});
+      const rich=require('../lib/rich-bootstrap');return json(res,200,{ok:true,...await(req.query.view==='rich-bootstrap'?rich.ensure(db,Number(req.query.cursor||0)):rich.repair(db,String(req.query.after||'')))});
+    }
     if(req.method==='GET'&&!['workspace','background'].includes(req.query?.view))return json(res,200,{ok:true,configured:db.configured,database:await db.health(),auth:identity.publicConfig()});
     if(!db.configured)return json(res,503,{ok:false,error:db.issues().join(' ')});
     const user=await identity.user(req);if(!user)return json(res,401,{ok:false,error:'Sign in to access your saved workspace.'});

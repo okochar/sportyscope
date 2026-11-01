@@ -14,6 +14,10 @@ test('Legs sort by kickoff across dates, keeping unknown times last and original
 test('Real clocks advance each second without another provider response and resync on the next response',()=>{
  const c=C.create(),s=snapshot();c.observe(s);assert.equal(c.view(s,now+1000).text,'00:13:06');assert.equal(c.view(s,now+5000).text,'00:13:10');const next=snapshot({clock:'13:12',observedAt:new Date(now+6000).toISOString()});c.observe(next);assert.equal(c.view(next,now+7000).text,'00:13:13');assert.equal(c.view(next,now+7000).estimated,true);
 });
+test('Repeated provider clock snapshots preserve the timer anchor and eventually become stale',()=>{
+ const c=C.create(),first=snapshot();c.observe(first);assert.equal(c.view(first,now+14000).text,'00:13:19');const repeated=snapshot({observedAt:new Date(now+15000).toISOString()});c.observe(repeated);assert.equal(c.view(repeated,now+16000).text,'00:13:21');assert.equal(c.view(repeated,now+16000).age,'00:00:16');
+ const stillRepeated=snapshot({observedAt:new Date(now+100000).toISOString()});c.observe(stillRepeated);assert.equal(c.view(stillRepeated,now+101000).running,false);assert.equal(c.view(stillRepeated,now+101000).stale,true);
+});
 test('Clocks freeze at half boundaries, during breaks and once provider snapshots become stale',()=>{
  const c=C.create(),s=snapshot({clock:'44:59'});assert.equal(c.view(s,now+5000).text,'00:45:00');const half=snapshot({phase:'HT',clock:'45:00'});assert.equal(c.view(half,now+5000).text,'00:45:00');assert.equal(c.view(half,now+5000).running,false);
  const stale=c.view(snapshot(),now+120000);assert.equal(stale.running,false);assert.equal(stale.text,c.view(snapshot(),now+180000).text);assert.equal(stale.age,'00:02:00');assert.match(stale.label,/waiting for provider/);assert.equal(c.view(snapshot({phase:'Suspended'}),now+10000).text,'00:13:05');

@@ -6,3 +6,7 @@ select cron.schedule(
  '* * * * *',
  'select public.scope_dispatch_background();'
 );
+
+-- An installed dispatcher stays inactive until an account explicitly starts it.
+select cron.alter_job(jobid,active=>exists(select 1 from public.scope_background_accounts where enabled))
+from cron.job where jobname='scope-background-dispatch';

@@ -1,6 +1,9 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),{createAuth}=require('../lib/account'),{createHandler}=require('../api/account'),{config}=require('../lib/supabase-config');
 const uid='12345678-1234-1234-1234-123456789abc',other='98765432-1234-1234-1234-123456789abc';
+test('Opening a bulk import URL cannot start database writes; explicit imports require sign-in',async()=>{
+ const handler=createHandler({configured:true},{user:async()=>null});for(const view of ['bootstrap','rich-bootstrap','history-repair']){assert.equal((await run(handler,'GET',undefined,view)).status,405);assert.equal((await run(handler,'POST',{},view)).status,401);}
+});
 function run(handler,method='GET',body,view='',token='valid-token'){return new Promise(resolve=>handler({method,body,query:{view},headers:{host:'localhost',authorization:'Bearer '+token}},{setHeader(){},end(body){resolve({status:this.statusCode,body:JSON.parse(body)});}}));}
 test('Connection diagnostics distinguish missing configuration and never publish server secrets',async()=>{
  const c=config({SUPABASE_URL:' https://test.supabase.co ',SUPABASE_SECRET_KEY:' sb_secret_private '});assert.equal(c.configured,true);assert.equal(c.key,'sb_secret_private');assert.match(config({SUPABASE_URL:c.url}).issues.join(' '),/SUPABASE_SECRET_KEY/);assert.equal(config({SUPABASE_URL:'https://supabase.com/dashboard',SUPABASE_SECRET_KEY:c.key}).configured,false);assert.equal(config({SUPABASE_URL:c.url,SUPABASE_SECRET_KEY:'sb_publishable_wrong'}).configured,false);

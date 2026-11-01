@@ -14,7 +14,7 @@ python ml/pipeline.py
 
 Use `--source-dir PATH` to reuse downloaded originals. The pipeline verifies source checksums, imports the event data, builds causal features, trains the models and runs Python leakage tests plus JavaScript/Python prediction parity tests. No current-match statistics, current lineup, final result or prices enter that fixture's feature vector. Earlier-day results are a historical availability assumption; the archive does not prove the original announcement time.
 
-After deploying regenerated artifacts, run `node scripts/seed-research.js` against the production build to persist its fixed dataset. The import is resumable and validates every raw source object's checksum before upload. No Supabase key is entered in the browser or in this command; server credentials remain in Vercel.
+After deploying regenerated artifacts, privately supply an authenticated `SCOPE_ACCESS_TOKEN` to the process and run `node scripts/seed-research.js` against the production build to persist its fixed dataset. The import is resumable and validates every raw source object's checksum before upload. No Supabase key is entered in the browser or in this command; server credentials remain in Vercel.
 
 ## Runtime feedback
 
@@ -28,7 +28,11 @@ Supabase Cron calls a fixed Vercel HTTPS endpoint. Each invocation uses a random
 
 Real football cycles run every 30 minutes. Virtual cycles recheck upcoming round identities; in-progress scans resume in bounded batches. Each cycle can issue two different qualifying tickets. Every code must be issued and read back by SportyBet before saving. Duplicate combinations, unsupported markets and weak fillers cannot produce automatic codes. Account settings include Start/Pause. No staking or payment endpoint is implemented.
 
-For a fresh project, apply the migrations, deploy, then run `supabase/operations/enable_background.sql` once. An account can then start its own worker from History. This installation is already enabled; signing in on another device does not require keys or another schedule.
+For a fresh project, apply the migrations, deploy, then run `supabase/operations/enable_background.sql` once. An account can then start its own worker from History. The schedule is installed but currently inactive because all account workers are paused; signing in on another device does not require keys or another schedule.
+
+## Independent recommendation gates (5.7.0)
+
+Online calibration alone no longer authorises a recommendation. `lib/recommendation-validation.js` separately checks each exact product/market/line/side/model against distinct server-recorded pre-kickoff forecasts, with chronological later test data, freshness, calibration, price-implied Brier and simulated-return gates. Push markets are excluded until void feedback is complete. Bounds assume independent fixtures and do not guarantee profit. Current samples do not pass. The worker remains paused and this release does not start automatic paper-data collection. Short mode caps new automatic tickets at three legs; longshot mode is explicit. See `docs/VERIFIED_RESULTS_V57.md` for thresholds, audit evidence and limits.
 
 ## Definitions and limits
 

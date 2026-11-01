@@ -56,7 +56,7 @@ test('Missing historical samples produce no fitted history model',()=>{
  const result=R.build({...event,markets:[market]},[{records:records.slice(0,5),complete:true}],NOW);
  assert.equal(result.eligible,false);assert.equal(result.fitted,null);assert.ok(result.issues.length);assert.ok(result.coverage.some(c=>c.name.includes('Corners')&&c.status==='missing'));
 });
-function eligible(){return {family:'Real',eventId:event.rawEventId,event,eligible:true,analyzedAt:new Date(NOW).toISOString(),home:{total:{games:60}},away:{total:{games:60}},comparisons:[{marketId:market.id,specifier:market.specifier,outcomeId:'12',odds:1.4,probability:.8,voidProbability:0,expectedReturn:.12,active:true}]};}
+function eligible(){return {family:'Real',eventId:event.rawEventId,event,eligible:true,analyzedAt:new Date(NOW).toISOString(),home:{total:{games:60}},away:{total:{games:60}},comparisons:[{marketId:market.id,specifier:market.specifier,outcomeId:'12',odds:1.4,probability:.8,voidProbability:0,recommendationEvidence:{status:'passed',lowerWinBound:.8},expectedReturn:.12,active:true}]};}
 test('Automatic candidate requires independently researched eligible fresh evidence, never just a price',()=>{
  const o=market.outcomes[0],r=eligible();assert.ok(A.candidate(event,market,o,{},NOW,r));
  for(const report of [undefined,{...r,eligible:false},{...r,eventId:'sr:match:other'},{...r,analyzedAt:new Date(NOW-901000).toISOString()}])assert.equal(A.candidate(event,market,o,{},NOW,report),null);
@@ -69,7 +69,7 @@ test('Partial, failed or stale feeds never produce automatic selections',()=>{
  for(const x of [{complete:false},{error:'network failed'},{fetchedAt:new Date(NOW-121000).toISOString()}])assert.equal(A.analyze({...snapshot,...x},'Real',{},NOW,reports).picks.length,0);
 });
 test('Target odds assembly respects maximum legs, distinct events and no filler',()=>{
- const picks=A.assemble([{rawEventId:'a',odds:1.4,score:.1},{rawEventId:'b',odds:1.4,score:.2},{rawEventId:'a',odds:1.5,score:.05}],{targetOdds:2,legs:3});assert.equal(picks.length,2);assert.equal(new Set(picks.map(p=>p.rawEventId)).size,2);assert.deepEqual(A.assemble([]),[]);
+ const picks=A.assemble([{rawEventId:'a',odds:1.4,score:.1},{rawEventId:'b',odds:1.4,score:.2},{rawEventId:'a',odds:1.5,score:.05}].map(p=>({...p,recommendationEvidence:{status:'passed',lowerWinBound:.9}})),{targetOdds:2,legs:3});assert.equal(picks.length,2);assert.equal(new Set(picks.map(p=>p.rawEventId)).size,2);assert.deepEqual(A.assemble([]),[]);
  assert.throws(()=>A.settings({targetOdds:0}));assert.throws(()=>A.settings({legs:0}));
 });
 test('Booking requests use the operator header that official SportyBet readback requires',async()=>{
@@ -90,7 +90,7 @@ test('Price fallback is explicit and uses no invented historical samples',()=>{
  const fallback=require('../lib/price-fallback'),r=fallback({...event,markets:[market]},'History absent');assert.equal(r.evidenceMode,'price');assert.equal(r.home,undefined);assert.equal(r.comparisons.length,2);assert.ok(r.issues.some(s=>s.includes('not a historical prediction')));
 });
 test('Thirty distinct legs can be assembled when requested and supported',()=>{
- const cs=Array.from({length:30},(_,i)=>({rawEventId:'e'+i,odds:1.25,score:.9})),p=A.assemble(cs,{legs:30,targetOdds:1.25**30});assert.equal(p.length,30);assert.equal(A.settings({legs:30}).legs,30);assert.throws(()=>A.settings({legs:51}));
+  const cs=Array.from({length:30},(_,i)=>({rawEventId:'e'+i,odds:1.25,score:.9,recommendationEvidence:{status:'passed',lowerWinBound:.9}})),p=A.assemble(cs,{mode:'longshot',legs:30,targetOdds:1.25**30});assert.equal(p.length,30);assert.equal(A.settings({mode:'longshot',legs:30}).legs,30);assert.throws(()=>A.settings({legs:51}));
 });
 test('Existing SportyBet code loads all selected current prices without placing an order',async()=>{
  const {loadCode}=require('../lib/booking'),fixture=require('./fixtures/booking-loaded.json');let called=0;

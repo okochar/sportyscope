@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0b1010">
   <meta name="description" content="Unofficial virtual and real sports market explorer for SportyBet. No made-up odds, no bets.">
   <title>Markets · SportyScope</title>
-  <link rel="stylesheet" href="/assets/style.css?v=5.6.0">
+  <link rel="stylesheet" href="/assets/style.css?v=5.7.0">
 </head>
 <body>
 <div class="layout">
@@ -95,13 +95,13 @@
           <label>Target total odds<input id="targetOdds" type="number" value="5" min="1.1" step="any" list="oddsPresets" required><datalist id="oddsPresets"><option value="2"><option value="5"><option value="10"><option value="20"><option value="50"><option value="100"><option value="500"></datalist></label>
           <label>Game type<select id="analysisFamily"><option value="vFootball">vFootball</option><option value="Real">Real football</option><option value="Instant">Instant Football</option><option value="Scheduled">Scheduled Football</option><option value="All">All (separate tickets)</option></select></label>
           <label>Fixture window<select id="analysisWindow"><option value="today">Today (WAT)</option><option value="24h">Next 24 hours</option><option value="7days">Next 7 days</option></select></label>
-          <label>Maximum legs<input id="analysisLegs" type="number" value="50" min="1" max="50" required></label>
+          <label>Ticket mode<select id="analysisMode"><option value="short">Short ticket · 1–3 legs</option><option value="longshot">Longshot · up to 50 legs</option></select></label><label>Maximum legs<input id="analysisLegs" type="number" value="3" min="1" max="3" required></label>
           <label>Minimum leg odds<input id="analysisMinOdds" type="number" value="1.15" min="1.15" max="10" step="0.01" required></label>
           <label>Minimum estimated win<select id="analysisConfidence"><option value="0.8">80%</option><option value="0.75">75%</option><option value="0.85">85%</option><option value="0.9">90%</option><option value="0.95">95%</option><option value="0.99">99%</option></select></label><label>Maximum leg odds<input id="analysisMaxOdds" type="number" value="10" min="1.15" max="100000" step="0.01" required></label>
           <button class="button primary" type="submit">Build my selections</button>
         </form>
         <div class="research-switches"><label><input id="autoAnalyze" type="checkbox" checked> Automatically refresh research while this page is open</label><label><input id="autoCodes" type="checkbox" checked> Generate verified reservation codes when evidence qualifies</label></div>
-        <p class="notice">Experimental statistical baseline. This is not yet a comprehensive trained football AI. It currently ingests dated results, opponents, half-time scores and provider virtual statistics where verified. Rich event/player data is tracked as a coverage gap. No bet is placed.</p>
+        <p class="notice">Experimental statistical baseline. Auto picks require separate, recent held-out evidence for each market and model. No reliable ticket is a valid result. This is not yet a comprehensive trained football AI. It currently ingests dated results, opponents, half-time scores and provider virtual statistics where verified. Rich event/player data is tracked as a coverage gap. No bet is placed.</p>
         <div id="analysisCards" class="analysis-cards" aria-live="polite"></div>
         <details class="evidence-drawer"><summary>Match evidence and model details</summary><div class="research-toolbar"><button id="researchSelected" type="button" class="button subtle">Research selected match</button><label>Evidence profile<select id="researchProfile" aria-label="Evidence profile"><option value="">Select a researched match</option></select></label></div>
         <div id="researchReport" aria-live="polite"><p>Select a match or let the scanner build evidence profiles. Available history drives the model; missing history uses an explicit market-price fallback.</p></div>
@@ -138,28 +138,28 @@
       </section>
 </details><details class="settings-tools"><summary>About the data</summary>      <section class="transparency" id="about"><div class="transparency-icon">!</div><div><strong>Important: an honest data boundary.</strong><p>Virtual events are produced by random number generators and algorithms. Historical streaks do not reliably predict future rounds. This project does not access your account, place bets, or claim a winning edge. Any successful fetch must be checked against SportyBet itself before it is trusted.</p></div></section>
 </details></section>
-      <footer><span>SPORTYSCOPE / 5.6.0 · MERGED RESEARCH ENGINE</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
+      <footer><span>SPORTYSCOPE / 5.7.0 · MERGED RESEARCH ENGINE</span><span>Independent tool. Not affiliated with SportyBet. 18+ only.</span></footer>
     </div>
   </main>
 </div>
 <nav class="mobile-nav" aria-label="Main navigation"><a data-screen-link="markets" href="#markets"><span aria-hidden="true">▦</span><span>Markets</span></a><a data-screen-link="picks" href="#research"><span aria-hidden="true">✦</span><span>Auto picks</span></a><a data-screen-link="tickets" href="#ticketReview"><span aria-hidden="true">▤</span><span>Check code</span></a><a data-screen-link="history" href="#ticketHistory"><span aria-hidden="true">◷</span><span>History</span></a><a data-screen-link="settings" href="#settings"><span aria-hidden="true">⚙</span><span>Account</span></a></nav>
 <script src="/assets/supabase.js" defer></script>
-<script src="/assets/stable-ui.js?v=5.6.0" defer></script>
+<script src="/assets/stable-ui.js?v=5.7.0" defer></script>
 <script src="/assets/training-ui.js?v=5.4.0" defer></script>
-<script src="/assets/feedback.js?v=5.6.0" defer></script>
-<script src="/assets/navigation.js?v=5.6.0" defer></script>
-<script src="/assets/account-ui.js?v=5.6.0" defer></script>
-<script src="/assets/model.js?v=5.6.0" defer></script>
-<script src="/assets/research.js?v=5.6.0" defer></script>
-<script src="/assets/analysis.js?v=5.6.0" defer></script>
-<script src="/assets/tracking-model.js?v=5.6.0" defer></script>
-<script src="/assets/persistence.js?v=5.6.0" defer></script>
-<script src="/assets/live-clock.js?v=5.6.0" defer></script>
-<script src="/assets/tracker.js?v=5.6.0" defer></script>
-<script src="/assets/app.js?v=5.6.0" defer></script>
-<script src="/assets/ticket-review.js?v=5.6.0" defer></script>
-<script src="/assets/ticket-review-ui.js?v=5.6.0" defer></script>
-<script src="/assets/assistant-ui.js?v=5.6.0" defer></script>
-<script src="/assets/background-ui.js?v=5.6.0" defer></script>
+<script src="/assets/feedback.js?v=5.7.0" defer></script>
+<script src="/assets/navigation.js?v=5.7.0" defer></script>
+<script src="/assets/account-ui.js?v=5.7.0" defer></script>
+<script src="/assets/model.js?v=5.7.0" defer></script>
+<script src="/assets/research.js?v=5.7.0" defer></script>
+<script src="/assets/analysis.js?v=5.7.0" defer></script>
+<script src="/assets/tracking-model.js?v=5.7.0" defer></script>
+<script src="/assets/persistence.js?v=5.7.0" defer></script>
+<script src="/assets/live-clock.js?v=5.7.0" defer></script>
+<script src="/assets/tracker.js?v=5.7.0" defer></script>
+<script src="/assets/app.js?v=5.7.0" defer></script>
+<script src="/assets/ticket-review.js?v=5.7.0" defer></script>
+<script src="/assets/ticket-review-ui.js?v=5.7.0" defer></script>
+<script src="/assets/assistant-ui.js?v=5.7.0" defer></script>
+<script src="/assets/background-ui.js?v=5.7.0" defer></script>
 </body>
 </html>

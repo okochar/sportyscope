@@ -10,7 +10,7 @@
     if(p.result?.id&&p.verifiedAt&&['won','lost','void'].includes(p.status)&&!u.result){p.checkedAt=u.checkedAt;return {changed:false,persist:false};}
     const old={status:p.status,result:p.result,live:p.live||null,time:p.time,note:p.note||''};
     const next={status:u.status,result:u.result||p.result,live:u.live||u.note?.includes('unavailable')&&p.live&&{...p.live,stale:true}||null,time:u.time||p.time,note:u.note||''};
-    let changed=JSON.stringify(next)!==JSON.stringify(old),persist=next.status!==old.status||JSON.stringify(next.result)!==JSON.stringify(old.result)||next.time!==old.time;
+    let changed=JSON.stringify(next)!==JSON.stringify(old),persist=next.status!==old.status||JSON.stringify(next.result)!==JSON.stringify(old.result)||next.time!==old.time||JSON.stringify(next.live&&[next.live.state,next.live.phase,next.live.score])!==JSON.stringify(old.live&&[old.live.state,old.live.phase,old.live.score]);
     if(changed)Object.assign(p,next);
     if(u.result&&['won','lost','void'].includes(u.status)&&!p.verifiedAt){p.verifiedAt=u.checkedAt;changed=persist=true;}
     p.checkedAt=u.checkedAt;
