@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const $=id=>document.getElementById(id),R=ScopeTicketReview,V='5.5.0',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+  const $=id=>document.getElementById(id),R=ScopeTicketReview,V='5.6.0',esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
   const pct=v=>Number.isFinite(v)?(v*100).toFixed(2)+'%':'Insufficient history',num=v=>Number.isFinite(v)?v.toFixed(2):'—';
   let loaded=null,legs=[],running=false,revision=0,analyzedAt=0;
   const threshold=()=>Number($('reviewThreshold').value),complete=()=>Boolean(loaded&&loaded.slip.length&&legs.filter(Boolean).length===loaded.slip.length),qualifies=()=>complete()&&new Set(legs.map(l=>l.revised.family)).size===1&&legs.every(l=>l.qualified)&&R.returnAssessment(legs).allowRevision&&!R.summary(legs.map(l=>l.revised)).dependenceUnsupported;
